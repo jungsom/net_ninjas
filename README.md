@@ -4,7 +4,7 @@
 
 - (교육) 서울시 학원 수
   - [서울시 사설학원 통계](https://data.seoul.go.kr/dataList/195/S/2/datasetView.do)
-- (교육) 서울시 공공도서관 수(V)
+- (교육) 서울시 공공도서관 수 (V)
   - [서울의 도서관 찾기](https://lib.seoul.go.kr/slibsrch/main)
 - (환경) 공원 수 (V)
   - [전국도시공원정보표준데이터](https://www.data.go.kr/data/15012890/standard.do)
@@ -21,7 +21,7 @@
   - [서울시 주민등록인구 (연령별/동별) 통계](https://data.seoul.go.kr/dataList/10727/S/2/datasetView.do)
 - (교통) 서울시 버스정류장 수 (V)
   - [사물주소 DB](https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EC%82%AC%EB%AC%BC%EC%A3%BC%EC%86%8CDB#this)
-- (편의) 서울시 대형마트 수
+- (편의) 서울시 대형마트 수 (V)
   - [서울시 대규모점포 인허가 정보](https://data.seoul.go.kr/dataList/OA-16096/S/1/datasetView.do)
 
 * 구별로 된 자료 : (교육) 서울시 학원 수, (안전) 5대 범죄 발생 현황
@@ -39,3 +39,5 @@
 - 교육 : 법정동별로 공공도서관 수를 계산했습니다.
 
 - 교통 : 법정동별로 버스 정류장 수를 계산했습니다.
+
+- 편의 : 법정동별로 대형마트 수를 계산했습니다.
