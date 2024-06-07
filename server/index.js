@@ -1,13 +1,4 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const app = require('./app');
+const port = process.env.PORT || 3000;
 
-app.use(cors());
-
-const proxy = require('http-proxy-middleware');
-app.use('/api', proxy({ target: 'http://localhost:3001', changeOrigin: true }));
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(port, () => console.log(`서버가 ${port}번 포트에서 실행 중입니다.`));
