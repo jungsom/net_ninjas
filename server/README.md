@@ -21,9 +21,18 @@ PS D:\MyProject\net_ninjas\client> npm run build
 ```
 3. 빌드 완료된 후 client폴더에 build 폴더가 생성된것을 확인합니다.
 
-4. server 에서 node index.js 를 합니다.
+4. server 에서 npm start 를 합니다.
 ```
-PS D:\MyProject\net_ninjas\server> node index.js
+PS D:\MyProject\net_ninjas\server> npm start
+
+> server@1.0.0 start
+> nodemon index.js
+
+[nodemon] 3.1.3
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node index.js`
 서버가 3000번 포트에서 실행 중입니다.
 MongoDB Connected
 ```
