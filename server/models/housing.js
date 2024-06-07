@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const housingSchema = new mongoose.Schema({
   guId: {
@@ -25,4 +25,4 @@ const housingSchema = new mongoose.Schema({
 
 const Housing = mongoose.model('Housing', housingSchema);
 
-module.exports = Housing;
+export default Housing;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const safetySchema = new mongoose.Schema({
   guId: {
@@ -13,4 +13,4 @@ const safetySchema = new mongoose.Schema({
 
 const Safety = mongoose.model('Safety', safetySchema);
 
-module.exports = Safety;
+export default Safety;

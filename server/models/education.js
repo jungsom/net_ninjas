@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const educationSchema = new mongoose.Schema({
   guId: {
@@ -21,4 +21,4 @@ const educationSchema = new mongoose.Schema({
 
 const Education = mongoose.model('Education', educationSchema);
 
-module.exports = Education;
+export default Education;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const convenienceSchema = new mongoose.Schema({
   guId: {
@@ -17,4 +17,4 @@ const convenienceSchema = new mongoose.Schema({
 
 const Convenience = mongoose.model('Convenience', convenienceSchema);
 
-module.exports = Convenience;
+export default Convenience;

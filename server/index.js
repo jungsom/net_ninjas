@@ -5,12 +5,17 @@ import recommendRouter from "./routes/recommend.js";
 
 const port = process.env.PORT || 3000;
 
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+
 app.get("/", (req, res) => {
     res.send("Home Page");
   });
 
-app.use(express.json({ extended: false }));
-app.use("/recomment", recommendRouter);
+
+app.use("/recommend", recommendRouter);
 
 app.listen(port, () => console.log(`서버가 ${port}번 포트에서 실행 중입니다.`));
 

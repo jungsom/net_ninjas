@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const environmentSchema = new mongoose.Schema({
   guId: {
@@ -17,4 +17,4 @@ const environmentSchema = new mongoose.Schema({
 
 const Environment = mongoose.model('Environment', environmentSchema);
 
-module.exports = Environment;
+export default Environment;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 // Region 스키마 정의
 const regionSchema = new mongoose.Schema({
@@ -14,4 +14,4 @@ const regionSchema = new mongoose.Schema({
 
 const Region = mongoose.model('Region', regionSchema);
 
-module.exports = Region;
+export default Region;

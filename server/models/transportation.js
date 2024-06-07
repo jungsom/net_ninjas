@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const transportationSchema = new mongoose.Schema({
   guId: {
@@ -17,4 +17,4 @@ const transportationSchema = new mongoose.Schema({
 
 const Transportation = mongoose.model('Transportation', transportationSchema);
 
-module.exports = Transportation;
+export default Transportation;
