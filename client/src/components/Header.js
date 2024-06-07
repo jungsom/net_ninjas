@@ -16,7 +16,7 @@ function CollapsibleMenu() {
           <Nav className="me-auto">
             <Nav.Link href="#features">Home</Nav.Link>
             <NavDropdown title="통계" id="collapsible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">전체 통계</NavDropdown.Item>
+              <NavDropdown.Item href="total">전체 통계</NavDropdown.Item>
               <NavDropdown.Item href="analysis">통계 분석</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">
