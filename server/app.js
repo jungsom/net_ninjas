@@ -1,4 +1,3 @@
-// 필요한 모듈 로드
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -22,9 +21,10 @@ mongoose
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log(err));
 
+// router
 app.use('/api/allResearch', allResearchRoutes);
 
-// 에러 처리 미들웨어 추가
+// 에러 처리 미들웨어
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
