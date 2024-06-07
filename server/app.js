@@ -1,35 +1,33 @@
+// 필요한 모듈 로드
 import express from 'express';
-import mongoose from 'mongoose';
+import path from 'path';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import allResearchRoutes from './routes/allResearch.js';
-import modelRoutes from './routes/model.js';
+import recommendRouter from './routes/recommend.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
+
+import './config/db.js';
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.json());
-
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log(err));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // router
 app.use('/api/allResearch', allResearchRoutes);
-app.use('/api', modelRoutes);
+app.use('/recommend', recommendRouter);
 
 // 에러 처리 미들웨어
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get('/', (req, res) => {
+  res.send('Home Page');
 });
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log(`서버가 ${port}번 포트에서 실행 중입니다.`));
