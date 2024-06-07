@@ -26,22 +26,24 @@ async function getAllData() {
     const records = await Model.find().lean();
     records.forEach((record) => {
       const id = `${record.gu}-${record.dong !== undefined ? record.dong : ''}`;
-      // 새 데이터 객체 생성
-      if (!data[id])
+      if (!data[id]) {
         data[id] = {
           gu: record.gu,
           dong: record.dong !== undefined ? record.dong : null
         };
+      }
       if (key === 'Safety') {
-        // Safety모델인 경우 gu별 모든 dong에 동일한 값을 설정
+        // Safety 모델인 경우 gu별 모든 dong에 동일한 값을 설정
         Object.values(data).forEach((entry) => {
           if (entry.gu === record.gu) {
-            entry[key] = record;
+            entry[key] = { ...record };
+            delete entry[key].gu;
           }
         });
       } else {
-        //Safety가 아닌 경우, 해당 레코드를 추가
-        data[id][key] = record;
+        data[id][key] = { ...record };
+        delete data[id][key].gu;
+        delete data[id][key].dong;
       }
     });
   }
