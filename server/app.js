@@ -1,4 +1,3 @@
-// 필요한 모듈 로드
 import express from 'express';
 import path from 'path';
 import cors from 'cors';
