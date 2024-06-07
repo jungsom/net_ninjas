@@ -1,15 +1,19 @@
 import { Schema, model } from 'mongoose';
 
 const welfareSchema = new Schema({
-  guId: {
+  gu: {
     type: String,
     required: true
   },
-  dongId: {
+  dong: {
     type: String,
     required: true
   },
-  busStation: {
+  cultureCount: {
+    type: Number,
+    required: true
+  },
+  medicalCount: {
     type: Number,
     required: true
   }

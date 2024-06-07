@@ -18,26 +18,24 @@ const models = {
   Safety
 };
 
-// 모든 데이터를 가져오고 guId, dongId 별로 병합
+// 모든 데이터를 가져오고 gu, dong 별로 병합
 async function getAllData() {
   const data = {};
 
   for (const [key, Model] of Object.entries(models)) {
     const records = await Model.find().lean();
     records.forEach((record) => {
-      const id = `${record.guId}-${
-        record.dongId !== undefined ? record.dongId : ''
-      }`;
+      const id = `${record.gu}-${record.dong !== undefined ? record.dong : ''}`;
       // 새 데이터 객체 생성
       if (!data[id])
         data[id] = {
-          guId: record.guId,
-          dongId: record.dongId !== undefined ? record.dongId : null
+          gu: record.gu,
+          dong: record.dong !== undefined ? record.dong : null
         };
       if (key === 'Safety') {
-        // Safety모델인 경우 guId별 모든 dongId에 동일한 값을 설정
+        // Safety모델인 경우 gu별 모든 dong에 동일한 값을 설정
         Object.values(data).forEach((entry) => {
-          if (entry.guId === record.guId) {
+          if (entry.gu === record.gu) {
             entry[key] = record;
           }
         });
@@ -47,14 +45,13 @@ async function getAllData() {
       }
     });
   }
-
   return Object.values(data);
 }
 
 export async function allDataPerPage(req, res, next) {
   const perPage = parseInt(req.query.perPage) || 20;
   const pageNo = parseInt(req.query.pageNo) || 1;
-  const { column, sorting } = req.body;
+  const { column, sorting } = req.query;
 
   try {
     let data = await getAllData();
@@ -69,12 +66,12 @@ export async function allDataPerPage(req, res, next) {
         }
       });
     } else {
-      // 기본 정렬: guId, dongId
+      // 기본 정렬: gu, dong
       data = data.sort((a, b) => {
-        if (a.guId === b.guId) {
-          return a.dongId > b.dongId ? 1 : -1;
+        if (a.gu === b.gu) {
+          return a.dong > b.dong ? 1 : -1;
         }
-        return a.guId > b.guId ? 1 : -1;
+        return a.gu > b.gu ? 1 : -1;
       });
     }
 

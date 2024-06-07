@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
 
 const educationSchema = new Schema({
-  guId: {
+  gu: {
     type: String,
     required: true
   },
-  dongId: {
+  dong: {
     type: String,
     required: true
   },

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import allResearchRoutes from './routes/allResearch.js';
+import modelRoutes from './routes/model.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
 
@@ -23,6 +24,7 @@ mongoose
 
 // router
 app.use('/api/allResearch', allResearchRoutes);
+app.use('/api', modelRoutes);
 
 // 에러 처리 미들웨어
 app.use(errorMiddleware);

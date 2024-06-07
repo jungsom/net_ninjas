@@ -2,13 +2,17 @@ import { Schema, model } from 'mongoose';
 
 // Region 스키마 정의
 const regionSchema = new Schema({
-  guId: {
+  id: {
+    type: Number,
+    required: true
+  },
+  gu: {
     type: String,
     required: true
   },
-  dongId: {
+  dong: {
     type: String,
-    required: true
+    required: false
   }
 });
 

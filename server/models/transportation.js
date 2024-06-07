@@ -1,11 +1,11 @@
 import { Schema, model } from 'mongoose';
 
 const transportationSchema = new Schema({
-  guId: {
+  gu: {
     type: String,
     required: true
   },
-  dongId: {
+  dong: {
     type: String,
     required: true
   },
