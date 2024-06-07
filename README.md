@@ -36,7 +36,7 @@
 ## 4. 프로젝트 구성도
 
 - 와이어프레임
-  ![image](uploads/9eb68dbc84ccbaad42b8486bde6ca229/image.png)
+  ![image](https://kdt-gitlab.elice.io/ai_track/class_10/data_project/team05/net_ninjas/-/wikis/uploads/9eb68dbc84ccbaad42b8486bde6ca229/image.png)
 - API 명세서 [[링크]](https://docs.google.com/spreadsheets/d/1ZXku33nBsywga_j22DZJTNxlRun2wg8CzT1E3umS16g/edit#gid=0)
 - ERD [[링크]](https://dbdiagram.io/d/66623c139713410b05f881d0)
 - 데이터 셋 정보 [[링크]](https://kdt-gitlab.elice.io/ai_track/class_10/data_project/team05/net_ninjas/-/wikis/%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%95%EB%A6%AC)
