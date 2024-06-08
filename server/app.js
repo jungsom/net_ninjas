@@ -1,7 +1,9 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import cors from 'cors';
 import allResearchRoutes from './routes/allResearch.js';
+import researchRoutes from './routes/research.js';
 import recommendRouter from './routes/recommend.js';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
@@ -18,13 +20,21 @@ app.use(express.urlencoded({ extended: true }));
 
 // router
 app.use('/api/allResearch', allResearchRoutes);
+app.use('/api/research', researchRoutes);
 app.use('/recommend', recommendRouter);
 
 // 에러 처리 미들웨어
 app.use(errorMiddleware);
 
-app.get('/', (req, res) => {
-  res.send('Home Page');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'../client/build/index.html'), (err) =>{
+    if(err)
+      res.send('../client/build 폴더가 존재하지않습니다. 프론트 페이지 표시가 필요한 경우 client 폴더에서  npm run build 후 새로고침 하세요. (api는 정상작동 됩니다.)');
+  });
 });
 
 const port = process.env.PORT || 3000;
