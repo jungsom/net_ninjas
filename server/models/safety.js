@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 const safetySchema = new Schema({
-  gu: {
-    type: String,
+  id: {
+    type: Number,
     required: true
   },
   crimeRate: {

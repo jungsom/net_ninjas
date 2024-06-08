@@ -1,12 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 const environmentSchema = new Schema({
-  gu: {
-    type: String,
-    required: true
-  },
-  dong: {
-    type: String,
+  id: {
+    type: Number,
     required: true
   },
   parkRate: {

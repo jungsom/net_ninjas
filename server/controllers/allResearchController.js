@@ -6,6 +6,7 @@ import Transportation from '../models/transportation.js';
 import Welfare from '../models/welfare.js';
 import Convenience from '../models/convenience.js';
 import Safety from '../models/safety.js';
+import Region from '../models/region.js';
 
 const models = {
   Education,
@@ -18,35 +19,34 @@ const models = {
   Safety
 };
 
-// 모든 데이터를 가져오고 gu, dong 별로 병합
+// 모든 데이터를 가져와 gu, dong 별로 병합
 async function getAllData() {
   const data = {};
 
+  // region 컬렉션을 가져와 기본 구조 설정
+  const regions = await Region.find().lean();
+  regions.forEach((region) => {
+    const id = region.id;
+    data[id] = {
+      id: id,
+      gu: region.gu,
+      dong: region.dong
+    };
+  });
+
+  // 각 컬렉션의 데이터를 가져와 병합
   for (const [key, Model] of Object.entries(models)) {
     const records = await Model.find().lean();
     records.forEach((record) => {
-      const id = `${record.gu}-${record.dong !== undefined ? record.dong : ''}`;
+      const id = record.id;
       if (!data[id]) {
-        data[id] = {
-          gu: record.gu,
-          dong: record.dong !== undefined ? record.dong : null
-        };
+        data[id] = {};
       }
-      if (key === 'Safety') {
-        // Safety 모델인 경우 gu별 모든 dong에 동일한 값을 설정
-        Object.values(data).forEach((entry) => {
-          if (entry.gu === record.gu) {
-            entry[key] = { ...record };
-            delete entry[key].gu;
-          }
-        });
-      } else {
-        data[id][key] = { ...record };
-        delete data[id][key].gu;
-        delete data[id][key].dong;
-      }
+      data[id][key] = record;
+      delete data[id][key].id;
     });
   }
+
   return Object.values(data);
 }
 
@@ -59,16 +59,28 @@ export async function allDataPerPage(req, res, next) {
     let data = await getAllData();
 
     // 데이터 정렬
+    // 컬럼, 정렬방식이 들어올 경우
     if (column && sorting) {
       data = data.sort((a, b) => {
+        const aValue = a[column];
+        const bValue = b[column];
+
+        // 중복일 경우 : 기본 정렬 (구와 동 순)
+        if (aValue === bValue) {
+          if (a.gu === b.gu) {
+            return a.dong > b.dong ? 1 : -1;
+          }
+          return a.gu > b.gu ? 1 : -1;
+        }
+
         if (sorting === 'asc') {
-          return a[column] > b[column] ? 1 : a[column] < b[column] ? -1 : 0;
+          return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
         } else {
-          return a[column] < b[column] ? 1 : a[column] > b[column] ? -1 : 0;
+          return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
         }
       });
     } else {
-      // 기본 정렬: gu, dong
+      // 컬럼, 정렬방식이 들어지 않을 경우 : 기본 정렬 (구와 동 순)
       data = data.sort((a, b) => {
         if (a.gu === b.gu) {
           return a.dong > b.dong ? 1 : -1;
