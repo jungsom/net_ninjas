@@ -60,7 +60,7 @@ async function getDatas(regionIds) {
     records.forEach((record) => {
       if(regionIds.includes(record.id)){
       if (!data[record.id]) {
-        data[record.id] = {
+        data[record.id] = { // todo : region에서 id로 구, 동 데이터 찾아서 삽입
           gu: record.gu,
           dong: record.dong !== undefined ? record.dong : null
         };
@@ -77,50 +77,50 @@ async function getDatas(regionIds) {
   return Object.values(data);
 }
 
-
 export async function searchData(req, res, next) {
-  const { keyword } = req.query;
+  const perPage = parseInt(req.query.perPage) || 20;
+  const pageNo = parseInt(req.query.pageNo) || 1;
+  const { keyword, column, sorting } = req.query;
   const keywords = keyword.split(',');
 
-  console.log(keywords);
-
-  try{  
-    let regionIds = await getRegionIdsByKeywords(keywords);
-    console.log(regionIds);
-
-    let data = await getDatas(regionIds);
-  } catch (err){
-    next(err);
-  }
-
   try {
-    //let data = await getAllData();
+    let regionIds = await getRegionIdsByKeywords(keywords);
+    let data = await getDatas(regionIds);
+    // 데이터 정렬
+    // 컬럼, 정렬방식이 들어올 경우
+    if (column && sorting) {
+      data = data.sort((a, b) => {
+        const aValue = a[column];
+        const bValue = b[column];
 
+        // 중복일 경우 : 기본 정렬 (구와 동 순)
+        if (aValue === bValue) {
+          if (a.gu === b.gu) {
+            return a.dong > b.dong ? 1 : -1;
+          }
+          return a.gu > b.gu ? 1 : -1;
+        }
 
+        if (sorting === 'asc') {
+          return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+        } else {
+          return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
+        }
+      });
+    } else {
+      // 컬럼, 정렬방식이 들어지 않을 경우 : 기본 정렬 (구와 동 순)
+      data = data.sort((a, b) => {
+        if (a.gu === b.gu) {
+          return a.dong > b.dong ? 1 : -1;
+        }
+        return a.gu > b.gu ? 1 : -1;
+      });
+    }
 
-    // // 데이터 정렬
-    // if (column && sorting) {
-    //   data = data.sort((a, b) => {
-    //     if (sorting === 'asc') {
-    //       return a[column] > b[column] ? 1 : a[column] < b[column] ? -1 : 0;
-    //     } else {
-    //       return a[column] < b[column] ? 1 : a[column] > b[column] ? -1 : 0;
-    //     }
-    //   });
-    // } else {
-    //   // 기본 정렬: gu, dong
-    //   data = data.sort((a, b) => {
-    //     if (a.gu === b.gu) {
-    //       return a.dong > b.dong ? 1 : -1;
-    //     }
-    //     return a.gu > b.gu ? 1 : -1;
-    //   });
-    // }
+    // 페이지네이션
+    const paginatedData = data.slice((pageNo - 1) * perPage, pageNo * perPage);
 
-    // // 페이지네이션
-    // const paginatedData = data.slice((pageNo - 1) * perPage, pageNo * perPage);
-
-    // res.json(paginatedData);
+    res.json(paginatedData);
   } catch (error) {
     next(error);
   }
