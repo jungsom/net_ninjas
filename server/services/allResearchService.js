@@ -101,4 +101,4 @@ function paginateData(data, perPage, pageNo) {
   return data.slice((pageNo - 1) * perPage, pageNo * perPage);
 }
 
-export { getAllData, sortData, paginateData };
+export { models, getAllData, sortData, paginateData };
