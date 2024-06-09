@@ -21,20 +21,6 @@ const models = {
 
 async function getRegionIdsByKeywords(keywords)
 {
-  // const regions = [
-  //   { id: 1, gu: "강남구", dong: "역삼동" },
-  //   { id: 2, gu: "강남구", dong: "삼성동" },
-  //   { id: 3, gu: "강남구", dong: "논현동" },
-  //   { id: 4, gu: "강동구", dong: "천호동" },
-  //   { id: 5, gu: "강동구", dong: "성내동" },
-  //   { id: 6, gu: "강서구", dong: "화곡동" },
-  //   { id: 7, gu: "강서구", dong: "발산동" },
-  //   { id: 8, gu: "강서구", dong: "등촌동" },
-  //   { id: 9, gu: "관악구", dong: "신림동" },
-  //   { id: 10, gu: "관악구", dong: "서원동" },
-  //   { id: 11, gu: "관악구", dong: "난곡동" },
-  // ];
-
   const regions = await Region.find().lean();
   let regionIds = [];
 
