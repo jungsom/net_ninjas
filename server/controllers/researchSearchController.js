@@ -1,23 +1,5 @@
-import Education from '../models/education.js';
-import Environment from '../models/environment.js';
-import Housing from '../models/housing.js';
-import Population from '../models/population.js';
-import Transportation from '../models/transportation.js';
-import Welfare from '../models/welfare.js';
-import Convenience from '../models/convenience.js';
-import Safety from '../models/safety.js';
 import Region from '../models/region.js';
-
-const models = {
-  Education,
-  Environment,
-  Housing,
-  Population,
-  Transportation,
-  Welfare,
-  Convenience,
-  Safety
-};
+import {sortData, getAllData, paginateData} from '../services/allResearchService.js';
 
 function isGuDong(keywords, region)
 {
@@ -30,54 +12,17 @@ function isGuDong(keywords, region)
   });
 }
 
-
-async function getRegionsByKeywords(keywords)
+async function getRegionIdsByKeywords(keywords)
 {
   const records = await Region.find().lean();
-  let regions = [];
+  let regionIds = [];
 
   records.forEach((region)=> {
     if(keywords.includes(region.gu) || keywords.includes(region.dong) || isGuDong(keywords, region))
-      regions.push(region);
+      regionIds.push(region.id);
   });
 
-  return [...new Set([...regions])];
-}
-
-async function getDatas(regions) {
-  const data = {};
-
-  console.log("region result : ");
-
-  regions.forEach((region) => {
-    const id = region.id;
-    data[id] = {
-      id: id,
-      gu: region.gu,
-      dong: region.dong
-    };
-
-    console.log(region.id, region.gu, region.dong);
-
-  });
-
-  for (const [key, Model] of Object.entries(models)) {
-    const records = await Model.find().lean();
-    records.forEach((record) => {
-      if(regions.map(t=> t.id).includes(record.id)){
-      if (!data[record.id]) {
-        data[record.id] = { 
-        };
-      }
-      
-      data[record.id][key] = record;
-      delete data[record.id][key].id;
-    }
-
-    });
-  }
-
-  return Object.values(data);
+  return [...new Set([...regionIds])];
 }
 
 export async function searchData(req, res, next) {
@@ -89,42 +34,14 @@ export async function searchData(req, res, next) {
   console.log("keywords : ", keywords);
 
   try {
-    let regions = await getRegionsByKeywords(keywords);
-    let data = await getDatas(regions);
+    let regionIds = await getRegionIdsByKeywords(keywords);
+    let data = (await getAllData()).filter(t=> regionIds.includes(t.id));
 
     // 데이터 정렬
-    // 컬럼, 정렬방식이 들어올 경우
-    if (column && sorting) {
-      data = data.sort((a, b) => {
-        const aValue = a[column];
-        const bValue = b[column];
-
-        // 중복일 경우 : 기본 정렬 (구와 동 순)
-        if (aValue === bValue) {
-          if (a.gu === b.gu) {
-            return a.dong > b.dong ? 1 : -1;
-          }
-          return a.gu > b.gu ? 1 : -1;
-        }
-
-        if (sorting === 'asc') {
-          return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
-        } else {
-          return aValue < bValue ? 1 : aValue > bValue ? -1 : 0;
-        }
-      });
-    } else {
-      // 컬럼, 정렬방식이 들어지 않을 경우 : 기본 정렬 (구와 동 순)
-      data = data.sort((a, b) => {
-        if (a.gu === b.gu) {
-          return a.dong > b.dong ? 1 : -1;
-        }
-        return a.gu > b.gu ? 1 : -1;
-      });
-    }
+    data = sortData(data, column, sorting);
 
     // 페이지네이션
-    const paginatedData = data.slice((pageNo - 1) * perPage, pageNo * perPage);
+    const paginatedData = paginateData(data, perPage, pageNo);
 
     res.json(paginatedData);
   } catch (error) {
