@@ -15,13 +15,12 @@ export class NotFound extends Error {
 export class MethodNotAllowed extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 405
+    this.statusCode = 405;
   }
 }
 
 export const errorMiddleware = (err, req, res, next) => {
-  console.error(err.stack);
-  const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({ message: err.message });
+  res.status(500).json({
+    message: err.message
+  });
 };
-
