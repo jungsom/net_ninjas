@@ -43,6 +43,7 @@ recommendRouter.get('/', async (req, res, next) => {
   const monthIds = monthData.map(data => data.id);
 
   // id값과 일치하는 우선순위 데이터 가져오기
+  // 전세일 경우
   if (option == 'jeonse') {
     
     const firstData = await firstModel.find( { 'id': { $in: jeonseIds } } ).lean();
@@ -87,6 +88,7 @@ recommendRouter.get('/', async (req, res, next) => {
       third: MatchedthirdData
     });
 
+  // 월세일 경우  
   } else if (option == 'month') {
     const firstData = await firstModel.find( { 'id': { $in: monthIds } } ).lean();
     const secondData = await secondModel.find( { 'id': { $in: monthIds} } ).lean();
