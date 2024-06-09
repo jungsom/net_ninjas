@@ -1,6 +1,8 @@
 const errorMiddleware = (err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ message: err.message });
+  res.status(err.status || 500).json({
+    message: err.message
+  });
 };
 
 export default errorMiddleware;
