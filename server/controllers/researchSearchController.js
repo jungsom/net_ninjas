@@ -24,15 +24,9 @@ async function getRegionIdsByKeywords(keywords)
   const regions = await Region.find().lean();
   let regionIds = [];
 
-  keywords.forEach((keyword)=>{
-    if(isGu(keyword)){
-      regionIds = regionIds.concat(regions.filter(region => region.gu === keyword).map(region => region.id));
-    }else if(isDong(keyword)){
-      regionIds = regionIds.concat(regions.filter(region => region.dong === keyword).map(region => region.id));
-    }else if(isGuDong(keyword)){
-      let guDong = keyword.split(' '); 
-      regionIds = regionIds.concat(regions.filter(region => region.gu === guDong[0] && region.dong === guDong[1]).map(region => region.id));
-    }
+  regions.forEach((region)=> {
+    if(keywords.includes(region.gu) || keywords.includes(region.dong))
+      regionIds.push(region.id);
   });
 
   return [...new Set([...regionIds])];
@@ -41,6 +35,9 @@ async function getRegionIdsByKeywords(keywords)
 async function getDatas(regionIds) {
   const data = {};
   const regions = await Region.find().lean();
+
+  console.log("region result : ");
+
   regions.filter(region => regionIds.includes(region.id)).forEach((region) => {
     const id = region.id;
     data[id] = {
@@ -48,6 +45,9 @@ async function getDatas(regionIds) {
       gu: region.gu,
       dong: region.dong
     };
+
+    console.log(region.id, region.gu, region.dong);
+
   });
 
   for (const [key, Model] of Object.entries(models)) {
@@ -66,7 +66,6 @@ async function getDatas(regionIds) {
     });
   }
 
-  console.log(Object.values(data));
   return Object.values(data);
 }
 
@@ -76,9 +75,12 @@ export async function searchData(req, res, next) {
   const { keyword, column, sorting } = req.query;
   const keywords = keyword.split(',');
 
+  console.log("keywords : ", keywords);
+
   try {
     let regionIds = await getRegionIdsByKeywords(keywords);
     let data = await getDatas(regionIds);
+
     // 데이터 정렬
     // 컬럼, 정렬방식이 들어올 경우
     if (column && sorting) {
@@ -117,33 +119,4 @@ export async function searchData(req, res, next) {
   } catch (error) {
     next(error);
   }
-}
-
-function isGu(keyword)
-{
-  let str = keyword.split(' ');
-  if(str.length > 1) return false;
-  if(!keyword.endsWith('구')) return false;
-
-  return true;
-}
-
-function isDong(keyword)
-{
-  let str = keyword.split(' ');
-
-  if(str.length > 1) return false;
-  if(!keyword.endsWith('동')) return false;
-
-  return true;
-}
-
-function isGuDong(keyword)
-{
-  let str = keyword.split(' ');
-
-  if(str.length < 2) return false;
-  if(!str[0].endsWith('구') || !str[1].endsWith('동')) return false;
-
-  return true;
 }
