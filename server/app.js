@@ -5,7 +5,7 @@ import cors from 'cors';
 import allResearchRoutes from './routes/allResearch.js';
 import researchRoutes from './routes/research.js';
 import recommendRouter from './routes/recommend.js';
-import errorMiddleware from './middlewares/errorMiddleware.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
 
 import './config/db.js';
