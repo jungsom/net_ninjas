@@ -3,7 +3,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
 import allResearchRoutes from './routes/allResearch.js';
-import researchSearchRoutes from './routes/researchSearch.js';
 import recommendRouter from './routes/recommend.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
@@ -20,7 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // router
 app.use('/allResearch', allResearchRoutes);
-app.use('/research/search', researchSearchRoutes);
 app.use('/recommend', recommendRouter);
 
 // 에러 처리 미들웨어
