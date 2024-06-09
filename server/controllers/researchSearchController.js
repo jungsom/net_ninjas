@@ -31,27 +31,25 @@ function isGuDong(keywords, region)
 }
 
 
-async function getRegionIdsByKeywords(keywords)
+async function getRegionsByKeywords(keywords)
 {
-  const regions = await Region.find().lean();
-  let regionIds = [];
+  const records = await Region.find().lean();
+  let regions = [];
 
-  regions.forEach((region)=> {
-
-    if(keywords.includes(region.gu) || keywords.includes(region.dong) || isGuDong(keywords, region)){
-      regionIds.push(region.id);}
+  records.forEach((region)=> {
+    if(keywords.includes(region.gu) || keywords.includes(region.dong) || isGuDong(keywords, region))
+      regions.push(region);
   });
 
-  return [...new Set([...regionIds])];
+  return [...new Set([...regions])];
 }
 
-async function getDatas(regionIds) {
+async function getDatas(regions) {
   const data = {};
-  const regions = await Region.find().lean();
 
   console.log("region result : ");
 
-  regions.filter(region => regionIds.includes(region.id)).forEach((region) => {
+  regions.forEach((region) => {
     const id = region.id;
     data[id] = {
       id: id,
@@ -66,7 +64,7 @@ async function getDatas(regionIds) {
   for (const [key, Model] of Object.entries(models)) {
     const records = await Model.find().lean();
     records.forEach((record) => {
-      if(regionIds.includes(record.id)){
+      if(regions.map(t=> t.id).includes(record.id)){
       if (!data[record.id]) {
         data[record.id] = { 
         };
@@ -91,8 +89,8 @@ export async function searchData(req, res, next) {
   console.log("keywords : ", keywords);
 
   try {
-    let regionIds = await getRegionIdsByKeywords(keywords);
-    let data = await getDatas(regionIds);
+    let regions = await getRegionsByKeywords(keywords);
+    let data = await getDatas(regions);
 
     // 데이터 정렬
     // 컬럼, 정렬방식이 들어올 경우
