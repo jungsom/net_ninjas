@@ -20,11 +20,23 @@ const models = {
 };
 
 async function getRegions() {
-  return await Region.find().lean();
+  try {
+    return await Region.find().lean();
+  } catch (error) {
+    const err = new Error('지역 데이터를 불러오는 중 오류가 발생했습니다.');
+    next(err);
+  }
 }
 
 async function getModelData(Model) {
-  return await Model.find().lean();
+  try {
+    return await Model.find().lean();
+  } catch (error) {
+    const err = new Error(
+      `${Model.modelName} 데이터를 불러오는 중 오류가 발생했습니다.`
+    );
+    next(err);
+  }
 }
 
 async function getAllData() {
