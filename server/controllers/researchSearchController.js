@@ -19,14 +19,27 @@ const models = {
   Safety
 };
 
+function isGuDong(keywords, region)
+{
+  return keywords.some((keyword)=>{
+    let str = keyword.split(' ');
+    if(str[0] == region.gu && str[1] == region.dong) 
+      return true;
+
+    return false;
+  });
+}
+
+
 async function getRegionIdsByKeywords(keywords)
 {
   const regions = await Region.find().lean();
   let regionIds = [];
 
   regions.forEach((region)=> {
-    if(keywords.includes(region.gu) || keywords.includes(region.dong))
-      regionIds.push(region.id);
+
+    if(keywords.includes(region.gu) || keywords.includes(region.dong) || isGuDong(keywords, region)){
+      regionIds.push(region.id);}
   });
 
   return [...new Set([...regionIds])];
