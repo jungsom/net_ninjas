@@ -40,21 +40,28 @@ async function getRegionIdsByKeywords(keywords)
 
 async function getDatas(regionIds) {
   const data = {};
+  const regions = await Region.find().lean();
+  regions.filter(region => regionIds.includes(region.id)).forEach((region) => {
+    const id = region.id;
+    data[id] = {
+      id: id,
+      gu: region.gu,
+      dong: region.dong
+    };
+  });
 
   for (const [key, Model] of Object.entries(models)) {
     const records = await Model.find().lean();
     records.forEach((record) => {
       if(regionIds.includes(record.id)){
       if (!data[record.id]) {
-        data[record.id] = { // todo : region에서 id로 구, 동 데이터 찾아서 삽입
-          gu: record.gu,
-          dong: record.dong !== undefined ? record.dong : null
+        data[record.id] = { 
         };
       }
       
-      data[record.id][key] = { ...record };
-      delete data[record.id][key].gu;
-      delete data[record.id][key].dong;}
+      data[record.id][key] = record;
+      delete data[record.id][key].id;
+    }
 
     });
   }
