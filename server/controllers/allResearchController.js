@@ -22,7 +22,6 @@ export async function allDataPerPage(req, res, next) {
     res.json(paginatedData);
   } catch (error) {
     const err = new Error('페이지별 데이터를 불러오는 중 오류가 발생했습니다.');
-    err.status = 500;
     next(err);
   }
 }
