@@ -39,7 +39,7 @@ async function getModelData(Model) {
   }
 }
 
-async function getAllData() {
+async function generateRegionData(){
   const data = {};
 
   const regions = await getRegions();
@@ -52,17 +52,40 @@ async function getAllData() {
     };
   });
 
-  for (const [key, Model] of Object.entries(models)) {
-    const records = await getModelData(Model);
-    records.forEach((record) => {
-      const id = record.id;
-      if (!data[id]) {
-        data[id] = {};
-      }
-      data[id][key] = record;
-      delete data[id][key].id;
-    });
-  }
+  return data;
+}
+
+async function getAllData() {
+  const data = await generateRegionData();
+
+  for (const [key, Model] of Object.entries(models)) 
+    {const records = await getModelData(Model);
+      records.forEach((record) => {
+        const id = record.id;
+        if (!data[id]) {
+          data[id] = {};
+        }
+        data[id][key] = record;
+        delete data[id][key].id;
+      });}
+
+
+  return Object.values(data);
+}
+
+async function getAllDataByCategory(modelName) {
+  const data = await generateRegionData();
+  const model = models[modelName];
+
+  const records = await getModelData(model);
+  records.forEach((record) => {
+    const id = record.id;
+    if (!data[id]) {
+      data[id] = {};
+    }
+    data[id][modelName] = record;
+    delete data[id][modelName].id;
+  });
 
   return Object.values(data);
 }
@@ -101,4 +124,4 @@ function paginateData(data, perPage, pageNo) {
   return data.slice((pageNo - 1) * perPage, pageNo * perPage);
 }
 
-export { models, getAllData, sortData, paginateData };
+export { models, getAllData, sortData, paginateData, getAllDataByCategory };
