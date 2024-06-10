@@ -34,7 +34,6 @@ export async function allEducationData() {
 
  export async function allData() {
   const regions = await getRegions();
-  console.log(regions);
   return regions;
  }
 
