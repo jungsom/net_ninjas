@@ -1,29 +1,16 @@
-import Region from '../models/region.js';
 import {sortData, getAllData, paginateData} from '../services/allResearchService.js';
 
-function isGuDong(keywords, region)
+function isGuDong(keywords, gu, dong)
 {
   return keywords.some((keyword)=>{
     let str = keyword.split(' ');
-    if(str[0] == region.gu && str[1] == region.dong) 
+    if(str[0] == gu && str[1] == dong) 
       return true;
 
     return false;
   });
 }
 
-async function getRegionIdsByKeywords(keywords)
-{
-  const records = await Region.find().lean();
-  let regionIds = [];
-
-  records.forEach((region)=> {
-    if(keywords.includes(region.gu) || keywords.includes(region.dong) || isGuDong(keywords, region))
-      regionIds.push(region.id);
-  });
-
-  return [...new Set([...regionIds])];
-}
 
 export async function searchData(req, res, next) {
   const perPage = parseInt(req.query.perPage) || 20;
@@ -34,8 +21,7 @@ export async function searchData(req, res, next) {
   console.log("keywords : ", keywords);
 
   try {
-    let regionIds = await getRegionIdsByKeywords(keywords);
-    let data = (await getAllData()).filter(t=> regionIds.includes(t.id));
+    let data = (await getAllData()).filter(t=> keywords.includes(t.gu) || keywords.includes(t.dong) || isGuDong(keywords, t.gu, t.dong));
 
     // 데이터 정렬
     data = sortData(data, column, sorting);
