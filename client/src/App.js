@@ -1,10 +1,10 @@
-import React from "react";
-// import Analysis from "./components/Analysis";
-import Total from "./components/Total";
+import React from 'react';
+import AnalysisCharts from './components/AnalysisCharts';
+import Total from './components/Total';
 
 function App() {
   // return <Total />;
-  return <Analysis />;
+  return <AnalysisCharts />;
 }
 
 export default App;
