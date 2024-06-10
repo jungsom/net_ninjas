@@ -5,7 +5,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 function CollapsibleMenu() {
   return (
-    <Navbar collapseOnSelect expand='lg' className='bg-body-tertiary'>
+    <Navbar
+      sticky='top'
+      collapseOnSelect
+      expand='lg'
+      className='bg-body-tertiary'
+    >
       <Container
         breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']}
         minBreakpoint='sm'

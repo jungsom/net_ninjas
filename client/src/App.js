@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Analysis from './components/Analysis';
+import Analysis from './components/AnalysisCharts';
 import Total from './components/Total';
 
 function App() {

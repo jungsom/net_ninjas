@@ -21,11 +21,16 @@ export default function Analysis() {
       <CssBaseline />
       <Navbar
         expand='lg'
-        sticky='top'
+        // sticky='top'
         // className="bg-body-tertiary"
         // data-bs-theme="light"
         variant='light'
-        style={{ backgroundColor: 'white' }}
+        style={{
+          position: 'fixed',
+          width: '100%',
+          zIndex: 1000,
+          backgroundColor: 'white'
+        }}
       >
         <Container>
           <Nav defaultActiveKey='#education' className='justify-content-center'>
