@@ -1,10 +1,21 @@
 import React from 'react';
-import AnalysisCharts from './components/AnalysisCharts';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Analysis from './components/Analysis';
 import Total from './components/Total';
 
 function App() {
-  // return <Total />;
-  return <AnalysisCharts />;
+  return (
+    <div className='App'>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path='/total' element={<Total />} />
+          <Route path='/analysis' element={<Analysis />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
