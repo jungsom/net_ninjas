@@ -33,8 +33,7 @@ export async function getAllEducationData() {
  }
 
  export async function getAllData() {
-  const regions = await getRegions();
-  return regions;
+  return await getRegions();
  }
 
 async function generateDataByFields(fields){
