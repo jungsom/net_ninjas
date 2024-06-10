@@ -1,38 +1,38 @@
 import Region from '../models/region.js';
 
-export async function allConvenienceData() {
+export async function getAllConvenienceData() {
  return await generateDataByFields(['supermarket']);
 }
 
-export async function allEducationData() {
+export async function getAllEducationData() {
   return await generateDataByFields(['libraryCount', 'academyCount']);
  }
 
- export async function allEnvironmentData() {
+ export async function getAllEnvironmentData() {
   return await generateDataByFields(['parkRate']);
  }
 
- export async function allHousingData() {
+ export async function getAllHousingData() {
   return await generateDataByFields(['jeonseDeposit', 'monthDeposit', 'monthRent']);
  }
 
- export async function allPopulationData() {
+ export async function getAllPopulationData() {
   return await generateDataByFields(['youthRate']);
  }
 
- export async function allSafetyData() {
+ export async function getAllSafetyData() {
   return await generateDataByFields(['crimeRate']);
  }
 
- export async function allTransportationData() {
+ export async function getAllTransportationData() {
   return await generateDataByFields(['busStation']);
  }
 
- export async function allWelfareData() {
+ export async function getAllWelfareData() {
   return await generateDataByFields(['cultureCount', 'medicalCount']);
  }
 
- export async function allData() {
+ export async function getAllData() {
   const regions = await getRegions();
   return regions;
  }

@@ -1,93 +1,30 @@
-import Education from '../models/education.js';
-import Environment from '../models/environment.js';
-import Housing from '../models/housing.js';
-import Population from '../models/population.js';
-import Transportation from '../models/transportation.js';
-import Welfare from '../models/welfare.js';
-import Convenience from '../models/convenience.js';
-import Safety from '../models/safety.js';
-import Region from '../models/region.js';
-
-const models = {
-  Education,
-  Environment,
-  Housing,
-  Population,
-  Transportation,
-  Welfare,
-  Convenience,
-  Safety
-};
-
-async function getRegions() {
-  try {
-    return await Region.find().lean();
-  } catch (error) {
-    const err = new Error('지역 데이터를 불러오는 중 오류가 발생했습니다.');
-    next(err);
-  }
-}
-
-async function getModelData(Model) {
-  try {
-    return await Model.find().lean();
-  } catch (error) {
-    const err = new Error(
-      `${Model.modelName} 데이터를 불러오는 중 오류가 발생했습니다.`
-    );
-    next(err);
-  }
-}
-
-async function generateRegionData(){
-  const data = {};
-
-  const regions = await getRegions();
-  regions.forEach((region) => {
-    const id = region.id;
-    data[id] = {
-      id: id,
-      gu: region.gu,
-      dong: region.dong
-    };
-  });
-
-  return data;
-}
+import * as categorizationService  from './categorizationService.js';
 
 async function getAllData() {
-  const data = await generateRegionData();
-
-  for (const [key, Model] of Object.entries(models)) 
-    {const records = await getModelData(Model);
-      records.forEach((record) => {
-        const id = record.id;
-        if (!data[id]) {
-          data[id] = {};
-        }
-        data[id][key] = record;
-        delete data[id][key].id;
-      });}
-
-
-  return Object.values(data);
+  return await categorizationService.getAllData();
 }
 
-async function getAllDataByCategory(modelName) {
-  const data = await generateRegionData();
-  const model = models[modelName];
-
-  const records = await getModelData(model);
-  records.forEach((record) => {
-    const id = record.id;
-    if (!data[id]) {
-      data[id] = {};
-    }
-    data[id][modelName] = record;
-    delete data[id][modelName].id;
-  });
-
-  return Object.values(data);
+async function getAllDataByCategory(category) {
+switch (category){
+  case 'Convenience':
+    return await categorizationService.getAllConvenienceData();
+  case 'Education':
+    return await categorizationService.getAllEducationData();
+  case 'Environment':
+    return await categorizationService.getAllEnvironmentData();
+  case 'Housing':
+    return await categorizationService.getAllHousingData();
+  case 'Population':
+    return await categorizationService.getAllPopulationData();
+  case 'Safety':
+    return await categorizationService.getAllSafetyData();
+  case 'Transportation':
+    return await categorizationService.getAllTransportationData();
+  case 'Welfare':
+    return await categorizationService.getAllWelfareData();
+  default:
+    throw new BadRequest('존재하지않는 카테고리') 
+}
 }
 
 function sortData(data, column, sorting) {
@@ -124,4 +61,4 @@ function paginateData(data, perPage, pageNo) {
   return data.slice((pageNo - 1) * perPage, pageNo * perPage);
 }
 
-export { models, getAllData, sortData, paginateData, getAllDataByCategory };
+export { getAllData, sortData, paginateData, getAllDataByCategory };
