@@ -1,10 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 const regionSchema = new Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   gu: {
     type: String,
     required: true
@@ -12,9 +8,57 @@ const regionSchema = new Schema({
   dong: {
     type: String,
     required: false
+  },
+  busStation: {
+    type: Number,
+    required: true
+  },
+  libraryCount: {
+    type: Number,
+    required: true
+  },
+  academyCount: {
+    type: Number,
+    required: true
+  },
+  cultureCount: {
+    type: Number,
+    required: true
+  },
+  medicalCount: {
+    type: Number,
+    required: true
+  },
+  crimeRate: {
+    type: Number,
+    required: true
+  },
+  youthRate: {
+    type: Number,
+    required: true
+  },
+  jeonseDeposit: {
+    type: Number,
+    required: true
+  },
+  monthDeposit: {
+    type: Number,
+    required: true
+  },
+  monthRent: {
+    type: Number,
+    required: true
+  },
+  supermarket: {
+    type: Number,
+    required: true
+  },
+  parkRate: {
+    type: Number,
+    required: true
   }
 });
 
-const Region = model('Region', regionSchema);
+const Region = model('Region', regionSchema, 'region');
 
 export default Region;
