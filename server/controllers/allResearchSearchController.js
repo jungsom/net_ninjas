@@ -28,7 +28,7 @@ async function getRegionIdsByKeywords(keywords)
 export async function searchData(req, res, next) {
   const perPage = parseInt(req.query.perPage) || 20;
   const pageNo = parseInt(req.query.pageNo) || 1;
-  const { keyword, column, sorting } = req.query;
+  const { keyword, column1, column2, sorting } = req.query;
   const keywords = keyword.split(',');
 
   console.log("keywords : ", keywords);
@@ -38,7 +38,7 @@ export async function searchData(req, res, next) {
     let data = (await getAllData()).filter(t=> regionIds.includes(t.id));
 
     // 데이터 정렬
-    data = sortData(data, column, sorting);
+    data = sortData(data, column1, column2, sorting);
 
     // 페이지네이션
     const paginatedData = paginateData(data, perPage, pageNo);

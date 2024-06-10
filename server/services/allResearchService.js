@@ -90,12 +90,13 @@ async function getAllDataByCategory(modelName) {
   return Object.values(data);
 }
 
-function sortData(data, column, sorting) {
+function sortData(data, column1, column2, sorting) {
   return data.sort((a, b) => {
     // 컬럼값, 정렬값이 보내진 경우
-    if (column && sorting) {
-      const aValue = a[column];
-      const bValue = b[column];
+
+    if (column1 && column2 && sorting) {
+      const aValue = a[column1][column2];
+      const bValue = b[column1][column2];
 
       // 중복값인 경우: 기본 정렬 (구와 동 순)
       if (aValue === bValue) {
