@@ -20,5 +20,4 @@ const StyledCenterLayout = styled.div`
   align-items: center;
   margin: 0 auto;
 `;
-
 export default Total;

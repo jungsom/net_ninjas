@@ -58,7 +58,6 @@ function TotalSearch() {
         placeholder='예) 강남구, 강남구 역삼동, 역삼동'
         onChange={(e) => setKeyword(e.target.value)}
       />
-
       <Button
         variant='contained'
         endIcon={<SearchIcon />}
@@ -93,6 +92,7 @@ function TotalSearch() {
 const StyledSearch = styled.div`
   display: flex;
   justify-content: flex-end;
+  width: 100%;
   padding: 8px;
   input {
     margin-right: 3px;
