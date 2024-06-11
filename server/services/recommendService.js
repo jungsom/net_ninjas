@@ -1,23 +1,5 @@
-import Education from '../models/education.js';
-import Environment from '../models/environment.js';
-import Population from '../models/population.js';
-import Transportation from '../models/transportation.js';
-import Welfare from '../models/welfare.js';
-import Convenience from '../models/convenience.js';
-import Safety from '../models/safety.js';
-import Region from '../models/region.js';
 import { BadRequest } from '../middlewares/errorMiddleware.js';
-
-const models = {
-    convenience: Convenience,
-    education: Education,
-    environment: Environment,
-    population: Population,
-    region: Region,
-    safety: Safety,
-    transportation: Transportation,
-    welfare: Welfare
-  };
+import Region from '../models/region.js';
 
 function validateQuery(query) {
     // 우선순위 변수가 없을 때, 400 에러
@@ -45,4 +27,23 @@ function validateQuery(query) {
         }} 
 }
 
-export { models, validateQuery };
+async function getModelData(modelName) {
+
+    const models = {
+      convenience: 'convScore',
+      education: 'eduScore',
+      environment: 'envScore',
+      population: 'popScore',
+      safety: 'safeScore',
+      transportation: 'transScore',
+      welfare: 'welScore'
+    };
+  
+    const modelField = models[modelName];
+    const data = await Region.find({ [modelField]: { $exists: true } }).select( [modelField] ).lean();
+    return data.map(item => item[modelField]);
+  }
+
+
+
+export { validateQuery, getModelData };

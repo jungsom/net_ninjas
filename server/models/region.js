@@ -56,6 +56,34 @@ const regionSchema = new Schema({
   parkRate: {
     type: Number,
     required: true
+  },
+  eduScore: {
+    type: Number,
+    required: true
+  },
+  envScore: {
+    type: Number,
+    required: true
+  },
+  safeScore: {
+    type: Number,
+    required: true
+  },
+  welScore: {
+    type: Number,
+    required: true
+  },
+  popScore: {
+    type: Number,
+    required: true
+  },
+  transScore: {
+    type: Number,
+    required: true
+  },
+  convScore: {
+    type: Number,
+    required: true
   }
 });
 
