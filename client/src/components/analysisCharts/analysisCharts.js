@@ -3,14 +3,14 @@ import React from 'react';
 import Stack from 'react-bootstrap/Stack';
 // import styled from 'styled-components';
 
-import Education from './analysisCharts/education';
-import Transfortation from './analysisCharts/transfortation';
-import Welfare from './analysisCharts/welfare';
-import Safety from './analysisCharts/safety';
-import Population from './analysisCharts/populaton';
-import Housing from './analysisCharts/housing';
-import Convenience from './analysisCharts/convenience';
-import Environment from './analysisCharts/environment';
+import Education from './education';
+import Transfortation from './transfortation';
+import Welfare from './welfare';
+import Safety from './safety';
+import Population from './populaton';
+import Housing from './housing';
+import Convenience from './convenience';
+import Environment from './environment';
 
 export default function AnalysisCharts() {
   return (

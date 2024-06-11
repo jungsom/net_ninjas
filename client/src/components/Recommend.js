@@ -1,5 +1,6 @@
 import RecommendInputArea from './recommend/RecommendInputArea';
 import RecommendProvider from './recommend/RecommendProvider';
+import RecommendResult from './recommend/RecommendResult';
 
 function Recommend() {
   return (

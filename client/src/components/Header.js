@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function CollapsibleMenu() {
+export default function Header() {
   return (
     <Navbar
       sticky='top'
@@ -19,16 +19,16 @@ function CollapsibleMenu() {
         <Navbar.Toggle aria-controls='responsive-navbar-nav' />
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='me-auto'>
-            <Nav.Link href='home'>Home</Nav.Link>
+            <Nav.Link href='/home'>Home</Nav.Link>
             <NavDropdown title='통계' id='collapsible-nav-dropdown'>
-              <NavDropdown.Item href='total'>전체 통계</NavDropdown.Item>
-              <NavDropdown.Item href='analysis'>통계 분석</NavDropdown.Item>
+              <NavDropdown.Item href='/total'>전체 통계</NavDropdown.Item>
+              <NavDropdown.Item href='/analysis'>통계 분석</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href='#action/3.4'>
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='recommend'>추천</Nav.Link>
+            <Nav.Link href='/recommend'>추천</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href='#deets'>로그인</Nav.Link>
@@ -41,5 +41,3 @@ function CollapsibleMenu() {
     </Navbar>
   );
 }
-
-export default CollapsibleMenu;
