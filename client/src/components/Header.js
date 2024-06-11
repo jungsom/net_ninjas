@@ -28,7 +28,7 @@ function CollapsibleMenu() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='#pricing'>추천</Nav.Link>
+            <Nav.Link href='recommend'>추천</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href='#deets'>로그인</Nav.Link>

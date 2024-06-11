@@ -14,9 +14,9 @@ function TotalNumberHandler(data, n) {
         if (!isNaN(value)) {
           // 숫자가 아니면 parseFloat로 문자열을 숫자로 변환함, 정수일 경우 parseFloat(10)은 그대로 10임
           const numValue = parseFloat(value); // 키가 Rate를 포함하고 있는 경우, 입력받은 n자리 수 까지 반올림
-          if (subKey.includes("Rate")) {
+          if (subKey.includes('Rate')) {
             newItem[key][subKey] = numValue.toFixed(n);
-          } else if (subKey.endsWith("Rent") || subKey.endsWith("Deposit")) {
+          } else if (subKey.endsWith('Rent') || subKey.endsWith('Deposit')) {
             // "억" 단위와 화폐 콤마(,)를 붙여줌
             newItem[key][subKey] = numberToKoreanCurreny(numValue);
           } else {
@@ -42,11 +42,11 @@ function TotalNumberHandler(data, n) {
 // 숫자를 한국 화폐 형식으로 바꿔주는 함수
 function numberToKoreanCurreny(number) {
   const inputNumber = number < 0 ? false : number; // number가 0보다 작으면 false가 저장되고, 0 이상이면 number가 저장됨
-  const unitWords = ["만원", "억"]; // raw 데이터가 만원 단위이므로 만원으로 시작
+  const unitWords = ['만원', '억']; // raw 데이터가 만원 단위이므로 만원으로 시작
   const splitUnit = 10000; // 만원, 억이 10000 단위로 나눠짐
   const splitCount = unitWords.length; // 통화 단위의 개수
   let resultArray = []; // 통화 단위가 저장될 배열
-  let resultString = ""; // 최종 결과 문자열
+  let resultString = ''; // 최종 결과 문자열
 
   for (let i = 0; i < splitCount; i++) {
     let unitResult =
@@ -55,14 +55,14 @@ function numberToKoreanCurreny(number) {
     if (unitResult > 0) {
       const unitString = unitResult
         .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 숫자 세 번째 자리마다 콤마(,)를 찍어주는 정규표현식
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 숫자 세 번째 자리마다 콤마(,)를 찍어주는 정규표현식
       resultArray[i] = unitString;
     }
   }
 
   for (let i = 0; i < resultArray.length; i++) {
     if (!resultArray[i]) continue; // resultArray가 없으면 연산하지 않고 넘어감
-    resultString = resultArray[i] + unitWords[i] + " " + resultString; // 예) i=0일 때 5,985 + "원" + " " + resultString(값 없음), i=1일 때 4,928 + "만원" + "5,985원"
+    resultString = resultArray[i] + unitWords[i] + ' ' + resultString; // 예) i=0일 때 5,985 + "원" + " " + resultString(값 없음), i=1일 때 4,928 + "만원" + "5,985원"
   }
 
   return resultString.trim(); // 숫자 마지막에 공백이 들어가서 공백을 제거

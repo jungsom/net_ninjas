@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import TotalContext from './TotalContext';
-import TotalNumberHandler from './TotalNumberHandler';
 import TotalPagenation from './TotalPagenation';
+import TotalNumberHandler from './TotalNumberHandler.js';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
   const { dongData, sort, setSort, sortColumn, setSortColumn } =
     useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
 
-  const roundedData = TotalNumberHandler(dongData, 1); // TotalNumberHandler 함수를 이용해서 숫자 표시 형식을 변경해줌, 숫자는 Rate 항목의 소수점 자리를 지정
+  const roundData = TotalNumberHandler(dongData);
 
   // 자료의 수가 20보다 적을 때 빈 행을 만들어 주는 함수
-  function whitespace(dongData) {
+  function whitespace(data) {
     const count = dongData.length;
     const tag = [];
     for (let i = 0; i < 20 - count; i++) {
@@ -271,7 +271,7 @@ function TotalTable() {
         </StyledLowerCategory>
       </thead>
       <StyeldData>
-        {roundedData.map((item) => (
+        {roundData.map((item) => (
           <tr key={`${item.regeion.gu} ${item.regeion.dong}`}>
             <td>{item.regeion.gu}</td>
             <td>{item.regeion.dong}</td>
