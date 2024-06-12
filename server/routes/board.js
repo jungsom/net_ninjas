@@ -40,6 +40,7 @@ boardRouter.post('/', async (req, res, next) => {
             }
         );
         res.json(board);
+        
     } catch (err) {
         next()
     }

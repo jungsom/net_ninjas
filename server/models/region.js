@@ -57,6 +57,42 @@ const regionSchema = new Schema({
     type: Number,
     required: true
   },
+  libraryCoutRank: {
+    type: Number,
+    required: true
+  },
+  busStationRank: {
+    type: Number,
+    required: true
+  },
+  cultureCountRank: {
+    type: Number,
+    required: true
+  },
+  medicalCountRank: {
+    type: Number,
+    required: true
+  },
+  crimeRateRank: {
+      type: Number,
+      required: true
+  },
+  youthRateRank: {
+      type: Number,
+      required: true
+  },
+  supermarketRank: {
+      type: Number,
+      required: true
+  },
+  parkRateRank: {
+      type: Number,
+      required: true
+  },
+  academyCountRank: {
+    type: Number,
+    required: true
+  },
   eduScore: {
     type: Number,
     required: true
@@ -87,6 +123,6 @@ const regionSchema = new Schema({
   }
 });
 
-const Region = model('Region', regionSchema, 'region');
+const Region = model('Region', regionSchema);
 
 export default Region;
