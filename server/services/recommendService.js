@@ -1,7 +1,7 @@
 import { BadRequest } from '../middlewares/errorMiddleware.js';
 import Region from '../models/region.js';
 
-function validateQuery(query) {
+function validateRecommend(query) {
     // 우선순위 변수가 없을 때, 400 에러
     if(!query.first || !query.second || !query.third ) {
         throw new BadRequest('우선순위 카테고리를 찾을 수 없습니다.')
@@ -46,4 +46,4 @@ async function getModelData(modelName) {
 
 
 
-export { validateQuery, getModelData };
+export { validateRecommend, getModelData };
