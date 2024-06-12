@@ -1,9 +1,11 @@
-import {login, logout} from "../controllers/userController.js";
-import { Router } from 'express';
+import express from 'express';
+import { register, login, logout } from '../controllers/userController.js';
+import authenticateUser from '../middlewares/authenticateMiddleware.js';
 
-const userRouter = Router();
+const userRouter = express.Router();
 
-userRouter.get('/login', login);
-userRouter.get('/logout', logout);
+userRouter.post('/register', register);
+userRouter.post('/login', login);
+userRouter.post('/logout', authenticateUser, logout); // 로그아웃은 인증된 사용자만 가능
 
 export default userRouter;

@@ -1,42 +1,46 @@
 import Region from '../models/region.js';
 
 export async function getAllConvenienceData() {
- return await generateDataByFields(['supermarket']);
+  return await generateDataByFields(['supermarket']);
 }
 
 export async function getAllEducationData() {
   return await generateDataByFields(['libraryCount', 'academyCount']);
- }
+}
 
- export async function getAllEnvironmentData() {
+export async function getAllEnvironmentData() {
   return await generateDataByFields(['parkRate']);
- }
+}
 
- export async function getAllHousingData() {
-  return await generateDataByFields(['jeonseDeposit', 'monthDeposit', 'monthRent']);
- }
+export async function getAllHousingData() {
+  return await generateDataByFields([
+    'jeonseDeposit',
+    'monthDeposit',
+    'monthRent'
+  ]);
+}
 
- export async function getAllPopulationData() {
+export async function getAllPopulationData() {
   return await generateDataByFields(['youthRate']);
- }
+}
 
- export async function getAllSafetyData() {
+export async function getAllSafetyData() {
   return await generateDataByFields(['crimeRate']);
- }
+}
 
- export async function getAllTransportationData() {
+export async function getAllTransportationData() {
   return await generateDataByFields(['busStation']);
- }
+}
 
- export async function getAllWelfareData() {
+export async function getAllWelfareData() {
   return await generateDataByFields(['cultureCount', 'medicalCount']);
- }
+}
 
- export async function getAllData() {
+export async function getAllData() {
   return await getRegions();
- }
+}
 
-async function generateDataByFields(fields){
+async function generateDataByFields(fields) {
   const regions = await getRegions();
   const data = {};
 
@@ -45,7 +49,7 @@ async function generateDataByFields(fields){
     data[id] = {
       id: id,
       gu: region.gu,
-      dong: region.dong,
+      dong: region.dong
     };
 
     fields.forEach((field) => {
@@ -59,7 +63,6 @@ async function generateDataByFields(fields){
 async function getRegions() {
   try {
     return await Region.find().lean();
-
   } catch (error) {
     const err = new Error('지역 데이터를 불러오는 중 오류가 발생했습니다.');
     next(err);

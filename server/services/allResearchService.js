@@ -1,30 +1,30 @@
-import * as categorizationService  from './categorizationService.js';
+import * as categorizationService from './categorizationService.js';
 
 async function getAllData() {
   return await categorizationService.getAllData();
 }
 
 async function getAllDataByCategory(category) {
-switch (category){
-  case 'Convenience':
-    return await categorizationService.getAllConvenienceData();
-  case 'Education':
-    return await categorizationService.getAllEducationData();
-  case 'Environment':
-    return await categorizationService.getAllEnvironmentData();
-  case 'Housing':
-    return await categorizationService.getAllHousingData();
-  case 'Population':
-    return await categorizationService.getAllPopulationData();
-  case 'Safety':
-    return await categorizationService.getAllSafetyData();
-  case 'Transportation':
-    return await categorizationService.getAllTransportationData();
-  case 'Welfare':
-    return await categorizationService.getAllWelfareData();
-  default:
-    throw new BadRequest('존재하지않는 카테고리') 
-}
+  switch (category) {
+    case 'Convenience':
+      return await categorizationService.getAllConvenienceData();
+    case 'Education':
+      return await categorizationService.getAllEducationData();
+    case 'Environment':
+      return await categorizationService.getAllEnvironmentData();
+    case 'Housing':
+      return await categorizationService.getAllHousingData();
+    case 'Population':
+      return await categorizationService.getAllPopulationData();
+    case 'Safety':
+      return await categorizationService.getAllSafetyData();
+    case 'Transportation':
+      return await categorizationService.getAllTransportationData();
+    case 'Welfare':
+      return await categorizationService.getAllWelfareData();
+    default:
+      throw new BadRequest('존재하지않는 카테고리');
+  }
 }
 
 function sortData(data, column, sorting) {

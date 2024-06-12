@@ -1,7 +1,7 @@
-import recommend from "../controllers/recommendController.js";
-import { Router } from 'express';
+import express from 'express';
+import { recommend } from '../controllers/recommendController.js';
 
-const recommendRouter = Router();
+const recommendRouter = express.Router();
 
 recommendRouter.get('/', recommend);
 

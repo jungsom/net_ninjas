@@ -74,20 +74,20 @@ const regionSchema = new Schema({
     required: true
   },
   crimeRateRank: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   youthRateRank: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   supermarketRank: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   parkRateRank: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true
   },
   academyCountRank: {
     type: Number,
