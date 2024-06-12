@@ -16,17 +16,15 @@ export async function searchData(req, res, next) {
   const perPage = parseInt(req.query.perPage) || 20;
   const pageNo = parseInt(req.query.pageNo) || 1;
   const { keyword, column, sorting } = req.query;
-  const keywords = keyword.split(',');
+  const keywords = keyword.split(',').map(k => k.trim());
 
   console.log("keywords : ", keywords);
 
   try {
     let data = (await getAllData()).filter(t=> keywords.includes(t.gu) || keywords.includes(t.dong) || isGuDong(keywords, t.gu, t.dong));
 
-    // 데이터 정렬
     data = sortData(data, column, sorting);
 
-    // 페이지네이션
     const paginatedData = paginateData(data, perPage, pageNo);
 
     res.json(paginatedData);
