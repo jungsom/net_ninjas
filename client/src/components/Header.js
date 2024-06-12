@@ -20,6 +20,8 @@ export default function Header() {
         <Navbar.Collapse id='responsive-navbar-nav'>
           <Nav className='me-auto'>
             <Nav.Link href='/home'>Home</Nav.Link>
+            <Nav.Link href='/gu_info'>자치구 정보</Nav.Link>
+            <Nav.Link href='/recommend'>추천</Nav.Link>
             <NavDropdown title='통계' id='collapsible-nav-dropdown'>
               <NavDropdown.Item href='/total'>전체 통계</NavDropdown.Item>
               <NavDropdown.Item href='/analysis'>통계 분석</NavDropdown.Item>
@@ -28,7 +30,6 @@ export default function Header() {
                 Separated link
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href='/recommend'>추천</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href='#deets'>로그인</Nav.Link>

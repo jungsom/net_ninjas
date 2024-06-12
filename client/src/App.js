@@ -14,6 +14,7 @@ import Total from './components/Total';
 import Recommend from './components/Recommend';
 import Footer from './components/Footer';
 import RecommendResult from './components/recommend/RecommendResult';
+import GuInformation from './components/GuInformation';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -60,6 +61,7 @@ function AppContent() {
       <MainContent>
         <Routes>
           <Route path='/home' element={<Home />} />
+          <Route path='/gu_info' element={<GuInformation />} />
           <Route path='/total' element={<Total />} />
           <Route path='/analysis' element={<AnalysisCharts />} />
           <Route path='/recommend' element={<Recommend />} />

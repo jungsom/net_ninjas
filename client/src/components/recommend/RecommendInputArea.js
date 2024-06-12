@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,8 +10,8 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import styled from 'styled-components';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import Button from 'react-bootstrap/Button';
+import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function RecommendInputArea() {
   const { recommendData, setRecommendData } = useContext(RecommendContext);
@@ -188,18 +187,12 @@ function RecommendInputArea() {
           </Box>
         </div>
       )}
-      <div>
-        <Button
-          variant='contained'
-          endIcon={<SearchIcon />}
-          title='찾기'
-          onClick={getSearchedData}
-        >
-          찾기
+      <StyledBtn>
+        <Button variant='primary' title='찾기' onClick={getSearchedData}>
+          찾기 <Search />
         </Button>
         <Button
-          variant='contained'
-          endIcon={<RefreshIcon />}
+          variant='primary'
           title='초기화'
           onClick={() => {
             setFirstCategory('');
@@ -211,12 +204,30 @@ function RecommendInputArea() {
             setMaxRent(0);
           }}
         >
-          초기화
+          초기화 <ArrowClockwise />
         </Button>
-      </div>
+      </StyledBtn>
       <div>{recommendData}</div>
     </>
   );
 }
+
+const StyledBtn = styled.div`
+  display: flex;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    svg {
+      margin-left: 5px;
+    }
+  }
+
+  button:nth-child(2) {
+    margin-left: 3px;
+  }
+`;
 
 export default RecommendInputArea;

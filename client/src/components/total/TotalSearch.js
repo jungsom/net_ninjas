@@ -2,9 +2,8 @@ import { useState, useContext } from 'react';
 import TotalContext from './TotalContext';
 import styled from 'styled-components';
 import InputBox from '../InputBox';
-import Button from '@mui/material/Button';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import Button from 'react-bootstrap/Button';
+import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function TotalSearch() {
   const { setDongData, setPage, setSort, setSortColumn } =
@@ -59,9 +58,8 @@ function TotalSearch() {
         onChange={(e) => setKeyword(e.target.value)}
       />
       <Button
-        variant='contained'
-        endIcon={<SearchIcon />}
-        title='검색'
+        variant='primary'
+        title='찾기'
         onClick={() => {
           const searchedData = getSearchedData(keyword);
           setDongData(searchedData);
@@ -70,11 +68,10 @@ function TotalSearch() {
           setSortColumn('');
         }}
       >
-        검색
+        찾기 <Search />
       </Button>
       <Button
-        variant='contained'
-        endIcon={<RefreshIcon />}
+        variant='primary'
         title='초기화'
         onClick={() => {
           setDongData([]);
@@ -83,7 +80,7 @@ function TotalSearch() {
           setSortColumn('');
         }}
       >
-        초기화
+        초기화 <ArrowClockwise />
       </Button>
     </StyledSearch>
   );
@@ -92,19 +89,23 @@ function TotalSearch() {
 const StyledSearch = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 100%;
+
   padding: 8px;
   input {
     margin-right: 3px;
   }
   button {
-    width: 90px;
-    padding: 5px 0;
-    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    svg {
+      margin-left: 5px;
+    }
   }
 
   button:nth-child(3) {
-    margin: 0 3px;
+    margin-left: 3px;
   }
 `;
 
