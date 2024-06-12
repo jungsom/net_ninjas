@@ -15,9 +15,8 @@ const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 // 회원가입 컨트롤러
 export async function register(req, res, next) {
   try {
-    const { name, email, password } = req.body;
+    const { email, password, name } = req.body;
 
-    if (!name) throw new BadRequest('이름을 입력하세요.');
     if (!email) throw new BadRequest('이메일을 입력하세요.');
     if (!emailRegex.test(email))
       throw new BadRequest('유효한 이메일 형식이 아닙니다.');
@@ -26,6 +25,7 @@ export async function register(req, res, next) {
       throw new BadRequest(
         '비밀번호는 8자 이상이고 특수문자를 포함해야 합니다.'
       );
+    if (!name || !name.trim()) throw new BadRequest('이름을 입력하세요.');
 
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new BadRequest('이미 사용 중인 이메일입니다.');
@@ -33,9 +33,9 @@ export async function register(req, res, next) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await User.create({
-      name,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      name
     });
 
     res.status(201).json({ message: '회원가입 성공' });

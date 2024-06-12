@@ -1,4 +1,5 @@
 import express from 'express';
+import authenticateUser from '../middlewares/authenticateMiddleware.js';
 import {
   getAllBoards,
   createBoard,
@@ -13,15 +14,15 @@ const boardRouter = express.Router();
 boardRouter.get('/', getAllBoards);
 
 // 특정 게시물 작성
-boardRouter.post('/', createBoard);
+boardRouter.post('/', authenticateUser, createBoard);
 
 // 특정 게시물 조회
 boardRouter.get('/:boardId', getBoardById);
 
 // 특정 게시물 수정
-boardRouter.put('/:boardId', updateBoardById);
+boardRouter.put('/:boardId', authenticateUser, updateBoardById);
 
 // 특정 게시물 삭제
-boardRouter.delete('/:boardId', deleteBoardById);
+boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 
 export default boardRouter;

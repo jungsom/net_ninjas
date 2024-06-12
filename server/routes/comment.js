@@ -5,6 +5,7 @@ import {
   updateCommentById,
   deleteCommentById
 } from '../controllers/commentController.js';
+import authenticateUser from '../middlewares/authenticateMiddleware.js';
 
 const commentRouter = express.Router();
 
@@ -12,12 +13,12 @@ const commentRouter = express.Router();
 commentRouter.get('/:boardId/comments', getCommentsByBoardId);
 
 // 특정 댓글 작성
-commentRouter.post('/', createComment);
+commentRouter.post('/:boardId/comments', authenticateUser, createComment);
 
 // 특정 댓글 수정
-commentRouter.put('/:commentId', updateCommentById);
+commentRouter.put('/:commentId', authenticateUser, updateCommentById);
 
 // 특정 댓글 삭제
-commentRouter.delete('/:commentId', deleteCommentById);
+commentRouter.delete('/:commentId', authenticateUser, deleteCommentById);
 
 export default commentRouter;

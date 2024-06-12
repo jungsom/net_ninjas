@@ -14,8 +14,7 @@ const authenticateUser = (req, res, next) => {
       }
       return next(new BadRequest('유효하지 않은 토큰입니다'));
     }
-
-    req.user = decoded;
+    req.user = { id: decoded.id };
     next();
   });
 };

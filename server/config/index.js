@@ -14,8 +14,7 @@ db.once('open', handleOpen);
 db.on('error', handleError);
 
 const config = {
-  jwtSecret: process.env.JWT_SECRET || 'your_jwt_secret',
-  port: process.env.PORT || 3000,
+  jwtSecret: process.env.JWT_SECRET,
   db: {
     uri: process.env.MONGO_URI
   }
