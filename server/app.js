@@ -3,6 +3,7 @@ import cors from 'cors';
 import allResearchRoutes from './routes/allResearch.js';
 import recommendRouter from './routes/recommend.js';
 import userRouter from './routes/user.js';
+import placeRouter from './routes/place.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // router
 app.use('/', userRouter);
 app.use('/allResearch', allResearchRoutes);
+app.use('/allPlace', placeRouter);
 app.use('/recommend', recommendRouter);
 app.use('/board', boardRouter);
 
