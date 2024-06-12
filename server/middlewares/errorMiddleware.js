@@ -1,26 +1,29 @@
 export class BadRequest extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 400;
+    this.status = 400;
   }
 }
 
 export class NotFound extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 404;
+    this.status = 404;
   }
 }
 
 export class MethodNotAllowed extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 405;
+    this.status = 405;
   }
 }
 
 export const errorMiddleware = (err, req, res, next) => {
-  res.status(500).json({
-    message: err.message
-  });
+  console.error(err.stack);
+
+  const status = err.status || 500;
+  const message = err.message || 'Internal Server Error';
+
+  res.status(status).json({ status, message });
 };

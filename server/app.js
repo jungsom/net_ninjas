@@ -8,6 +8,7 @@ import { errorMiddleware } from './middlewares/errorMiddleware.js';
 import dotenv from 'dotenv';
 
 import './config/db.js';
+import boardRouter from './routes/board.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // router
 app.use('/allResearch', allResearchRoutes);
 app.use('/recommend', recommendRouter);
+app.use('/board', boardRouter);
 
 // 에러 처리 미들웨어
 app.use(errorMiddleware);

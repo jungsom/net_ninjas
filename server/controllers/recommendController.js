@@ -1,12 +1,13 @@
 import * as categorizationService from '../services/categorizationService.js';
-import { validateQuery, getModelData } from '../services/recommendService.js';
+import { validateRecommend, getModelData } from '../services/recommendService.js';
 
 
-async function recommend(req, res) {
+async function recommend(req, res, next) {
+  try { 
     const { first, second, third, option, min_price, max_price, min_price_2, max_price_2 } = req.query;
 
     // 변수에 대한 검증 실시
-    validateQuery(req.query);
+    validateRecommend(req.query);
 
     // 예산 데이터, 선택된 카테고리의 점수 데이터 가져오기
     const housingData = await categorizationService.getAllHousingData();
@@ -64,6 +65,9 @@ async function recommend(req, res) {
         third: filterTotalScore.slice(2, 3)
       });
     }
+  } catch (error) {
+    next(error)
+  }
 }
 
 export default recommend;
