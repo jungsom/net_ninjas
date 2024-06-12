@@ -2,303 +2,234 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import TotalContext from './TotalContext';
 import TotalPagenation from './TotalPagenation';
-import TotalNumberHandler from './TotalNumberHandler.js';
+import { whitespace, numberToKoreanCurreny } from './Util.js';
+import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
   const { dongData, sort, setSort, sortColumn, setSortColumn } =
     useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
 
-  const roundData = TotalNumberHandler(dongData);
+  // 자료의 수가 20보다 적을 때 빈 행을 만들어줌
+  whitespace(dongData);
 
-  // 자료의 수가 20보다 적을 때 빈 행을 만들어 주는 함수
-  function whitespace(data) {
-    const count = dongData.length;
-    const tag = [];
-    for (let i = 0; i < 20 - count; i++) {
-      tag.push(
-        <tr className='whitespace'>
-          <td colSpan='14'></td>
-        </tr>
+  const handleThClick = (name) => {
+    sortDongColumnData(name);
+    setSortColumn(name);
+  };
+
+  const getSortIcon = (name) => {
+    if (name === sortColumn) {
+      return sort === 'asc' ? (
+        <ArrowUp />
+      ) : sort === 'desc' ? (
+        <ArrowDown />
+      ) : (
+        ''
       );
     }
-    return tag;
-  }
+  };
 
   // column을 누르면 누른 곳의 className이름을 가져와서 기존의 sortColumn 값과 비교해서 정렬 방식을 결정하는 함수
   function sortDongColumnData(name) {
     if (name !== sortColumn) {
-      // 다른 열을 눌렀을 경우 정렬이 안 되어 있었거나 내림차순이었으면, 오름차순으로 바꿔줌
-      if (sort === 'DESC' || sort === '') {
-        setSort('ASC');
-      }
-    } else {
-      if (sort === '') {
-        // 정렬이 안되어 있을 경우 오름차순으로
-        setSort('ASC');
-      } else if (sort === 'ASC') {
-        setSort('DESC');
-      } else if (sort === 'DESC') {
-        setSort('');
-      }
+      // 다른 열을 눌렀을 경우 내림차순으로 바꿔줌
+      name === 'gu' || name === 'dong' ? setSort('asc') : setSort('desc');
+      return; // 얼리 리턴
     }
+    if (sort === '') {
+      name === 'gu' || name === 'dong' ? setSort('asc') : setSort('desc');
+      return;
+    }
+    if (sort === 'asc') {
+      name === 'gu' || name === 'dong' ? setSort('desc') : setSort('');
+      return;
+    }
+
+    name === 'gu' || name === 'dong' ? setSort('') : setSort('asc'); // sort가 desc일 때 다시 기본 정렬로
   }
   return (
-    <StyledTable>
-      <thead>
-        <tr>
-          <th colSpan={2}>지역</th>
-          <th colSpan={2}>교육</th>
-          <th>환경</th>
-          <th>안전</th>
-          <th colSpan={2}>복지</th>
-          <th colSpan={3}></th>
-          <th>인구</th>
-          <th>교통</th>
-          <th>편의</th>
-        </tr>
-        <StyledLowerCategory>
-          <th
-            className='gu'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('gu');
-            }}
-          >
-            구
-            {sortColumn === 'gu' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'gu' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='dong'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('dong');
-            }}
-          >
-            동
-            {sortColumn === 'dong' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'dong' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='academyCount'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('academyCount');
-            }}
-          >
-            학원 수
-            {sortColumn === 'academyCount' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'academyCount' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='libraryCount'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('libraryCount');
-            }}
-          >
-            도서관 수
-            {sortColumn === 'libraryCount' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'libraryCount' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='parkRate'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('parkRate');
-            }}
-          >
-            공원 면적
-            {sortColumn === 'parkRate' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'parkRate' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-            <br />
-            (1인당)
-          </th>
-          <th
-            className='crimeRate'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('crimeRate');
-            }}
-          >
-            범죄율
-            {sortColumn === 'crimeRate' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'crimeRate' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-            <br />
-            (1,000명당)
-          </th>
-          <th
-            className='cultureCount'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('cultureCount');
-            }}
-          >
-            문화시설 수
-            {sortColumn === 'cultureCount' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'cultureCount' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='medicalCount'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('medicalCount');
-            }}
-          >
-            의료시설 수
-            {sortColumn === 'medicalCount' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'medicalCount' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='jeonseDeposit'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('jeonseDeposit');
-            }}
-          >
-            전세 보증금
-            {sortColumn === 'jeonseDeposit' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'jeonseDeposit' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-            <br />
-            (평균)
-          </th>
-          <th
-            className='monthDeposit'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('monthDeposit');
-            }}
-          >
-            월세 보증금
-            {sortColumn === 'monthDeposit' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'monthDeposit' && sort === 'DESC'
-              ? ' ▼'
-              : ''}{' '}
-            <br />
-            (평균)
-          </th>
-          <th
-            className='monthRent'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('monthRent');
-            }}
-          >
-            월세가
-            {sortColumn === 'monthRent' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'monthRent' && sort === 'DESC'
-              ? ' ▼'
-              : ''}{' '}
-            <br />
-            (평균)
-          </th>
-          <th
-            className='youthRate'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('youthRate');
-            }}
-          >
-            청년 비율
-            {sortColumn === 'youthRate' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'youthRate' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-            <br />
-            (19세~34세)
-          </th>
-          <th
-            className='busStation'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('busStation');
-            }}
-          >
-            버스정류장 수
-            {sortColumn === 'busStation' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'busStation' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-          <th
-            className='supermarket'
-            onClick={(e) => {
-              sortDongColumnData(e.target.className);
-              setSortColumn('supermarket');
-            }}
-          >
-            대형마트,
-            <br />
-            백화점 수
-            {sortColumn === 'supermarket' && sort === 'ASC'
-              ? ' ▲'
-              : sortColumn === 'supermarket' && sort === 'DESC'
-              ? ' ▼'
-              : ''}
-          </th>
-        </StyledLowerCategory>
-      </thead>
-      <StyeldData>
-        {roundData.map((item) => (
-          <tr key={`${item.regeion.gu} ${item.regeion.dong}`}>
-            <td>{item.regeion.gu}</td>
-            <td>{item.regeion.dong}</td>
-            <td>{item.education.academyCount}개</td>
-            <td>{item.education.libraryCount}개</td>
-            <td>{item.environment.parkRate}㎡</td>
-            <td>{item.safety.crimeRate}%</td>
-            <td>{item.welfare.cultureCount}개</td>
-            <td>{item.welfare.medicalCount}개</td>
-            <td>{item.housing.jeonseDeposit}</td>
-            <td>{item.housing.monthDeposit}</td>
-            <td>{item.housing.monthRent}</td>
-            <td>{item.population.youthRate}%</td>
-            <td>{item.transportation.busStation}개</td>
-            <td>{item.convenience.supermarket}</td>
+    <>
+      <StyledTable>
+        <thead>
+          <tr>
+            <th colSpan={2}>지역</th>
+            <th colSpan={2}>교육</th>
+            <th>교통</th>
+            <th colSpan={2}>복지</th>
+            <th>안전</th>
+            <th>인구</th>
+            <th colSpan={3}>주거</th>
+            <th>편의</th>
+            <th>환경</th>
           </tr>
-        ))}
-      </StyeldData>
-      <tbody>
-        {whitespace(dongData)}
-        <tr>
-          <StyledPagenation colSpan='14'>
-            <TotalPagenation />
-          </StyledPagenation>
-        </tr>
-      </tbody>
-    </StyledTable>
+          <StyledLowerCategory>
+            <th
+              className='gu'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              자치구{getSortIcon('gu')}
+            </th>
+            <th
+              className='dong'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              법정동{getSortIcon('dong')}
+            </th>
+            <th
+              className='academyCount'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              *학원 수{getSortIcon('academyCount')}
+            </th>
+            <th
+              className='libraryCount'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              도서관 수{getSortIcon('libraryCount')}
+            </th>
+            <th
+              className='busStation'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              버스정류장 수{getSortIcon('busStation')}
+            </th>
+            <th
+              className='cultureCount'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              문화시설 수{getSortIcon('cultureCount')}
+            </th>
+            <th
+              className='medicalCount'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              의료시설 수{getSortIcon('medicalCount')}
+            </th>
+            <th
+              className='crimeRate'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              *범죄율
+              {getSortIcon('crimeRate')}
+              <br />
+              (1,000명당)
+            </th>
+            <th
+              className='youthRate'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              청년 비율
+              {getSortIcon('youthRate')}
+              <br />
+              (19세~34세)
+            </th>
+            <th
+              className='jeonseDeposit'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              전세 보증금
+              {getSortIcon('jeonseDeposit')}
+              <br />
+              (평균)
+            </th>
+            <th
+              className='monthDeposit'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              월세 보증금
+              {getSortIcon('monthDeposit')}
+              <br />
+              (평균)
+            </th>
+            <th
+              className='monthRent'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              월세가
+              {getSortIcon('monthRent')}
+              <br />
+              (평균)
+            </th>
+            <th
+              className='supermarket'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              대형마트,
+              <br />
+              백화점 수{getSortIcon('supermarket')}
+            </th>
+            <th
+              className='parkRate'
+              onClick={(e) => handleThClick(e.target.className)}
+            >
+              *공원 면적
+              {getSortIcon('parkRate')}
+              <br />
+              (1인당)
+            </th>
+          </StyledLowerCategory>
+        </thead>
+        <StyeldData>
+          {dongData.map((item) => (
+            <tr key={`${item.gu} ${item.dong}`}>
+              <td>{item.gu}</td>
+              <td>{item.dong}</td>
+              <td>
+                {item.academyCount}개 ({item.academyCountRank}위)
+              </td>
+              <td>
+                {item.libraryCount}개 ({item.libraryCountRank}위)
+              </td>
+              <td>
+                {item.busStation}개 ({item.busStationRank}위)
+              </td>
+              <td>
+                {item.cultureCount}개 ({item.cultureCountRank}위)
+              </td>
+              <td>
+                {item.medicalCount}개 ({item.medicalCountRank}위)
+              </td>
+              <td>
+                {item.crimeRate.toFixed(1)}% ({item.crimeRateRank}위)
+              </td>
+              <td>
+                {item.youthRate.toFixed(1)}% ({item.youthRateRank}위)
+              </td>
+              <td>
+                {numberToKoreanCurreny(item.jeonseDeposit.toFixed()) ||
+                  '자료 없음'}
+              </td>
+              <td>
+                {numberToKoreanCurreny(item.monthDeposit.toFixed()) ||
+                  '자료 없음'}
+              </td>
+              <td>
+                {numberToKoreanCurreny(item.monthRent.toFixed()) || '자료 없음'}
+              </td>
+              <td>
+                {item.supermarket}개 ({item.supermarketRank}위)
+              </td>
+              <td>
+                {item.parkRate.toFixed(1)}㎡ ({item.parkRateRank}위)
+              </td>
+            </tr>
+          ))}
+        </StyeldData>
+        <tbody>
+          {whitespace(dongData)}
+          <tr>
+            <StyledPagenation colSpan='14'>
+              <TotalPagenation />
+            </StyledPagenation>
+          </tr>
+        </tbody>
+      </StyledTable>
+      <StyledDescription>
+        * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
+        자료가 존재하지 않아서, 자치구 자료로 대체함
+      </StyledDescription>
+    </>
   );
 }
 
@@ -311,13 +242,13 @@ const StyledTable = styled.table`
     white-space: pre-line;
     padding: 8px;
     background-color: #e6e6e6;
-    width: 110px;
+    width: 120px;
   }
 
   td {
     border-color: #d2d2d2;
     font-size: 13px;
-    padding: 8px;
+    padding: 10px;
     height: 37px;
   }
 
@@ -354,6 +285,14 @@ const StyledPagenation = styled.td`
   button:nth-child(4) {
     padding-right: 40px;
   }
+`;
+
+const StyledDescription = styled.p`
+  margin-top: 8px;
+  font-size: 14px;
+  font-style: italic;
+  text-align: right;
+  color: #757575;
 `;
 
 export default TotalTable;

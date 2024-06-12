@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -14,15 +13,25 @@ import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function RecommendInputArea() {
-  const { recommendData, setRecommendData } = useContext(RecommendContext);
-  const [firstCategory, setFirstCategory] = useState('');
-  const [secondCategory, setSecondCategory] = useState('');
-  const [thirdCategory, setThirdCategory] = useState('');
-  const [contractType, setContractType] = useState('');
-  const [minDeposit, setMinDeposit] = useState(0);
-  const [maxDeposit, setMaxDeposit] = useState(0);
-  const [minRent, setMinRent] = useState(0);
-  const [maxRent, setMaxRent] = useState(0);
+  const {
+    getRecommendData,
+    firstCategory,
+    setFirstCategory,
+    secondCategory,
+    setSecondCategory,
+    thirdCategory,
+    setThirdCategory,
+    contractType,
+    setContractType,
+    minDeposit,
+    setMinDeposit,
+    maxDeposit,
+    setMaxDeposit,
+    minRent,
+    setMinRent,
+    maxRent,
+    setMaxRent
+  } = useContext(RecommendContext);
 
   const category = {
     교육: 'education',
@@ -52,12 +61,6 @@ function RecommendInputArea() {
       );
     }
     return menuItemTag;
-  }
-
-  const navigate = useNavigate();
-
-  async function getSearchedData() {
-    navigate('/recommend/result');
   }
 
   return (
@@ -188,7 +191,7 @@ function RecommendInputArea() {
         </div>
       )}
       <StyledBtn>
-        <Button variant='primary' title='찾기' onClick={getSearchedData}>
+        <Button variant='primary' title='찾기' onClick={getRecommendData}>
           찾기 <Search />
         </Button>
         <Button
@@ -207,7 +210,6 @@ function RecommendInputArea() {
           초기화 <ArrowClockwise />
         </Button>
       </StyledBtn>
-      <div>{recommendData}</div>
     </>
   );
 }

@@ -1,42 +1,42 @@
 function TotalNumberHandler(data, n) {
-  const roundedData = []; // 객체 안의 동별 데이터를 하나씩 반복문을 돌림
-  for (const items of data) {
-    // 소수점 처리를 해준 후에 저장할 빈 객체를 만들어줌
-    const newItem = {}; // 동 데이터 안의 카테고리 값들을 반복문을 돌림, 예) education, safety,...
-    for (const key in items) {
-      newItem[key] = {}; // items[key]의 key 값들을 저장, 예) gu, dong
-      const keys = Object.keys(items[key]); // items[key]의 value 값들을 저장, 예) "강남구", "신사동"
-      const values = Object.values(items[key]); // key값들의 개수 만큼 반복문을 돌림, 예) 구, 동 두개 있으니까 두 번 반복
-      for (let i = 0; i < keys.length; i++) {
-        // 0번째 subKey는 gu, 1번째 subkey는 dong
-        const subKey = keys[i]; // 0번째 value는 "강남구", 1번째 value는 "신사동"
-        const value = values[i]; // value가 숫자인지 확인
-        if (!isNaN(value)) {
-          // 숫자가 아니면 parseFloat로 문자열을 숫자로 변환함, 정수일 경우 parseFloat(10)은 그대로 10임
-          const numValue = parseFloat(value); // 키가 Rate를 포함하고 있는 경우, 입력받은 n자리 수 까지 반올림
-          if (subKey.includes('Rate')) {
-            newItem[key][subKey] = numValue.toFixed(n);
-          } else if (subKey.endsWith('Rent') || subKey.endsWith('Deposit')) {
-            // "억" 단위와 화폐 콤마(,)를 붙여줌
-            newItem[key][subKey] = numberToKoreanCurreny(numValue);
-          } else {
-            // 숫자이고 키 값이 Rate가 아닌 경우, 정수이면 정수를 반환하고
-            if (Number.isInteger(numValue)) {
-              newItem[key][subKey] = numValue;
-            } else {
-              // 실수인 경우에도 정수로 만들어줌 예) 전세 보증금, 월세 임대료
-              newItem[key][subKey] = numValue.toFixed(0);
-            }
-          }
-        } else {
-          // 숫자가 아닌 경우에는 문자열 그대로 유지함, 예) 강남구, 신사동
-          newItem[key][subKey] = value;
-        }
-      }
-    }
-    roundedData.push(newItem); // 동 데이터 변환이 끝나면 roundedData 객체에 넣어주는 과정을 반복
-  }
-  return roundedData;
+  // const roundedData = []; // 객체 안의 동별 데이터를 하나씩 반복문을 돌림
+  // for (const items of data) {
+  //   // 소수점 처리를 해준 후에 저장할 빈 객체를 만들어줌
+  //   const newItem = {}; // 동 데이터 안의 카테고리 값들을 반복문을 돌림, 예) education, safety,...
+  //   for (const key in items) {
+  //     newItem[key] = {}; // items[key]의 key 값들을 저장, 예) gu, dong
+  //     const keys = Object.keys(items[key]); // items[key]의 value 값들을 저장, 예) "강남구", "신사동"
+  //     const values = Object.values(items[key]); // key값들의 개수 만큼 반복문을 돌림, 예) 구, 동 두개 있으니까 두 번 반복
+  //     for (let i = 0; i < keys.length; i++) {
+  //       // 0번째 subKey는 gu, 1번째 subkey는 dong
+  //       const subKey = keys[i]; // 0번째 value는 "강남구", 1번째 value는 "신사동"
+  //       const value = values[i]; // value가 숫자인지 확인
+  //       if (!isNaN(value)) {
+  //         // 숫자가 아니면 parseFloat로 문자열을 숫자로 변환함, 정수일 경우 parseFloat(10)은 그대로 10임
+  //         const numValue = parseFloat(value); // 키가 Rate를 포함하고 있는 경우, 입력받은 n자리 수 까지 반올림
+  //         if (subKey.includes('Rate')) {
+  //           newItem[key][subKey] = numValue.toFixed(n);
+  //         } else if (subKey.endsWith('Rent') || subKey.endsWith('Deposit')) {
+  //           // "억" 단위와 화폐 콤마(,)를 붙여줌
+  //           newItem[key][subKey] = numberToKoreanCurreny(numValue);
+  //         } else {
+  //           // 숫자이고 키 값이 Rate가 아닌 경우, 정수이면 정수를 반환하고
+  //           if (Number.isInteger(numValue)) {
+  //             newItem[key][subKey] = numValue;
+  //           } else {
+  //             // 실수인 경우에도 정수로 만들어줌 예) 전세 보증금, 월세 임대료
+  //             newItem[key][subKey] = numValue.toFixed(0);
+  //           }
+  //         }
+  //       } else {
+  //         // 숫자가 아닌 경우에는 문자열 그대로 유지함, 예) 강남구, 신사동
+  //         newItem[key][subKey] = value;
+  //       }
+  //     }
+  //   }
+  //   roundedData.push(newItem); // 동 데이터 변환이 끝나면 roundedData 객체에 넣어주는 과정을 반복
+  // }
+  // return roundedData;
 }
 
 // 숫자를 한국 화폐 형식으로 바꿔주는 함수

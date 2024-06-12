@@ -4,19 +4,21 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 function TotalPagenation() {
-  const { page, setPage } = useContext(TotalContext);
+  const { dongData, page, setPage } = useContext(TotalContext);
 
-  const dongDataLengthTest = 95;
+  const dongDataLength = dongData.length;
 
-  const maxPage = Math.ceil(dongDataLengthTest / 20);
+  const maxPage = Math.ceil(dongDataLength / 20);
 
   const startNum = page === 1 ? 1 : 1 * 20 * (page - 1);
   const endNum =
-    page === 1
-      ? 20
-      : 20 * page < dongDataLengthTest
+    maxPage === 1
+      ? dongDataLength
+      : 20 * page < dongDataLength
       ? 20 + 20 * (page - 1)
-      : dongDataLengthTest;
+      : dongDataLength;
+
+  // const endNum =  page === 1? 20: 20 * page < dongDataLength? 20 + 20 * (page - 1): dongDataLength;
 
   return (
     <>
