@@ -3,18 +3,21 @@ import { allDataPerPage } from '../controllers/allResearchController.js';
 import { searchData } from '../controllers/allResearchSearchController.js';
 import { allDataByCategoryPerPage } from '../controllers/allResearchByCategoryController.js';
 
-const allResearchRoutes = express.Router();
+const allResearchRouter = express.Router();
 
 // 전체 데이터 페이지별 조회
-allResearchRoutes.get('/', allDataPerPage);
-allResearchRoutes.get('/search', searchData);
-allResearchRoutes.get('/convenience', allDataByCategoryPerPage('Convenience'));
-allResearchRoutes.get('/education', allDataByCategoryPerPage('Education'));
-allResearchRoutes.get('/environment', allDataByCategoryPerPage('Environment'));
-allResearchRoutes.get('/housing', allDataByCategoryPerPage('Housing'));
-allResearchRoutes.get('/population', allDataByCategoryPerPage('Population'));
-allResearchRoutes.get('/safety', allDataByCategoryPerPage('Safety'));
-allResearchRoutes.get('/transportation', allDataByCategoryPerPage('Transportation'));
-allResearchRoutes.get('/welfare', allDataByCategoryPerPage('Welfare'));
+allResearchRouter.get('/', allDataPerPage);
+allResearchRouter.get('/search', searchData);
+allResearchRouter.get('/convenience', allDataByCategoryPerPage('Convenience'));
+allResearchRouter.get('/education', allDataByCategoryPerPage('Education'));
+allResearchRouter.get('/environment', allDataByCategoryPerPage('Environment'));
+allResearchRouter.get('/housing', allDataByCategoryPerPage('Housing'));
+allResearchRouter.get('/population', allDataByCategoryPerPage('Population'));
+allResearchRouter.get('/safety', allDataByCategoryPerPage('Safety'));
+allResearchRouter.get(
+  '/transportation',
+  allDataByCategoryPerPage('Transportation')
+);
+allResearchRouter.get('/welfare', allDataByCategoryPerPage('Welfare'));
 
-export default allResearchRoutes;
+export default allResearchRouter;

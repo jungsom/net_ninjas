@@ -1,4 +1,4 @@
-import {getPlaceData} from '../services/placeService.js';
+import { getPlaceData } from '../services/placeService.js';
 
 export async function allDataPerPage(req, res, next) {
   try {
