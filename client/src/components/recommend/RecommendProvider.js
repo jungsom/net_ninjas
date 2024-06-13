@@ -21,6 +21,7 @@ function RecommendProvider({ children }) {
   async function getRecommendData(e) {
     e.preventDefault();
     try {
+      navigate('/recommend/result');
       if (contractType === 'jeonse') {
         const response = await axios.get(
           `http://localhost:8080/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}`

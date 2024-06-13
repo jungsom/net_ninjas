@@ -4,7 +4,7 @@ import Stack from 'react-bootstrap/Stack';
 // import styled from 'styled-components';
 
 import Education from './analysisCharts/education';
-import Transfortation from './analysisCharts/transfortation';
+import Transfortation from './analysisCharts/transportation';
 import Welfare from './analysisCharts/welfare';
 import Safety from './analysisCharts/safety';
 import Population from './analysisCharts/populaton';

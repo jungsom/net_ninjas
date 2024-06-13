@@ -1,57 +1,70 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-// import UndoOutlinedIcon from "@mui/icons-material/UndoOutlined";
-// import { HighlightedCode } from "@mui/docs/HighlightedCode";
+import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-
-const environment_dataset = [
-  { dong: '청운동', parkRate: 4 },
-  { dong: '신교동', parkRate: 2 },
-  { dong: '궁정동', parkRate: 5 },
-  { dong: '효자동', parkRate: 4 },
-  { dong: '창성동', parkRate: 1 },
-  { dong: '통의동', parkRate: 4 },
-  { dong: '적선동', parkRate: 2 },
-  { dong: '통인동', parkRate: 5 },
-  { dong: '누상동', parkRate: 4 },
-  { dong: '누하동', parkRate: 1 },
-  { dong: '옥인동', parkRate: 5 },
-  { dong: '체부동', parkRate: 4 },
-  { dong: '필운동', parkRate: 1 },
-  { dong: '내자동', parkRate: 4 },
-  { dong: '사직동', parkRate: 2 },
-  { dong: '도렴동', parkRate: 5 },
-  { dong: '당주동', parkRate: 4 },
-  { dong: '내수동', parkRate: 1 },
-  { dong: '신문로1가', parkRate: 4 },
-  { dong: '신문로2가', parkRate: 2 }
-];
-
-const chartSetting = {
-  dataset: environment_dataset,
-  height: 400,
-  grid: { horizontal: true },
-  series: [
-    {
-      id: 'series-1',
-      dataKey: 'parkRate',
-      label: '1인당 공원 면적',
-      highlightScope: {
-        highlighted: 'item'
-      }
-    }
-  ],
-  xAxis: [
-    {
-      dataKey: 'dong',
-      scaleType: 'band'
-    }
-  ]
-};
+import axios from 'axios';
 
 export default function Environment() {
+  const [parkData, setParkData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/allResearch/environment?perPage=464&pageNo=1&column=parkRate&sorting=desc`
+        );
+        // gu, parkRate 값만 추출
+        const extractedData = response.data.paginatedData.map((item) => ({
+          gu: item.gu,
+          parkRate: item.parkRate
+        }));
+
+        // gu 값이 중복된 객체 제거
+        const uniqueData = extractedData.reduce((acc, current) => {
+          const x = acc.find((item) => item.gu === current.gu);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        // console.log(data);
+        setParkData(uniqueData);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const chartSetting = {
+    dataset: parkData,
+    height: 400,
+    grid: { horizontal: true },
+    series: [
+      {
+        id: 'series-1',
+        dataKey: 'parkRate',
+        label: '1인당 공원 면적(m^2/명)',
+        highlightScope: {
+          highlighted: 'item'
+        },
+        color: '#fdb462'
+      }
+    ],
+    xAxis: [
+      {
+        dataKey: 'gu',
+        scaleType: 'band'
+      }
+    ]
+  };
+
   return <BarChart {...chartSetting} />;
 }

@@ -3,8 +3,8 @@ import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
 
-export default function Convenience() {
-  const [supermarketData, setSupermarketData] = useState(null);
+export default function Transportation() {
+  const [transportationData, setTransportationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -12,27 +12,11 @@ export default function Convenience() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/allResearch/convenience?perPage=464&pageNo=1&column=supermarket&sorting=desc`
+          `http://localhost:8080/allResearch/transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
         );
-
-        // gu, supermaket 값만 추출
-        const extractedData = response.data.paginatedData.map((item) => ({
-          gu: item.gu,
-          supermarket: item.supermarket
-        }));
-
-        // gu 값이 중복된 객체 제거
-        const uniqueData = extractedData.reduce((acc, current) => {
-          const x = acc.find((item) => item.gu === current.gu);
-          if (!x) {
-            return acc.concat([current]);
-          } else {
-            return acc;
-          }
-        }, []);
-
-        console.log(uniqueData);
-        setSupermarketData(uniqueData);
+        const data = response.data.paginatedData;
+        // console.log(data);
+        setTransportationData(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -48,7 +32,7 @@ export default function Convenience() {
   const valueFormatter = (value) => `${value}`;
 
   const chartSetting = {
-    dataset: supermarketData,
+    dataset: transportationData,
     height: 300,
     //   yAxis: [{ label: "rainfall (mm)" }],
     grid: { horizontal: true },
@@ -59,16 +43,15 @@ export default function Convenience() {
     },
     series: [
       {
-        dataKey: 'supermarket',
-        label: '대형마트 수',
-        valueFormatter,
-        color: '#fdb462'
+        dataKey: 'busStation',
+        label: '버스 정류장 수',
+        valueFormatter
       }
     ],
     xAxis: [
       {
         scaleType: 'band',
-        dataKey: 'gu'
+        dataKey: 'dong'
         //   valueFormatter: (month, context) =>
         //     context.location === "tick"
         //       ? `${month.slice(0, 3)} \n2023`
