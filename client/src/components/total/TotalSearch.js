@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function TotalSearch() {
-  const { setDongData, keyword, setKeyword, setPage, setSort, setSortColumn } =
+  const { setKeyword, setPage, setSort, setSortColumn } =
     useContext(TotalContext); // TotalContext의 setData를 구조분해할당으로 가져옴
 
   const [inputKeyword, setInputKeyword] = useState('');
@@ -14,6 +14,9 @@ function TotalSearch() {
   const inputEnterSearch = (e) => {
     e.preventDefault();
     setKeyword(inputKeyword);
+    setPage(1);
+    setSort('');
+    setSortColumn('');
   };
 
   // keyword를 받아서 API 요청, 받은 결과값을 data로 설정해줌
@@ -33,7 +36,6 @@ function TotalSearch() {
         title='찾기'
         onClick={() => {
           setKeyword(inputKeyword);
-          console.log(keyword);
           setPage(1);
           setSort('');
           setSortColumn('');

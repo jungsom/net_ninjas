@@ -7,7 +7,7 @@ import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
-  const { dongData, sort, setSort, sortColumn, setSortColumn } =
+  const { dongData, sort, setSort, sortColumn, setSortColumn, setPage } =
     useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
 
   // 자료의 수가 20보다 적을 때 빈 행을 만들어줌
@@ -35,19 +35,24 @@ function TotalTable() {
     if (name !== sortColumn) {
       // 다른 열을 눌렀을 경우 내림차순으로 바꿔줌
       name === 'gu' || name === 'dong' ? setSort('asc') : setSort('desc');
+      setPage(1);
       return; // 얼리 리턴
     }
     if (sort === '') {
       name === 'gu' || name === 'dong' ? setSort('asc') : setSort('desc');
+      setPage(1);
       return;
     }
     if (sort === 'asc') {
       name === 'gu' || name === 'dong' ? setSort('desc') : setSort('');
+      setPage(1);
       return;
     }
 
     name === 'gu' || name === 'dong' ? setSort('') : setSort('asc'); // sort가 desc일 때 다시 기본 정렬로
+    setPage(1);
   }
+
   return (
     <>
       <StyledTable>
@@ -229,6 +234,10 @@ function TotalTable() {
         * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
         자료가 존재하지 않아서, 자치구 자료로 대체함
       </StyledDescription>
+      <StyledDescription>
+        * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
+        자료가 존재하지 않아서, 자치구 자료로 대체함
+      </StyledDescription>
     </>
   );
 }
@@ -249,12 +258,13 @@ const StyledTable = styled.table`
     border-color: #d2d2d2;
     font-size: 13px;
     padding: 10px;
-    height: 37px;
+    height: 43px;
   }
 
   .whitespace {
     pointer-events: none;
     border: 0;
+    height: 43px;
   }
 `;
 
@@ -274,20 +284,23 @@ const StyeldData = styled.tbody`
 const StyledPagenation = styled.td`
   text-align: right;
   span {
-    padding-right: 15px;
+    padding-right: 10px;
     font-size: 14px;
   }
   button {
     border: none;
     background: none;
-    width: 30px;
+    width: 18px;
   }
   button:nth-child(4) {
-    padding-right: 40px;
+    padding-right: 25px;
+  }
+  button:nth-child(6) {
+    padding-right: 25px;
   }
 `;
 
-const StyledDescription = styled.p`
+const StyledDescription = styled.div`
   margin-top: 8px;
   font-size: 14px;
   font-style: italic;

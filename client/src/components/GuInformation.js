@@ -26,7 +26,5 @@ const StyledContent = styled.div`
     margin-top: 30px;
     text-align: center;
   }
-  display: flex;
-  flex-direction: column;
 `;
 export default GuInformation;
