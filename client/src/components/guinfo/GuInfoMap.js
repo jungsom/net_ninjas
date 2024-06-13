@@ -3,10 +3,14 @@ import { useRef, useEffect } from 'react';
 import { feature } from 'topojson-client';
 import seoul from '../../data/seoul.json';
 import styled from 'styled-components';
+import { useState } from 'react';
+import GuInfoDescription from './GuInfoDescription';
 
 const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
 function GuInfoMap() {
+  const [guName, setGuName] = useState('');
+
   const chart = useRef(null); // svg를 그릴 엘리먼트 설정을 위한 ref
 
   const printD3 = () => {
@@ -53,7 +57,8 @@ function GuInfoMap() {
         d3.select(this).style('fill', '#5b5ba0'); // 마우스를 땠을 때 다시 원래대로 돌아가게 설정
       })
       .on('click', function (event, d) {
-        alert('클릭된 요소: ' + d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
+        setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
+        console.log(d.properties.SIGUNGU_NM);
       });
 
     mapLayer
@@ -70,7 +75,8 @@ function GuInfoMap() {
       .style('fill', '#ffffff') // 텍스트 색상 설정
       .style('font-size', '13px') // 텍스트 크기 설정
       .on('click', function (event, d) {
-        alert('클릭된 요소: ' + d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
+        setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
+        console.log(d.properties.SIGUNGU_NM);
       });
   };
 
@@ -79,8 +85,18 @@ function GuInfoMap() {
     printD3();
   }, []);
 
-  return <StyledMap ref={chart}></StyledMap>;
+  return (
+    <StyledDiv>
+      <StyledMap ref={chart}></StyledMap>
+      {guName && <GuInfoDescription guName={guName} />}
+    </StyledDiv>
+  );
 }
+
+const StyledDiv = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const StyledMap = styled.div`
   text {

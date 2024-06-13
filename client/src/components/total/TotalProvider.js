@@ -9,38 +9,32 @@ function TotalProvider({ children }) {
   const [sort, setSort] = useState('');
   const [sortColumn, setSortColumn] = useState('');
   const [keyword, setKeyword] = useState('');
+  const [dataLength, setDataLength] = useState(0);
+
+  const getTotalData = async () => {
+    try {
+      if (keyword.length > 1) {
+        const response = await axios.get(
+          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch/search?keyword=${keyword}&pageNo=${page}&column=${sortColumn}&sorting=${sort}`
+        );
+        setDongData(response.data.paginatedData);
+        setDataLength(response.data.totalData);
+      } else {
+        const response = await axios.get(
+          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch?pageNo=${page}&column=${sortColumn}&sorting=${sort}`
+        );
+        setDongData(response.data.paginatedData);
+        setDataLength(response.data.totalData);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
-    const data = async () => {
-      try {
-        if (keyword.length > 1) {
-          const response = await axios.get(
-            `http://localhost:8080/allResearch/search?keyword=${keyword}&pageNo=${page}&column=${sortColumn}&sorting=${sort}`
-          );
-          console.log(response.data);
-          setDongData(response.data);
-        } else {
-          const response = await axios.get(
-            `http://localhost:8080/allResearch?pageNo=${page}&column=${sortColumn}&sorting=${sort}`
-          );
-          console.log(response.data);
-          setDongData(response.data);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    data();
-  }, [
-    page,
-    setPage,
-    sortColumn,
-    setSortColumn,
-    sort,
-    setSort,
-    keyword,
-    setKeyword
-  ]);
+    getTotalData();
+    console.log(dongData);
+  }, [page, sortColumn, sort, keyword]);
 
   return (
     <TotalContext.Provider
@@ -54,7 +48,8 @@ function TotalProvider({ children }) {
         sort,
         setSort,
         sortColumn,
-        setSortColumn
+        setSortColumn,
+        dataLength
       }}
     >
       {children}

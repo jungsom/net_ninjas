@@ -18,7 +18,7 @@ function RecommendProvider({ children }) {
 
   const navigate = useNavigate();
 
-  async function getRecommendData(e) {
+  const getRecommendData = async (e) => {
     e.preventDefault();
     try {
       if (contractType === 'jeonse') {
@@ -39,7 +39,7 @@ function RecommendProvider({ children }) {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <RecommendContext.Provider
