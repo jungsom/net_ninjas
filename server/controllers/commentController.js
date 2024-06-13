@@ -14,7 +14,9 @@ export const getCommentsByBoardId = async (req, res, next) => {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
+    // boardId가 ObjectId인 경우
     const comments = await Comment.find().lean();
+
 
     console.log(comments)
 
@@ -84,8 +86,15 @@ export const updateCommentById = async (req, res, next) => {
       return res.status(200).json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
     }
 
+    // 댓글 조회
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      throw new NotFound('댓글을 찾을 수 없습니다.');
+    }
+
     // 권한 검증
-    if (userId !== Comment.userId) {
+    if (userId !== comment.userId.toString() ) {
       return res.status(403).json({ message: '댓글을 수정할 수 있는 권한이 없습니다.' });
     }
 
@@ -115,7 +124,7 @@ export const deleteCommentById = async (req, res, next) => {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    // 게시물 조회
+    // 댓글 조회
     const comment = await Comment.findById(commentId);
 
     if (!comment) {
@@ -123,7 +132,7 @@ export const deleteCommentById = async (req, res, next) => {
     }
 
     // 권한 검증
-    if (userId !== Comment.userId.toString()) {
+    if (userId !== comment.userId.toString()) {
       return res.status(403).json({ message: '댓글을 삭제할 수 있는 권한이 없습니다.' });
     }
 

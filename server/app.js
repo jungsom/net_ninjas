@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 
 import allResearchRouter from './routes/allResearch.js';
 import boardRouter from './routes/board.js';
-import commentRouter from './routes/comment.js';
 import placeRouter from './routes/place.js';
 import recommendRouter from './routes/recommend.js';
 import userRouter from './routes/user.js';
@@ -25,7 +24,6 @@ app.use(cookieParser());
 // router
 app.use('/allResearch', allResearchRouter);
 app.use('/board', boardRouter);
-app.use('/comment', commentRouter);
 app.use('/allPlace', placeRouter);
 app.use('/recommend', recommendRouter);
 app.use('/user', userRouter);
