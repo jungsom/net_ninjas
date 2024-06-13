@@ -23,10 +23,12 @@ export async function searchData(req, res, next) {
 
   try {
     let data = (await getAllData()).filter(
-      (t) =>
-        keywords.includes(t.gu) ||
-        keywords.includes(t.dong) ||
-        isGuDong(keywords, t.gu, t.dong)
+      (t) =>{
+        if(
+          keywords.some(k => t.gu.includes(k)) ||
+          keywords.some(k => t.dong.includes(k)) ||
+          isGuDong(keywords, t.gu, t.dong)) return true;
+      }
     );
 
     data = sortData(data, column, sorting);
