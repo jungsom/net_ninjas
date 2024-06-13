@@ -33,14 +33,14 @@ export const createBoard = async (req, res, next) => {
 
     // 요청 변수 검증
     if (!userId || !title || !content) {
-      return next(new NotFound('요청 변수를 찾을 수 없습니다.'));
+      throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
     // 제목과 내용 검증
     if (!title.trim() || !content.trim()) {
       return res.status(200).json({ message: '제목 혹은 내용을 입력해주세요.' });
-    } else if (title.length > 20) {
-      return res.status(200).json({ message: '제목은 최대 20자까지 입력 가능합니다.' });
+    } else if (title.length > 30) {
+      return res.status(200).json({ message: '제목은 최대 30자까지 입력 가능합니다.' });
     } else if (content.length > 1000 ) {
       return res.status(200).json({ message: '내용은 최대 1000자까지 입력 가능합니다.' });
     }
@@ -85,7 +85,7 @@ export const getBoardById = async (req, res, next) => {
       const board = await Board.findById(boardId).lean();
   
       if (!board) {
-        throw new NotFound('게시물을 찾을 수 없습니다.');
+        throw new NotFound('게시글을 찾을 수 없습니다.');
       }
 
       const response = {
@@ -119,8 +119,8 @@ export const updateBoardById = async (req, res, next) => {
       // 제목과 내용 검증
       if (title.trim().length === 0 || content.trim().length === 0) {
         return res.status(200).json({ message: '제목 혹은 내용을 입력해주세요.' });
-      } else if (title.length > 20) {
-        return res.status(200).json({ message: '제목은 최대 20자까지 입력 가능합니다.' });
+      } else if (title.length > 30) {
+        return res.status(200).json({ message: '제목은 최대 30자까지 입력 가능합니다.' });
       }
   
       // 해시태그 중복 검증
@@ -132,12 +132,12 @@ export const updateBoardById = async (req, res, next) => {
       const board = await Board.findById(boardId);
   
       if (!board) {
-        throw new NotFound('게시물을 찾을 수 없습니다.');
+        throw new NotFound('게시글을 찾을 수 없습니다.');
       }
   
       // 권한 검증
       if (userId.toString() !== board.userId.toString()) {
-        return res.status(403).json({ message: '게시물을 수정할 수 있는 권한이 없습니다.' });
+        return res.status(403).json({ message: '게시글을 수정할 수 있는 권한이 없습니다.' });
       }
   
       // 게시글 업데이트
@@ -161,7 +161,7 @@ export const updateBoardById = async (req, res, next) => {
       };
   
   
-      res.status(200).json({ message: '게시물 수정이 완료되었습니다.', response });
+      res.status(200).json({ message: '게시글 수정이 완료되었습니다.', response });
     } catch (err) {
       next(err);
     }

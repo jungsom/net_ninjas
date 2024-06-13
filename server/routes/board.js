@@ -17,7 +17,7 @@ import {
 const boardRouter = express.Router();
 
 // 전체 게시판 조회
-boardRouter.get('/', authenticateUser, getAllBoards);
+boardRouter.get('/', getAllBoards);
 
 boardRouter.post('/', authenticateUser, createBoard);
 boardRouter.get('/:boardId', authenticateUser, getBoardById);
@@ -25,7 +25,7 @@ boardRouter.put('/:boardId', authenticateUser, updateBoardById);
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 
 // 댓글 조회
-boardRouter.get('/:boardId/comments', getCommentsByBoardId);
+boardRouter.get('/:boardId/comments', authenticateUser, getCommentsByBoardId);
 boardRouter.post('/:boardId/comments', authenticateUser,  createComment);
 boardRouter.put('/:boardId/comments/:commentId', authenticateUser,  updateCommentById);
 boardRouter.delete('/:boardId/comments/:commentId', authenticateUser, deleteCommentById);
