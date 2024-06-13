@@ -14,10 +14,7 @@ allResearchRouter.get('/environment', allDataByCategoryPerPage('Environment'));
 allResearchRouter.get('/housing', allDataByCategoryPerPage('Housing'));
 allResearchRouter.get('/population', allDataByCategoryPerPage('Population'));
 allResearchRouter.get('/safety', allDataByCategoryPerPage('Safety'));
-allResearchRouter.get(
-  '/transportation',
-  allDataByCategoryPerPage('Transportation')
-);
+allResearchRouter.get('/transportation',allDataByCategoryPerPage('Transportation'));
 allResearchRouter.get('/welfare', allDataByCategoryPerPage('Welfare'));
 
 export default allResearchRouter;
