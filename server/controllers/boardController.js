@@ -41,6 +41,8 @@ export const createBoard = async (req, res, next) => {
       return res.status(200).json({ message: '제목 혹은 내용을 입력해주세요.' });
     } else if (title.length > 20) {
       return res.status(200).json({ message: '제목은 최대 20자까지 입력 가능합니다.' });
+    } else if (content.length > 1000 ) {
+      return res.status(200).json({ message: '내용은 최대 1000자까지 입력 가능합니다.' });
     }
   
     // 해시태그 중복 검증

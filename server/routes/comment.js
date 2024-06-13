@@ -13,12 +13,12 @@ const commentRouter = express.Router();
 commentRouter.get('/:boardId/comments', getCommentsByBoardId);
 
 // 특정 댓글 작성
-commentRouter.post('/:boardId/comments', authenticateUser, createComment);
+commentRouter.post('/:boardId/comments', createComment);
 
 // 특정 댓글 수정
-commentRouter.put('/:commentId', authenticateUser, updateCommentById);
+commentRouter.put('/:commentId', updateCommentById);
 
 // 특정 댓글 삭제
-commentRouter.delete('/:commentId', authenticateUser, deleteCommentById);
+commentRouter.delete('/:commentId', deleteCommentById);
 
 export default commentRouter;
