@@ -60,7 +60,14 @@ export const createComment = async (req, res, next) => {
       content
     });
 
-    res.status(200).json(comment);
+    const response = {
+      commentId: comment._id,
+      boardId: boardId,
+      content: comment.content,
+      createdAt: comment.createdAt
+    };
+
+    res.status(200).json({message: "댓글 작성이 완료되었습니다.", response});
   } catch (err) {
     next(err);
   }
@@ -70,12 +77,12 @@ export const createComment = async (req, res, next) => {
 // 댓글 수정
 export const updateCommentById = async (req, res, next) => {
   try {
-    const { commentId } = req.params;
+    const { boardId, commentId } = req.params;
     const { content } = req.body;
     const userId = req.user.id;
 
     // 요청 변수 검증
-    if ( !content || !commentId ) {
+    if ( !boardId || !content || !commentId ) {
       throw new NotFound('요청 변수를 찾을 수 없습니다.');
     }
 
@@ -94,7 +101,7 @@ export const updateCommentById = async (req, res, next) => {
     }
 
     // 권한 검증
-    if (userId !== comment.userId.toString() ) {
+    if (userId.toString() !== comment.userId.toString() ) {
       return res.status(403).json({ message: '댓글을 수정할 수 있는 권한이 없습니다.' });
     }
 
@@ -102,13 +109,21 @@ export const updateCommentById = async (req, res, next) => {
     const updatedComment = await Comment.findByIdAndUpdate(
       commentId,
       {
+        boardId,
         userId,
-        content,
+        content
       },
       { new: true, runValidators: true }
     );
 
-    res.status(200).json({ message: '댓글 수정이 완료되었습니다.', updatedComment });
+    const response = {
+      boardId: updatedComment._id,
+      content: updatedComment.content,
+      createdAt: updatedComment.createdAt,
+      updatedAt: updatedComment.updatedAt
+    };
+
+    res.status(200).json({ message: '댓글 수정이 완료되었습니다.', response });
   } catch (err) {
     next(err);
   }
@@ -132,7 +147,7 @@ export const deleteCommentById = async (req, res, next) => {
     }
 
     // 권한 검증
-    if (userId !== comment.userId.toString()) {
+    if (userId.toString() !== comment.userId.toString()) {
       return res.status(403).json({ message: '댓글을 삭제할 수 있는 권한이 없습니다.' });
     }
 

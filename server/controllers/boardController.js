@@ -57,8 +57,15 @@ export const createBoard = async (req, res, next) => {
         content,
         hashtag
       });
+
+      const response = {
+        boardId: board._id,
+        content: board.content,
+        hashtag: board.hashtag,
+        createdAt: board.createdAt
+      };
   
-      res.status(200).json(board);
+      res.status(200).json({ message: "게시글 작성이 완료되었습니다.", response});
     } catch (err) {
       next(err);
     }
@@ -80,8 +87,16 @@ export const getBoardById = async (req, res, next) => {
       if (!board) {
         throw new NotFound('게시물을 찾을 수 없습니다.');
       }
+
+      const response = {
+        title: board.title,
+        content: board.content,
+        hashtag: board.hashtag,
+        createdAt: board.createdAt,
+        updatedAt: board.updatedAt
+      };
   
-      res.json(board);
+      res.status(200).json({ message: "게시글이 조회되었습니다.", response });
     } catch (err) {
       next(err);
     }
@@ -121,7 +136,7 @@ export const updateBoardById = async (req, res, next) => {
       }
   
       // 권한 검증
-      if (userId !== board.userId.toString()) {
+      if (userId.toString() !== board.userId.toString()) {
         return res.status(403).json({ message: '게시물을 수정할 수 있는 권한이 없습니다.' });
       }
   
@@ -136,8 +151,17 @@ export const updateBoardById = async (req, res, next) => {
         },
         { new: true, runValidators: true }
       );
+
+      const response = {
+        title: updatedBoard.title,
+        content: updatedBoard.content,
+        hashtag: updatedBoard.hashtag,
+        createdAt: updatedBoard.createdAt,
+        updatedAt: updatedBoard.updatedAt
+      };
   
-      res.status(200).json({ message: '게시물 수정이 완료되었습니다.', updatedBoard });
+  
+      res.status(200).json({ message: '게시물 수정이 완료되었습니다.', response });
     } catch (err) {
       next(err);
     }

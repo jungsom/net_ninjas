@@ -120,8 +120,36 @@ const regionSchema = new Schema({
   convScore: {
     type: Number,
     required: true
+  },
+  murder: {
+    type: Number,
+    required: true
+  },
+  robbery: {
+    type: Number,
+    required: true
+  },
+  rape: {
+    type: Number,
+    required: true
+  },
+  theft: {
+    type: Number,
+    required: true
+  },
+  violence: {
+    type: Number,
+    required: true
+  },
+  teenRate: {
+    type: Number,
+    required: true
+  },
+  eldRate: {
+    type: Number,
+    required: true
   }
-});
+})
 
 const Region = model('Region', regionSchema);
 

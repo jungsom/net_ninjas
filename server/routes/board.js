@@ -27,8 +27,8 @@ boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 // 댓글 조회
 boardRouter.get('/:boardId/comments', getCommentsByBoardId);
 boardRouter.post('/:boardId/comments', authenticateUser,  createComment);
-boardRouter.put('/:commentId', authenticateUser,  updateCommentById);
-boardRouter.delete('/:commentId', authenticateUser, deleteCommentById);
+boardRouter.put('/:boardId/comments/:commentId', authenticateUser,  updateCommentById);
+boardRouter.delete('/:boardId/comments/:commentId', authenticateUser, deleteCommentById);
 
 
 export default boardRouter;
