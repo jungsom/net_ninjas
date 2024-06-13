@@ -14,12 +14,7 @@ export const getCommentsByBoardId = async (req, res, next) => {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    // boardId가 ObjectId인 경우
-    const comments = await Comment.find().lean();
-
-
-    console.log(comments)
-
+    const comments = await Comment.find( { boardId }).lean();
 
     // 페이지네이션
     const paginatedcomment = paginateData(comments, perPage, pageNo);
