@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+import path from 'path';
 
 import allResearchRouter from './routes/allResearch.js';
 import boardRouter from './routes/board.js';
@@ -20,6 +21,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// view 경로
+app.set('views', path.join(__dirname, 'client'));
+
+// static 파일 경로
+app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'uploads/boardImages')));
 
 // router
 app.use('/allResearch', allResearchRouter);

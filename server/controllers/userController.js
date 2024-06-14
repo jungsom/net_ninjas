@@ -38,7 +38,7 @@ export async function register(req, res, next) {
       name
     });
 
-    res.status(201).json({ message: '회원가입 성공' });
+    res.status(201).json({ message: '회원가입이 완료되었습니다.' });
   } catch (error) {
     next(error);
   }
@@ -68,7 +68,7 @@ export async function login(req, res, next) {
       maxAge: 24 * 60 * 60 * 1000 // 쿠키 유효기간: 1일
     });
 
-    res.status(200).json({ message: '로그인 성공' });
+    res.status(200).json({ message: '로그인 되었습니다.' });
   } catch (error) {
     next(error);
   }
@@ -77,5 +77,5 @@ export async function login(req, res, next) {
 // 로그아웃 컨트롤러
 export async function logout(req, res, next) {
   res.cookie('token', '', { maxAge: 0 });
-  res.status(200).json({ message: '로그아웃 성공' });
+  res.status(200).json({ message: '로그아웃 되었습니다.' });
 }

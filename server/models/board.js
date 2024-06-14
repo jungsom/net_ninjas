@@ -17,6 +17,11 @@ const boardSchema = new Schema(
     },
     hashtag: {
       type: [String]
+    },
+    image: {
+      type: [String],
+      required: true,
+      default: ['defaultImg.jpg']
     }
   },
   { versionKey: false }
