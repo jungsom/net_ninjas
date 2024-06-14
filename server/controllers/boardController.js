@@ -237,6 +237,8 @@ export const deleteBoardById = async (req, res, next) => {
 
 export const searchBoardByHashtag = async (req, res, next) => {
   const { hashtag } = req.query;
+  const perPage = parseInt(req.query.perPage) || 20;
+  const pageNo = parseInt(req.query.pageNo) || 1;
 
   try {
     if (!hashtag ) {
@@ -245,20 +247,13 @@ export const searchBoardByHashtag = async (req, res, next) => {
 
     const boards = await Board.find({ hashtag: { $elemMatch: { $in: [hashtag] } } }).lean();
 
-    if (!boards || boards.length === 0) {
+    const paginatedDataByHashtag = paginateData(boards, perPage, pageNo);
+
+    if (!paginatedDataByHashtag || paginatedDataByHashtag.length === 0) {
       throw new NotFound('해당 해시태그에 대한 게시글이 없습니다.');
     }
 
-    const response = boards.map(board => ({
-      title: board.title,
-      content: board.content,
-      hashtag: board.hashtag,
-      image: board.image,
-      createdAt: board.createdAt,
-      updatedAt: board.updatedAt
-    }));
-
-    res.status(200).json(response);
+    res.status(200).json(paginatedDataByHashtag);
   } catch(err) {
     next(err);
   }
