@@ -253,7 +253,7 @@ export const searchBoardByHashtag = async (req, res, next) => {
       title: board.title,
       content: board.content,
       hashtag: board.hashtag,
-      // image: board.image,
+      image: board.image,
       createdAt: board.createdAt,
       updatedAt: board.updatedAt
     }));

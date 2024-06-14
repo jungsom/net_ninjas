@@ -44,7 +44,7 @@ boardRouter.put(
   uploadImage.array('image', 5),
   updateBoardById
 );
-boardRouter.delete('/', authenticateUser, deleteBoardById);
+boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 
 // 댓글 기능
 boardRouter.get('/:boardId/comments', authenticateUser, getCommentsByBoardId);
