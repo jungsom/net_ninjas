@@ -4,12 +4,10 @@ import User from '../models/user.js';
 import config from '../config/index.js';
 import { BadRequest, NotFound } from '../middlewares/errorMiddleware.js';
 
-// 이메일 유효성 검사 정규식
-// ^:시작 [^\s@]:공백,@제외모든문자 +:한번이상 \.:문자'.' $:
+// 이메일 형식 검사 정규식 (@ 앞뒤로 공백없는 문자, 도메인 '.'포함)
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// 비밀번호 유효성 검사 정규식
-// [!@#$%^&*(),.?":{}|<>]: 특수문자중하나포함확인 {8,}:최소8자
+// 비밀번호 검사 정규식 (8자 이상, 특수문자 포함)
 const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 
 // 회원가입 컨트롤러
