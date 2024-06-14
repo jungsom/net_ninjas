@@ -11,12 +11,17 @@ import {
   createComment,
   getCommentsByBoardId,
   updateCommentById,
-  deleteCommentById
+  deleteCommentById,
+  getCommentCount
 } from '../controllers/commentController.js';
+import {
+  createLikeByBoardId,
+  getLikesByBoardId
+} from '../controllers/likeController.js'
 
 const boardRouter = express.Router();
 
-// 전체 게시판 조회
+// 게시판 기능
 boardRouter.get('/', getAllBoards);
 
 boardRouter.post('/', authenticateUser, createBoard);
@@ -24,11 +29,16 @@ boardRouter.get('/:boardId', authenticateUser, getBoardById);
 boardRouter.put('/:boardId', authenticateUser, updateBoardById);
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 
-// 댓글 조회
+// 댓글 기능
 boardRouter.get('/:boardId/comments', authenticateUser, getCommentsByBoardId);
 boardRouter.post('/:boardId/comments', authenticateUser,  createComment);
 boardRouter.put('/:boardId/comments/:commentId', authenticateUser,  updateCommentById);
 boardRouter.delete('/:boardId/comments/:commentId', authenticateUser, deleteCommentById);
+boardRouter.get('/:boardId/comments/count', authenticateUser, getCommentCount);
+
+// 좋아요 기능
+boardRouter.get('/:boardId/likes', authenticateUser, getLikesByBoardId);
+boardRouter.post('/:boardId/likes', authenticateUser, createLikeByBoardId);
 
 
 export default boardRouter;

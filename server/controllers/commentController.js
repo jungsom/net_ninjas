@@ -1,6 +1,6 @@
 import Comment from '../models/comment.js';
 import { paginateData } from '../services/allResearchService.js';
-import { BadRequest, NotFound } from '../middlewares/errorMiddleware.js';
+import { BadRequest, NotFound, Forbidden } from '../middlewares/errorMiddleware.js';
 
 // 게시글에 대한 모든 댓글 조회 (페이지네이션)
 export const getCommentsByBoardId = async (req, res, next) => {
@@ -97,7 +97,7 @@ export const updateCommentById = async (req, res, next) => {
 
     // 권한 검증
     if (userId.toString() !== comment.userId.toString() ) {
-      return res.status(403).json({ message: '댓글을 수정할 수 있는 권한이 없습니다.' });
+      throw new Forbidden('댓글을 수정할 수 있는 권한이 없습니다.')
     }
 
     // 댓글 업데이트
@@ -143,7 +143,7 @@ export const deleteCommentById = async (req, res, next) => {
 
     // 권한 검증
     if (userId.toString() !== comment.userId.toString()) {
-      return res.status(403).json({ message: '댓글을 삭제할 수 있는 권한이 없습니다.' });
+      throw new Forbidden('댓글을 삭제할 수 있는 권한이 없습니다.');
     }
 
     // 댓글 삭제
@@ -154,4 +154,22 @@ export const deleteCommentById = async (req, res, next) => {
     next(err);
   }
 };
+
+// 댓글 개수 조회
+export const getCommentCount = async (req, res, next) => {
+  try {
+    const { boardId } = req.params;
+
+    const commentsCount = await Comment.countDocuments({ boardId })
+
+    if (!boardId) {
+      throw new BadRequest('요청 변수를 찾을 수 없습니다.');
+    }
+
+    res.status(200).json(commentsCount)
+
+  } catch(err) {
+    next(err);
+  }
+}
 
