@@ -1,7 +1,8 @@
 import Board from '../models/board.js';
+import Like from '../models/like.js';
+import Comment from '../models/comment.js'
 import { paginateData } from '../services/allResearchService.js';
 import { BadRequest, NotFound, Forbidden } from '../middlewares/errorMiddleware.js';
-
 
 /** 전체 게시판 조회 컨트롤러 */
 export const getAllBoards = async (req, res, next) => {
@@ -187,12 +188,16 @@ export const deleteBoardById = async (req, res, next) => {
       }
   
       // 권한 검증
-      if (userId !== board.userId.toString()) {
+      if (userId.toString() !== board.userId.toString()) {
         throw new Forbidden('게시글을 삭제할 수 있는 권한이 없습니다.' );
       }
   
       // 게시물 삭제
       await Board.findByIdAndDelete(boardId);
+      // 댓글 삭제
+      await Comment.deleteMany({boardId});
+      // 좋아요 삭제
+      await Like.deleteMany({boardId});
   
       res.status(200).json({ message: '게시글 삭제가 완료되었습니다.' });
     } catch (err) {
