@@ -17,19 +17,19 @@ export async function searchData(req, res, next) {
   const perPage = parseInt(req.query.perPage) || 20;
   const pageNo = parseInt(req.query.pageNo) || 1;
   const { keyword, column, sorting } = req.query;
-  const keywords = keyword.split(',').map(k => k.trim());
+  const keywords = keyword.split(',').map((k) => k.trim());
 
   console.log('keywords : ', keywords);
 
   try {
-    let data = (await getAllData()).filter(
-      (t) =>{
-        if(
-          keywords.some(k => t.gu.includes(k)) ||
-          keywords.some(k => t.dong.includes(k)) ||
-          isGuDong(keywords, t.gu, t.dong)) return true;
-      }
-    );
+    let data = (await getAllData()).filter((t) => {
+      if (
+        keywords.some((k) => t.gu.includes(k)) ||
+        keywords.some((k) => t.dong.includes(k)) ||
+        isGuDong(keywords, t.gu, t.dong)
+      )
+        return true;
+    });
 
     data = sortData(data, column, sorting);
 

@@ -1,20 +1,24 @@
 import Comment from '../models/comment.js';
 import { paginateData } from '../services/allResearchService.js';
-import { BadRequest, NotFound, Forbidden } from '../middlewares/errorMiddleware.js';
+import {
+  BadRequest,
+  NotFound,
+  Forbidden
+} from '../middlewares/errorMiddleware.js';
 
 // 게시글에 대한 모든 댓글 조회 (페이지네이션)
 export const getCommentsByBoardId = async (req, res, next) => {
   try {
     const { boardId } = req.params;
-    const perPage = parseInt(req.query.perPage) || 20; 
-    const pageNo = parseInt(req.query.pageNo) || 1; 
+    const perPage = parseInt(req.query.perPage) || 20;
+    const pageNo = parseInt(req.query.pageNo) || 1;
 
     // 요청 변수 검증
     if (!boardId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    const comments = await Comment.find( { boardId }).lean();
+    const comments = await Comment.find({ boardId }).lean();
 
     // 페이지네이션
     const paginatedcomment = paginateData(comments, perPage, pageNo);
@@ -29,10 +33,9 @@ export const getCommentsByBoardId = async (req, res, next) => {
   }
 };
 
-
 // 댓글 작성
 export const createComment = async (req, res, next) => {
-  const { boardId } = req.params
+  const { boardId } = req.params;
   const { content } = req.body;
   const userId = req.user.id;
 
@@ -45,7 +48,9 @@ export const createComment = async (req, res, next) => {
   if (!content.trim()) {
     return res.status(200).json({ message: '댓글 내용을 입력해주세요.' });
   } else if (content.length > 500) {
-    return res.status(200).json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
+    return res
+      .status(200)
+      .json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
   }
 
   try {
@@ -62,12 +67,11 @@ export const createComment = async (req, res, next) => {
       createdAt: comment.createdAt
     };
 
-    res.status(200).json({message: "댓글 작성이 완료되었습니다.", response});
+    res.status(200).json({ message: '댓글 작성이 완료되었습니다.', response });
   } catch (err) {
     next(err);
   }
 };
-
 
 // 댓글 수정
 export const updateCommentById = async (req, res, next) => {
@@ -77,7 +81,7 @@ export const updateCommentById = async (req, res, next) => {
     const userId = req.user.id;
 
     // 요청 변수 검증
-    if ( !boardId || !content || !commentId ) {
+    if (!boardId || !content || !commentId) {
       throw new NotFound('요청 변수를 찾을 수 없습니다.');
     }
 
@@ -85,7 +89,9 @@ export const updateCommentById = async (req, res, next) => {
     if (content.trim().length === 0) {
       return res.status(200).json({ message: '댓글 내용을 입력해주세요.' });
     } else if (content.length > 500) {
-      return res.status(200).json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
+      return res
+        .status(200)
+        .json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
     }
 
     // 댓글 조회
@@ -96,8 +102,8 @@ export const updateCommentById = async (req, res, next) => {
     }
 
     // 권한 검증
-    if (userId.toString() !== comment.userId.toString() ) {
-      throw new Forbidden('댓글을 수정할 수 있는 권한이 없습니다.')
+    if (userId.toString() !== comment.userId.toString()) {
+      throw new Forbidden('댓글을 수정할 수 있는 권한이 없습니다.');
     }
 
     // 댓글 업데이트
@@ -130,7 +136,7 @@ export const deleteCommentById = async (req, res, next) => {
 
   try {
     // 요청 변수 검증
-    if ( !commentId ) {
+    if (!commentId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
@@ -160,16 +166,14 @@ export const getCommentCount = async (req, res, next) => {
   try {
     const { boardId } = req.params;
 
-    const commentsCount = await Comment.countDocuments({ boardId })
+    const commentsCount = await Comment.countDocuments({ boardId });
 
     if (!boardId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    res.status(200).json(commentsCount)
-
-  } catch(err) {
+    res.status(200).json(commentsCount);
+  } catch (err) {
     next(err);
   }
-}
-
+};

@@ -1,35 +1,39 @@
 import Region from '../models/region.js';
 
-const FIELDS ={ // db로 빼는게 좋을까요?
-  SUPERMARKET : "supermarket",
-  LIBRARY_COUNT : "libraryCount",
-  ACADEMY_COUNT : "academyCount",
-  PARK_RATE : "parkRate",
-  JEONSE_DEPOSIT : "jeonseDeposit",
-  MONTH_DEPOSIT : "monthDeposit",
-  MONTH_RENT : "monthRent",
-  YOUTH_RATE : "youthRate",
-  CRIME_RATE : "crimeRate",
-  CRIME_RATE : "crimeRate",
-  BUS_STATION : "busStation",
-  CULTURE_COUNT : "cultureCount",
-  MEDICAL_COUNT : "medicalCount",
-  WELFARE_TOTAL : "welfareTotal",
-  MURDER : "murder",
-  ROBBERY : "robbery",
-  RAPE : "rape",
-  THEFT : "theft",
-  VIOLENCE : "violence",
-  TEEN_RATE : "teenRate",
-  ELD_RATE : "eldRate",
-}
+const FIELDS = {
+  // db로 빼는게 좋을까요?
+  SUPERMARKET: 'supermarket',
+  LIBRARY_COUNT: 'libraryCount',
+  ACADEMY_COUNT: 'academyCount',
+  PARK_RATE: 'parkRate',
+  JEONSE_DEPOSIT: 'jeonseDeposit',
+  MONTH_DEPOSIT: 'monthDeposit',
+  MONTH_RENT: 'monthRent',
+  YOUTH_RATE: 'youthRate',
+  CRIME_RATE: 'crimeRate',
+  CRIME_RATE: 'crimeRate',
+  BUS_STATION: 'busStation',
+  CULTURE_COUNT: 'cultureCount',
+  MEDICAL_COUNT: 'medicalCount',
+  WELFARE_TOTAL: 'welfareTotal',
+  MURDER: 'murder',
+  ROBBERY: 'robbery',
+  RAPE: 'rape',
+  THEFT: 'theft',
+  VIOLENCE: 'violence',
+  TEEN_RATE: 'teenRate',
+  ELD_RATE: 'eldRate'
+};
 
 export async function getAllConvenienceData() {
   return await generateDataByFields([FIELDS.SUPERMARKET]);
 }
 
 export async function getAllEducationData() {
-  return await generateDataByFields([FIELDS.LIBRARY_COUNT, FIELDS.ACADEMY_COUNT]);
+  return await generateDataByFields([
+    FIELDS.LIBRARY_COUNT,
+    FIELDS.ACADEMY_COUNT
+  ]);
 }
 
 export async function getAllEnvironmentData() {
@@ -37,15 +41,30 @@ export async function getAllEnvironmentData() {
 }
 
 export async function getAllHousingData() {
-  return await generateDataByFields([FIELDS.JEONSE_DEPOSIT,FIELDS.MONTH_DEPOSIT,FIELDS.MONTH_RENT]);
+  return await generateDataByFields([
+    FIELDS.JEONSE_DEPOSIT,
+    FIELDS.MONTH_DEPOSIT,
+    FIELDS.MONTH_RENT
+  ]);
 }
 
 export async function getAllPopulationData() {
-  return await generateDataByFields([FIELDS.YOUTH_RATE, FIELDS.TEEN_RATE, FIELDS.ELD_RATE]);
+  return await generateDataByFields([
+    FIELDS.YOUTH_RATE,
+    FIELDS.TEEN_RATE,
+    FIELDS.ELD_RATE
+  ]);
 }
 
 export async function getAllSafetyData() {
-  return await generateDataByFields([FIELDS.CRIME_RATE, FIELDS.MURDER, FIELDS.ROBBERY, FIELDS.RAPE, FIELDS.THEFT, FIELDS.VIOLENCE]);
+  return await generateDataByFields([
+    FIELDS.CRIME_RATE,
+    FIELDS.MURDER,
+    FIELDS.ROBBERY,
+    FIELDS.RAPE,
+    FIELDS.THEFT,
+    FIELDS.VIOLENCE
+  ]);
 }
 
 export async function getAllTransportationData() {
@@ -53,7 +72,11 @@ export async function getAllTransportationData() {
 }
 
 export async function getAllWelfareData() {
-  return await generateDataByFields([FIELDS.CULTURE_COUNT, FIELDS.MEDICAL_COUNT, FIELDS.WELFARE_TOTAL]);
+  return await generateDataByFields([
+    FIELDS.CULTURE_COUNT,
+    FIELDS.MEDICAL_COUNT,
+    FIELDS.WELFARE_TOTAL
+  ]);
 }
 
 export async function getAllData() {
@@ -64,7 +87,6 @@ async function generateDataByFields(fields) {
   const regions = await getRegions();
   const data = {};
 
-
   regions.forEach((region) => {
     const id = region._id;
     data[id] = {
@@ -73,28 +95,30 @@ async function generateDataByFields(fields) {
       dong: region.dong
     };
 
-    function generateCustomField(custom)
-    {
-      if (custom.type == 'sum') return custom.fields.map(t=> region[t]).reduce((total, amount) => total + amount);
+    function generateCustomField(custom) {
+      if (custom.type == 'sum')
+        return custom.fields
+          .map((t) => region[t])
+          .reduce((total, amount) => total + amount);
     }
 
     fields.forEach((field) => {
-      if(region[field] != undefined)
-        data[id][field] = region[field];
-      else
-        data[id][field] = generateCustomField(getCustomFieldData(field));
+      if (region[field] != undefined) data[id][field] = region[field];
+      else data[id][field] = generateCustomField(getCustomFieldData(field));
     });
   });
 
   return Object.values(data);
 }
 
-function getCustomFieldData(field)
-{
-  switch (field){
+function getCustomFieldData(field) {
+  switch (field) {
     case FIELDS.WELFARE_TOTAL:
-      return {type : 'sum', fields : [FIELDS.CULTURE_COUNT, FIELDS.MEDICAL_COUNT]};
-    default :
+      return {
+        type: 'sum',
+        fields: [FIELDS.CULTURE_COUNT, FIELDS.MEDICAL_COUNT]
+      };
+    default:
       return -1;
   }
 }

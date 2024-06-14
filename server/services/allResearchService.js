@@ -58,10 +58,10 @@ function sortData(data, column, sorting) {
 }
 
 function paginateData(data, perPage, pageNo) {
-  let paginatedData = data.slice((pageNo - 1) * perPage, pageNo * perPage)
+  let paginatedData = data.slice((pageNo - 1) * perPage, pageNo * perPage);
   const totalData = data.length;
 
-  return {paginatedData, totalData};
+  return { paginatedData, totalData };
 }
 
 export { getAllData, sortData, paginateData, getAllDataByCategory };
