@@ -5,6 +5,13 @@ export class BadRequest extends Error {
   }
 }
 
+export class Forbidden extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 403;
+  }
+}
+
 export class NotFound extends Error {
   constructor(message) {
     super(message);

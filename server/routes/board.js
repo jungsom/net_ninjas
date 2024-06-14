@@ -11,31 +11,40 @@ import {
   createComment,
   getCommentsByBoardId,
   updateCommentById,
-  deleteCommentById
+  deleteCommentById,
+  getCommentCount
 } from '../controllers/commentController.js';
-import uploadImage from '../config/multerConfig.js';
+import {
+  createLikeByBoardId,
+  getLikesByBoardId
+} from '../controllers/likeController.js';
+import uploadImage from '../config/multer.js';
 
 const boardRouter = express.Router();
 
-// 전체 게시판 조회
+// 게시판 기능
 boardRouter.get('/', getAllBoards);
-
-boardRouter.post('/', authenticateUser, upload.array('image', 5), createBoard);
+boardRouter.post(
+  '/',
+  authenticateUser,
+  uploadImage.array('image', 5),
+  createBoard
+);
 boardRouter.get(
   '/:boardId',
   authenticateUser,
-  upload.array('image', 5),
+  uploadImage.array('image', 5),
   getBoardById
 );
 boardRouter.put(
   '/:boardId',
   authenticateUser,
-  upload.array('image', 5),
+  uploadImage.array('image', 5),
   updateBoardById
 );
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
 
-// 댓글 조회
+// 댓글 기능
 boardRouter.get('/:boardId/comments', authenticateUser, getCommentsByBoardId);
 boardRouter.post('/:boardId/comments', authenticateUser, createComment);
 boardRouter.put(
@@ -48,5 +57,10 @@ boardRouter.delete(
   authenticateUser,
   deleteCommentById
 );
+boardRouter.get('/:boardId/comments/count', authenticateUser, getCommentCount);
+
+// 좋아요 기능
+boardRouter.get('/:boardId/likes', authenticateUser, getLikesByBoardId);
+boardRouter.post('/:boardId/likes', authenticateUser, createLikeByBoardId);
 
 export default boardRouter;
