@@ -32,7 +32,8 @@ export default function Header() {
             </NavDropdown>
           </Nav>
           <Nav>
-            <Nav.Link href='#deets'>로그인</Nav.Link>
+            <Nav.Link href='/user/register'>회원가입</Nav.Link>
+            <Nav.Link href='/user/login'>로그인</Nav.Link>
             {/* <Nav.Link eventKey={2} href="#memes">
                 Dank memes
               </Nav.Link> */}

@@ -4,7 +4,7 @@ import Stack from 'react-bootstrap/Stack';
 // import styled from 'styled-components';
 
 import Education from './analysisCharts/education';
-import Transfortation from './analysisCharts/transportation';
+import Transportation from './analysisCharts/transportation';
 import Welfare from './analysisCharts/welfare';
 import Safety from './analysisCharts/safety';
 import Population from './analysisCharts/populaton';
@@ -21,7 +21,7 @@ export default function AnalysisCharts() {
       </div>
       <div className='p-2' id='transfortation'>
         <h4>교통</h4>
-        <Transfortation />
+        <Transportation />
       </div>
       <div className='p-2'>
         <h4 id='welfare'>복지</h4>
