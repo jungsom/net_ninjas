@@ -1,29 +1,27 @@
 import multer from 'multer';
 import path from 'path';
-import { nanoid } from 'nanoid';
-import { BadRequest, NotFound } from '../middlewares/errorMiddleware.js';
+import { BadRequest } from '../middlewares/errorMiddleware.js';
 
 // 이미지 저장소 설정
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: (req, file, cb) => {
     cb(null, 'uploads/boardImages/');
   },
-  filename: function (req, file, cb) {
-    cb(null, nanoid() + path.extname(file.originalname));
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
 // 파일 형식 필터
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith('image/')) {
+  if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png') {
     cb(null, true);
   } else {
     cb(new BadRequest('이미지 파일만 업로드할 수 있습니다.'));
   }
 };
 
-// multer 설정
-const upload = multer({
+const uploadImage = multer({
   storage: storage,
   fileFilter: fileFilter
 });
