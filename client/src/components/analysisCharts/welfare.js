@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
 import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
 
@@ -7,11 +9,15 @@ export default function Welfare() {
   const [medicalData, setMedicalData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  // const [sort, setSort] = React.useState('line');
   const [selectedDataset, setSelectedDataset] = useState('culture');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // const totalResponse = await axios.get(
+        //   `http://localhost:8080/allResearch/welfare?perPage=20&pageNo=1&column=welfareTotal&sorting=desc`
+        // );
         const cultureResponse = await axios.get(
           `http://localhost:8080/allResearch/welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
         );
@@ -61,8 +67,33 @@ export default function Welfare() {
 
   return (
     <>
-      <button onClick={() => setSelectedDataset('culture')}>Culture</button>
-      <button onClick={() => setSelectedDataset('medical')}>Medical</button>
+      <h4>&#127917; 문화시설 &nbsp;&&nbsp; &#127973; 병의원 및 약국</h4>
+      <p>
+        문화시설은 1위 {cultureData[0].gu} {cultureData[0].dong}(
+        {cultureData[0].cultureCount}), 2위 {cultureData[1].gu}{' '}
+        {cultureData[1].dong}({cultureData[1].cultureCount}), 3위{' '}
+        {cultureData[2].gu} {cultureData[0].dong}({cultureData[2].cultureCount}
+        )에 가장 많았습니다.
+      </p>
+      <p>
+        병의원 및 약국은 1위 {medicalData[0].gu} {medicalData[0].dong}(
+        {medicalData[0].medicalCount}), 2위 {medicalData[1].gu}{' '}
+        {medicalData[1].dong}({medicalData[1].medicalCount}), 3위{' '}
+        {medicalData[2].gu} {medicalData[2].dong}({medicalData[2].medicalCount}
+        )에 가장 많았습니다.
+      </p>
+      <TextField
+        select
+        value={selectedDataset}
+        onChange={(event) => setSelectedDataset(event.target.value)}
+        label='정렬 기준'
+        sx={{ minWidth: 150 }}
+      >
+        <MenuItem value='culture'>&#127917; 문화시설</MenuItem>
+        <MenuItem value='medical'>&#127973; 병의원 및 약국</MenuItem>
+      </TextField>
+      {/* <button onClick={() => setSelectedDataset('culture')}>Culture</button>
+      <button onClick={() => setSelectedDataset('medical')}>Medical</button> */}
       <BarChart {...chartSetting} />
     </>
   );

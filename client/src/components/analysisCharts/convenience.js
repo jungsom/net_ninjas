@@ -77,5 +77,16 @@ export default function Convenience() {
     ]
   };
 
-  return <BarChart {...chartSetting} />;
+  return (
+    <>
+      <h4>&#127978; 대형마트</h4>
+      <p>
+        대형마트는 1위 {supermarketData[0].gu}({supermarketData[0].supermarket}
+        ), 2위 {supermarketData[1].gu}({supermarketData[1].supermarket}), 3위{' '}
+        {supermarketData[2].gu}({supermarketData[2].supermarket}
+        )에 가장 많았습니다.
+      </p>
+      <BarChart {...chartSetting} />
+    </>
+  );
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
+import CustomOverlay from './skeleton';
 
 export default function Education() {
   const [academyData, setAcademyData] = useState(null);
@@ -36,8 +37,8 @@ export default function Education() {
           }
         }, []);
         setAcademyData(uniqueData);
-
         setLibraryData(libraryResponse.data.paginatedData);
+
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -47,13 +48,14 @@ export default function Education() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <CustomOverlay />;
   if (error) return <div>Error: {error.message}</div>;
 
   const valueFormatter = (value) => `${value}`;
 
   const academyChartSetting = {
     dataset: academyData,
+    legend: { hidden: true },
     height: 300,
     grid: { horizontal: true },
     sx: {
@@ -84,13 +86,14 @@ export default function Education() {
 
   const libraryChartSetting = {
     dataset: libraryData,
+    legend: { hidden: true },
     height: 300,
     grid: { horizontal: true },
-    sx: {
-      [`& .${axisClasses.left} .${axisClasses.label}`]: {
-        transform: 'translateX(-10px)'
-      }
-    },
+    // sx: {
+    //   [`& .${axisClasses.left} .${axisClasses.label}`]: {
+    //     transform: 'translateX(-10px)'
+    //   }
+    // },
     series: [
       {
         dataKey: 'libraryCount',
@@ -114,7 +117,23 @@ export default function Education() {
 
   return (
     <>
+      <h4>&#127979; 평생직업 교육학원</h4>
+      <p>
+        평생직업 교육학원은 1위 {academyData[0].gu}(
+        {academyData[0].academyCount}), 2위 {academyData[1].gu}(
+        {academyData[1].academyCount}), 3위 {academyData[2].gu}(
+        {academyData[2].academyCount})에 가장 많았습니다.
+      </p>
       <BarChart {...academyChartSetting} />
+      <h4>&#128218; 공공도서관</h4>
+      <p>
+        공공도서관은 1위 {libraryData[0].gu} {libraryData[0].dong}(
+        {libraryData[0].libraryCount}), 2위 {libraryData[1].gu}{' '}
+        {libraryData[1].dong}({libraryData[1].libraryCount}), 3위{' '}
+        {libraryData[2].gu} {libraryData[2].dong}({libraryData[2].libraryCount}
+        )에 가장 많았습니다.
+      </p>
+      <p>*상위 20개 동만 표시됩니다.</p>
       <BarChart {...libraryChartSetting} />
     </>
   );

@@ -66,5 +66,15 @@ export default function Environment() {
     ]
   };
 
-  return <BarChart {...chartSetting} />;
+  return (
+    <>
+      <h4>&#127795; 공원</h4>
+      <p>
+        1인당 공원 면적은 1위 {parkData[0].gu}({parkData[0].parkRate}
+        m^2/명), 2위 {parkData[1].gu}({parkData[1].parkRate}m^2/명), 3위{' '}
+        {parkData[2].gu}({parkData[2].parkRate}m^2/명)순으로 가장 넓었습니다.
+      </p>
+      <BarChart {...chartSetting} />
+    </>
+  );
 }

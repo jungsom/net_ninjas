@@ -4,7 +4,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import axios from 'axios';
 
 export default function Transportation() {
-  const [transportationData, setTransportationData] = useState(null);
+  const [busStationData, setBusStationData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,7 +16,7 @@ export default function Transportation() {
         );
         const data = response.data.paginatedData;
         // console.log(data);
-        setTransportationData(data);
+        setBusStationData(data);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -32,7 +32,8 @@ export default function Transportation() {
   const valueFormatter = (value) => `${value}`;
 
   const chartSetting = {
-    dataset: transportationData,
+    dataset: busStationData,
+    legend: { hidden: true },
     height: 300,
     //   yAxis: [{ label: "rainfall (mm)" }],
     grid: { horizontal: true },
@@ -60,5 +61,17 @@ export default function Transportation() {
     ]
   };
 
-  return <BarChart {...chartSetting} />;
+  return (
+    <>
+      <h4>&#128652; 버스 정류장</h4>
+      <p>
+        버스 정류장은 1위 {busStationData[0].gu} {busStationData[0].dong}(
+        {busStationData[0].busStation}), 2위 {busStationData[1].gu}{' '}
+        {busStationData[1].dong}({busStationData[1].busStation}), 3위{' '}
+        {busStationData[2].gu} {busStationData[0].dong}(
+        {busStationData[2].busStation})에 가장 많았습니다.
+      </p>
+      <BarChart {...chartSetting} />
+    </>
+  );
 }

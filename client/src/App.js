@@ -63,7 +63,7 @@ function AppContent() {
   return (
     <>
       <Header />
-      {location.pathname === '/analysis' && <ChartsNavBar />}
+      {/* {location.pathname === '/analysis' && <ChartsNavBar />} */}
       <MainContent>
         <Routes>
           <Route path='/' element={<Home />} />
