@@ -24,7 +24,7 @@ import uploadImage from '../config/multer.js';
 const boardRouter = express.Router();
 
 // 게시판 기능
-boardRouter.get('/search', authenticateUser, searchBoardByHashtag);
+boardRouter.get('/search', searchBoardByHashtag);
 boardRouter.get('/', getAllBoards);
 boardRouter.post(
   '/',
