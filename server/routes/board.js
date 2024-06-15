@@ -5,7 +5,8 @@ import {
   createBoard,
   getBoardById,
   updateBoardById,
-  deleteBoardById
+  deleteBoardById,
+  searchBoardByHashtag
 } from '../controllers/boardController.js';
 import {
   createComment,
@@ -23,6 +24,7 @@ import uploadImage from '../config/multer.js';
 const boardRouter = express.Router();
 
 // 게시판 기능
+boardRouter.get('/search', searchBoardByHashtag);
 boardRouter.get('/', getAllBoards);
 boardRouter.post(
   '/',

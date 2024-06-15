@@ -8,6 +8,7 @@ import {
   Forbidden
 } from '../middlewares/errorMiddleware.js';
 
+
 /** 전체 게시판 조회 컨트롤러 */
 export const getAllBoards = async (req, res, next) => {
   try {
@@ -29,6 +30,7 @@ export const getAllBoards = async (req, res, next) => {
     next(err);
   }
 };
+
 
 /** 게시글 작성 컨트롤러 */
 export const createBoard = async (req, res, next) => {
@@ -86,6 +88,7 @@ export const createBoard = async (req, res, next) => {
   }
 };
 
+
 /** 게시글 조회 컨트롤러 */
 export const getBoardById = async (req, res, next) => {
   try {
@@ -97,6 +100,8 @@ export const getBoardById = async (req, res, next) => {
     }
 
     const board = await Board.findById(boardId).lean();
+    const likes = await Like.find({ boardId }).lean();
+    const likes_userId = likes.map(like => like.userId);
 
     if (!board) {
       throw new NotFound('게시글을 찾을 수 없습니다.');
@@ -108,7 +113,8 @@ export const getBoardById = async (req, res, next) => {
       hashtag: board.hashtag,
       image: board.image,
       createdAt: board.createdAt,
-      updatedAt: board.updatedAt
+      updatedAt: board.updatedAt,
+      likedUserId: likes_userId,
     };
 
     res.status(200).json({ message: '게시글이 조회되었습니다.', response });
@@ -116,6 +122,7 @@ export const getBoardById = async (req, res, next) => {
     next(err);
   }
 };
+
 
 /** 게시글 수정 컨트롤러 */
 export const updateBoardById = async (req, res, next) => {
@@ -191,6 +198,7 @@ export const updateBoardById = async (req, res, next) => {
   }
 };
 
+
 /** 게시글 삭제 컨트롤러 */
 export const deleteBoardById = async (req, res, next) => {
   const { boardId } = req.params;
@@ -226,3 +234,27 @@ export const deleteBoardById = async (req, res, next) => {
     next(err);
   }
 };
+
+export const searchBoardByHashtag = async (req, res, next) => {
+  const { hashtag } = req.query;
+  const perPage = parseInt(req.query.perPage) || 20;
+  const pageNo = parseInt(req.query.pageNo) || 1;
+
+  try {
+    if (!hashtag ) {
+      throw new BadRequest('요청 변수를 찾을 수 없습니다.')
+    }
+
+    const boards = await Board.find({ hashtag: { $elemMatch: { $in: [hashtag] } } }).lean();
+
+    const paginatedDataByHashtag = paginateData(boards, perPage, pageNo);
+
+    if (!paginatedDataByHashtag || paginatedDataByHashtag.length === 0) {
+      throw new NotFound('해당 해시태그에 대한 게시글이 없습니다.');
+    }
+
+    res.status(200).json(paginatedDataByHashtag);
+  } catch(err) {
+    next(err);
+  }
+}
