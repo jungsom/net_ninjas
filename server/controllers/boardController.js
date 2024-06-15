@@ -74,8 +74,8 @@ export const createBoard = async (req, res, next) => {
       boardId: board._id,
       content: board.content,
       hashtag: board.hashtag,
-      createdAt: board.createdAt,
-      image: board.image
+      image: board.image,
+      createdAt: board.createdAt
     };
 
     res
