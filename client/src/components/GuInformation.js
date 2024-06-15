@@ -5,7 +5,7 @@ import styled from 'styled-components';
 function GuInformation() {
   return (
     <StyledCenterLayout>
-      <SideArrowButton arrow='left' title='홈' to='/home' />
+      <SideArrowButton arrow='left' title='홈' to='/' />
       <StyledContent>
         <h2>자치구 소개</h2>
         <GuInfoMap />

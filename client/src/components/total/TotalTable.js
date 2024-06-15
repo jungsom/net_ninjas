@@ -91,7 +91,7 @@ function TotalTable() {
               className='libraryCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              도서관 수{getSortIcon('libraryCount')}
+              **도서관 수{getSortIcon('libraryCount')}
             </th>
             <th
               className='busStation'
@@ -103,13 +103,13 @@ function TotalTable() {
               className='cultureCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              문화시설 수{getSortIcon('cultureCount')}
+              **문화시설 수{getSortIcon('cultureCount')}
             </th>
             <th
               className='medicalCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              의료시설 수{getSortIcon('medicalCount')}
+              **의료시설 수{getSortIcon('medicalCount')}
             </th>
             <th
               className='crimeRate'
@@ -231,12 +231,16 @@ function TotalTable() {
         </tbody>
       </StyledTable>
       <StyledDescription>
-        * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
-        자료가 존재하지 않아서, 자치구 자료로 대체함
-      </StyledDescription>
-      <StyledDescription>
-        * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
-        자료가 존재하지 않아서, 자치구 자료로 대체함
+        <div>
+          * 학원 수, 공원면적(1인당), 범죄율(1,000명당) 자료는 법정동 별로 된
+          자료가 존재하지 않아서, 자치구 자료로 대체함
+        </div>
+        <div>
+          ** 학원(평생직업 교육학원), 도서관(공공도서관, 작은도서관,
+          장애인도서관), 문화시설(공연장, 미술관, 문화원 등),
+          의료시설(병원+약국), 범죄율(5대 범죄: 살인, 강도, 강간·강제추행, 절도,
+          폭력)
+        </div>
       </StyledDescription>
     </>
   );
@@ -270,6 +274,9 @@ const StyledTable = styled.table`
 
 const StyledLowerCategory = styled.tr`
   cursor: pointer;
+  :hover {
+    background-color: #d1d1d1;
+  }
 `;
 
 const StyeldData = styled.tbody`

@@ -1,23 +1,23 @@
 import * as d3 from 'd3';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { feature } from 'topojson-client';
 import seoul from '../../data/seoul.json';
 import styled from 'styled-components';
-import { useState } from 'react';
 import GuInfoDescription from './GuInfoDescription';
 
-const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
+const initialWidth = 850; // 초기 너비
+const initialHeight = 850; // 초기 높이
 
 function GuInfoMap() {
   const [guName, setGuName] = useState('');
+  const svgRef = useRef(null);
+  const [width, setWidth] = useState(initialWidth);
+  const [height, setHeight] = useState(initialHeight);
 
-  const chart = useRef(null); // svg를 그릴 엘리먼트 설정을 위한 ref
+  const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
   const printD3 = () => {
-    const width = 700; // 기본 넓이
-    const height = 700; // 기본 높이
-
-    // 메르카토르 투영법 설정 (지구를 평먼으로 그릴 때 많이 쓰는 방법이라함)
+    // 메르카토르 투영법 설정 (지구를 평먼으로 그릴 때 많이 쓰는 방법이라 함)
     const projection = d3.geoMercator().scale(1).translate([0, 0]);
     const path = d3.geoPath().projection(projection);
     const bounds = path.bounds(featureData);
@@ -32,10 +32,12 @@ function GuInfoMap() {
 
     projection.scale(scale).translate(translate);
 
-    // svg 만들기
+    // 클릭하면 지도를 삭제하고 변경할 크기로 다시 그려줘야 하기 때문에 기존의 지도를 삭제함
+    d3.select(svgRef.current).selectAll('*').remove();
+
+    // svg 다시 그려줌
     const svg = d3
-      .select(chart.current)
-      .append('svg')
+      .select(svgRef.current)
       .attr('width', width)
       .attr('height', height);
 
@@ -59,6 +61,8 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
+        setWidth(500);
+        setHeight(500);
       });
 
     mapLayer
@@ -77,31 +81,41 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
+        setWidth(500);
+        setHeight(500);
       });
   };
 
   // 페이지가 처음 랜더링될 때 그려주도록 설정
   useEffect(() => {
     printD3();
-  }, []);
+  }, [width, height]); // width와 height 상태가 변경될 때마다 printD3 함수를 호출하여 지도를 다시 그리도록 설정
 
   return (
-    <StyledDiv>
-      <StyledMap ref={chart}></StyledMap>
-      {guName && <GuInfoDescription guName={guName} />}
-    </StyledDiv>
+    <>
+      <StyledDiv>
+        <StyledMap>
+          <svg ref={svgRef}></svg>
+        </StyledMap>
+        {guName && <GuInfoDescription guName={guName} />}
+      </StyledDiv>
+      {!guName && (
+        <StyledDiv>
+          <h4>환영 문구</h4>
+        </StyledDiv>
+      )}
+    </>
   );
 }
 
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 `;
 
 const StyledMap = styled.div`
-  text {
-    user-select: none;
-  }
+  user-select: none;
 `;
 
 export default GuInfoMap;

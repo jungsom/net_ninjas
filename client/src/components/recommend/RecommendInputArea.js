@@ -36,11 +36,11 @@ function RecommendInputArea() {
   const category = {
     교육: 'education',
     교통: 'transportation',
-    복지: 'walfare',
+    복지: 'welfare',
     안전: 'safety',
     인구: 'population',
     편의: 'convenience',
-    환경: 'Environment'
+    환경: 'environment'
   };
 
   // 다른 순위에서 선택된 항목들은 선택 못하게 만드는 함수
@@ -64,103 +64,77 @@ function RecommendInputArea() {
   }
 
   return (
-    <>
-      <div>
-        <h1>주거 추천 서비스</h1>
-        <h4>1. 우선 순위 선택</h4>
-      </div>
-      <div>
-        <FormControl sx={{ m: 1, minWidth: 100 }}>
-          <InputLabel id='first-select-label'>1순위</InputLabel>
-          <Select
-            labelId='first-select-label'
-            id='first-simple-select'
-            value={firstCategory}
-            label='firstCategory'
-            onChange={(e) => setFirstCategory(e.target.value)}
-          >
-            {createMenuItem(category, 'first')}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 100 }}>
-          <InputLabel id='second-select-label'>2순위</InputLabel>
-          <Select
-            labelId='second-select-label'
-            id='second-simple-select'
-            value={secondCategory}
-            label='secondCategory'
-            onChange={(e) => setSecondCategory(e.target.value)}
-          >
-            {createMenuItem(category, 'second')}
-          </Select>
-        </FormControl>
-        <FormControl sx={{ m: 1, minWidth: 100 }}>
-          <InputLabel id='third-select-label'>3순위</InputLabel>
-          <Select
-            labelId='third-select-label'
-            id='third-simple-select'
-            value={thirdCategory}
-            label='thirdCategory'
-            onChange={(e) => setThirdCategory(e.target.value)}
-          >
-            {createMenuItem(category, 'third')}
-          </Select>
-        </FormControl>
-      </div>
-      <div>
-        <h4>2. 예산 종류 선택</h4>
-      </div>
-      <div>
-        <FormControl sx={{ m: 1, minWidth: 100 }}>
-          <InputLabel id='contract-select-label'>전월세</InputLabel>
-          <Select
-            labelId='contract-select-label'
-            id='contract-simple-select'
-            value={contractType}
-            label='contractType'
-            onChange={(e) => setContractType(e.target.value)}
-          >
-            <MenuItem key={'jeonse'} value={'jeonse'}>
-              전세
-            </MenuItem>
-            <MenuItem key={'month'} value={'month'}>
-              월세
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <div>
-        <h4>3. 예산 범위 선택</h4>
-      </div>
-      <div>
-        <Box
-          component='form'
-          sx={{
-            '& > :not(style)': { m: 1, width: '200px' }
-          }}
-          noValidate
-          autoComplete='off'
-        >
-          <TextField
-            id='minDeposit'
-            type='Number'
-            label='최소 보증금 (단위: 만원)'
-            variant='outlined'
-            value={minDeposit}
-            onChange={(e) => setMinDeposit(e.target.value)}
-          />
-          ~
-          <TextField
-            id='maxDeposit'
-            type='Number'
-            label='최대 보증금 (단위: 만원)'
-            variant='outlined'
-            value={maxDeposit}
-            onChange={(e) => setMaxDeposit(e.target.value)}
-          />
-        </Box>
-      </div>
-      {contractType === 'month' && (
+    <StyledLayout>
+      <StyledImage>
+        <img src='./img/recommend/recommend.jpg' />
+      </StyledImage>
+      <StyledInputArea>
+        <div>
+          <h4>1. 우선 순위 선택</h4>
+        </div>
+        <div>
+          <FormControl sx={{ m: 1, minWidth: 100 }}>
+            <InputLabel id='first-select-label'>1순위</InputLabel>
+            <Select
+              labelId='first-select-label'
+              id='first-simple-select'
+              value={firstCategory}
+              label='firstCategory'
+              onChange={(e) => setFirstCategory(e.target.value)}
+            >
+              {createMenuItem(category, 'first')}
+            </Select>
+          </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 100 }}>
+            <InputLabel id='second-select-label'>2순위</InputLabel>
+            <Select
+              labelId='second-select-label'
+              id='second-simple-select'
+              value={secondCategory}
+              label='secondCategory'
+              onChange={(e) => setSecondCategory(e.target.value)}
+            >
+              {createMenuItem(category, 'second')}
+            </Select>
+          </FormControl>
+          <FormControl sx={{ m: 1, minWidth: 100 }}>
+            <InputLabel id='third-select-label'>3순위</InputLabel>
+            <Select
+              labelId='third-select-label'
+              id='third-simple-select'
+              value={thirdCategory}
+              label='thirdCategory'
+              onChange={(e) => setThirdCategory(e.target.value)}
+            >
+              {createMenuItem(category, 'third')}
+            </Select>
+          </FormControl>
+        </div>
+        <div>
+          <h4>2. 예산 종류 선택</h4>
+        </div>
+        <div>
+          <FormControl sx={{ m: 1, minWidth: 100 }}>
+            <InputLabel id='contract-select-label'>전월세</InputLabel>
+            <Select
+              labelId='contract-select-label'
+              id='contract-simple-select'
+              value={contractType}
+              label='contractType'
+              onChange={(e) => setContractType(e.target.value)}
+            >
+              <MenuItem key={'jeonse'} value={'jeonse'}>
+                전세
+              </MenuItem>
+              <MenuItem key={'month'} value={'month'}>
+                월세
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <div>
+          <h4>3. 예산 범위 선택</h4>
+        </div>
         <div>
           <Box
             component='form'
@@ -171,48 +145,93 @@ function RecommendInputArea() {
             autoComplete='off'
           >
             <TextField
-              id='minRent'
+              id='minDeposit'
               type='Number'
-              label='최소 월세가 (단위: 만원)'
+              label='최소 보증금 (단위: 만원)'
               variant='outlined'
-              value={minRent}
-              onChange={(e) => setMinRent(e.target.value)}
+              value={minDeposit}
+              onChange={(e) => setMinDeposit(e.target.value)}
             />
             ~
             <TextField
-              id='maxRent'
+              id='maxDeposit'
               type='Number'
-              label='최대 월세가 (단위: 만원)'
+              label='최대 보증금 (단위: 만원)'
               variant='outlined'
-              value={maxRent}
-              onChange={(e) => setMaxRent(e.target.value)}
+              value={maxDeposit}
+              onChange={(e) => setMaxDeposit(e.target.value)}
             />
           </Box>
         </div>
-      )}
-      <StyledBtn>
-        <Button variant='primary' title='찾기' onClick={getRecommendData}>
-          찾기 <Search />
-        </Button>
-        <Button
-          variant='primary'
-          title='초기화'
-          onClick={() => {
-            setFirstCategory('');
-            setSecondCategory('');
-            setThirdCategory('');
-            setMinDeposit(0);
-            setMaxDeposit(0);
-            setMinRent(0);
-            setMaxRent(0);
-          }}
-        >
-          초기화 <ArrowClockwise />
-        </Button>
-      </StyledBtn>
-    </>
+        {contractType === 'month' && (
+          <div>
+            <Box
+              component='form'
+              sx={{
+                '& > :not(style)': { m: 1, width: '200px' }
+              }}
+              noValidate
+              autoComplete='off'
+            >
+              <TextField
+                id='minRent'
+                type='Number'
+                label='최소 월세가 (단위: 만원)'
+                variant='outlined'
+                value={minRent}
+                onChange={(e) => setMinRent(e.target.value)}
+              />
+              ~
+              <TextField
+                id='maxRent'
+                type='Number'
+                label='최대 월세가 (단위: 만원)'
+                variant='outlined'
+                value={maxRent}
+                onChange={(e) => setMaxRent(e.target.value)}
+              />
+            </Box>
+          </div>
+        )}
+        <StyledBtn>
+          <Button variant='primary' title='찾기' onClick={getRecommendData}>
+            찾기 <Search />
+          </Button>
+          <Button
+            variant='primary'
+            title='초기화'
+            onClick={() => {
+              setFirstCategory('');
+              setSecondCategory('');
+              setThirdCategory('');
+              setMinDeposit(0);
+              setMaxDeposit(0);
+              setMinRent(0);
+              setMaxRent(0);
+            }}
+          >
+            초기화 <ArrowClockwise />
+          </Button>
+        </StyledBtn>
+      </StyledInputArea>
+    </StyledLayout>
   );
 }
+
+const StyledLayout = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+const StyledImage = styled.div`
+  margin: 0;
+  padding: 0;
+`;
+
+const StyledInputArea = styled.div`
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+`;
 
 const StyledBtn = styled.div`
   display: flex;
