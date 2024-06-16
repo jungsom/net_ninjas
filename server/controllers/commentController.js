@@ -6,28 +6,39 @@ import {
   Forbidden
 } from '../middlewares/errorMiddleware.js';
 
-// 게시글에 대한 모든 댓글 조회 (페이지네이션)
+// 게시글에 대한 모든 댓글 조회
 export const getCommentsByBoardId = async (req, res, next) => {
   try {
     const { boardId } = req.params;
-    const perPage = parseInt(req.query.perPage) || 20;
-    const pageNo = parseInt(req.query.pageNo) || 1;
+    const limit = req.query.limit || 20;
+    const next = req.query.next || null;
+    const query = next ? { _id: { $gt: next }} : {};
 
     // 요청 변수 검증
     if (!boardId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    const comments = await Comment.find({ boardId }).lean();
+    const comments = await Comment.find(query)
+                                  .sort({ createdAt : -1 })
+                                  .limit(limit)
+                                  .lean()
 
-    // 페이지네이션
-    const paginatedcomment = paginateData(comments, perPage, pageNo);
-
-    if (paginatedcomment.paginatedData.length === 0) {
+    if (comments.length === 0) {
       throw new NotFound('댓글을 찾을 수 없습니다.');
     }
+    
+    const nextCursor = comments[comments.length -1]._id
 
-    res.json(paginatedcomment);
+    const response = comments.map(comment => ({
+      commentId: comment._id,
+      boardId: boardId,
+      content: comment.content,
+      createdAt: comment.createdAt,
+      updatedAt: comment.updatedAt
+    }));
+
+    res.json({response, nextCursor});
   } catch (err) {
     next(err);
   }
