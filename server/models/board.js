@@ -21,7 +21,7 @@ const boardSchema = new Schema(
     image: {
       type: [String],
       required: true,
-      default: ['defaultImg.jpg']
+      default: ['uploads/boardImages/defaultImage.png']
     }
   },
   { versionKey: false }
