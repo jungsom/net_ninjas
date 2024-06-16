@@ -15,7 +15,21 @@ export default function Register() {
     e.preventDefault();
     const data = { email: email, password: password };
     const bodyData = JSON.stringify(data);
-    await axios.post('http://localhost:8080/user/login', bodyData);
+    console.log(bodyData);
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/user/login',
+        bodyData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      console.log(response.data);
+    } catch (e) {
+      console.error(e.response.data);
+    }
   };
 
   return (

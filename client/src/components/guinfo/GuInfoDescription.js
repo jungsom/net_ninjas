@@ -135,6 +135,7 @@ function GuInfoDescription({ guName }) {
 
 const StyledDiv = styled.div`
   width: 900px;
+  height: 1420px;
   li {
     list-style: none;
   }

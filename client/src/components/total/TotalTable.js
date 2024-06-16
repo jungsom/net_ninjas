@@ -2,16 +2,17 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import TotalContext from './TotalContext';
 import TotalPagenation from './TotalPagenation';
-import { whitespace, numberToKoreanCurreny } from './Util.js';
+import {
+  whitespace,
+  numberToKoreanCurreny,
+  sortDongColumnData
+} from './Util.js';
 import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
   const { dongData, sort, setSort, sortColumn, setSortColumn, setPage } =
     useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
-
-  // 자료의 수가 20보다 적을 때 빈 행을 만들어줌
-  whitespace(dongData);
 
   const handleThClick = (name) => {
     sortDongColumnData(name);
