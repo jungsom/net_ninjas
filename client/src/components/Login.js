@@ -15,7 +15,6 @@ export default function Register() {
     e.preventDefault();
     const data = { email: email, password: password };
     const bodyData = JSON.stringify(data);
-    console.log(bodyData);
     try {
       const response = await axios.post(
         'http://localhost:8080/user/login',
@@ -23,7 +22,8 @@ export default function Register() {
         {
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          withCredentials: true
         }
       );
       console.log(response.data);
