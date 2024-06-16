@@ -148,6 +148,10 @@ const regionSchema = new Schema({
   eldRate: {
     type: Number,
     required: true
+  },
+  welfareTotal: {
+    type: Number,
+    required: true
   }
 })
 
