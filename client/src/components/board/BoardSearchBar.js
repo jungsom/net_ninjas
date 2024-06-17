@@ -19,7 +19,7 @@ function BoardSearchBar() {
         <InputBox
           name='boardSearch'
           value={hashtag}
-          placeholder='해시태그 검색'
+          placeholder='제목, 해시태그 검색'
           onChange={(e) => setHashtag(e.target.value)}
         />
       </SearchInputBox>
@@ -33,6 +33,12 @@ const BoardSearchLayout = styled.div`
   margin-top: 40px;
 `;
 
-const SearchInputBox = styled.div``;
+const SearchInputBox = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: 10px;
+  }
+`;
 
 export default BoardSearchBar;

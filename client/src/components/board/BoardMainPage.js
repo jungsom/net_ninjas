@@ -16,9 +16,11 @@ function BoardMainPage() {
           <ArticleContainer key={item.boardId}>
             <ArcticleHeader>
               <AuthorInformation>
-                <div>프로필 이미지</div>
-                <div>{item.nickname}</div>
-                <div>5분 전</div>
+                <div>
+                  <img src='./img/recommend/recommend.jpg' />
+                </div>
+                <div className='nickname'>{item.nickname}</div>
+                <div className='timeDiff'>5분 전</div>
               </AuthorInformation>
               <div>
                 <ThreeDots />
@@ -63,17 +65,17 @@ const BoardContainer = styled.div`
   margin-top: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 20px;
   place-items: center;
 `;
 
 const ArticleContainer = styled.div`
   /* 게시글 전체를 감싸는 Container */
   border: 1px solid #eee;
-  border-radius: 10px;
+  border-radius: 7px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  width: 380px;
-  height: 550px;
+  width: 365px;
+  height: 600px;
   overflow: hidden;
   hr {
     background: #aaa;
@@ -89,14 +91,32 @@ const ArcticleHeader = styled.div`
   align-items: center;
   height: 40px;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 13px;
 `;
 
 const AuthorInformation = styled.div`
   /* Header 중 프로필 이미지, 닉네임, 시간 */
   display: flex;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
+  img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background-image: linear-gradient(#444444, #444444),
+      linear-gradient(to right, #fafca4, #daafd0, #659dfa);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
+  .nickname {
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .timeDiff {
+    color: #6d6d6d;
+  }
 `;
 
 const ArcticleTitle = styled.div`
@@ -111,8 +131,9 @@ const ContentImage = styled.div`
   text-align: center;
   img {
     border-radius: 4px;
-    width: 364px;
-    height: 243px;
+    width: 350px;
+    height: 280px;
+    object-fit: cover;
   }
 `;
 
@@ -129,6 +150,7 @@ const Content = styled.div`
   /* 게시글 내용 */
   padding: 10px;
   font-size: 13px;
+  height: 79px;
 `;
 
 const Hashtag = styled.div`
