@@ -18,16 +18,29 @@ export const getAllBoards = async (req, res, next) => {
     const boards = await Board.find(query)
       .sort({ updatedAt: -1 })
       .limit(limit)
-      .select('-userId')
+      .populate({
+        path: 'userId',
+        select: '-__v -password'
+      })
       .lean();
 
     if (boards.length === 0) {
       throw new NotFound('게시글을 찾을 수 없습니다.');
     }
 
+    const boardsWithCounts = await Promise.all(
+      boards.map(async (board) => {
+        const commentsCount = await Comment.countDocuments({
+          boardId: board._id
+        });
+        const likesCount = await Like.countDocuments({ boardId: board._id });
+        return { ...board, commentsCount, likesCount };
+      })
+    );
+
     const nextCursor = boards[boards.length - 1]._id;
 
-    res.json({ data: boards, nextCursor });
+    res.json({ data: boardsWithCounts, nextCursor });
   } catch (err) {
     next(err);
   }
@@ -43,15 +56,27 @@ export const getBoardById = async (req, res, next) => {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    const board = await Board.findById(boardId).select('-userId').lean();
-    const likes = await Like.find({ boardId }).lean();
-    const likeduserId = likes.map((like) => like.userId);
+    const board = await Board.findById(boardId)
+      .populate({
+        path: 'userId',
+        select: '-__v -password'
+      })
+      .lean();
 
     if (!board) {
       throw new NotFound('게시글을 찾을 수 없습니다.');
     }
 
-    res.status(200).json({ data: board, likeduserId });
+    const comments = await Comment.find({
+      boardId: board._id
+    }).select('-boardId');
+    const likes = await Like.find({ boardId: board._id }).select(
+      '-id -boardId -__v'
+    );
+    board.comments = comments;
+    board.likes = likes;
+
+    res.status(200).json({ data: board });
   } catch (err) {
     next(err);
   }
@@ -75,7 +100,10 @@ export const searchBoardByHashtag = async (req, res, next) => {
     const hashtagBoards = await Board.find(query)
       .sort({ createdAt: -1 })
       .limit(searchLimit)
-      .select('-userId')
+      .populate({
+        path: 'userId',
+        select: '-__v -password'
+      })
       .lean();
 
     if (hashtagBoards.length === 0) {
@@ -123,7 +151,7 @@ export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
   const image = req.files.map((file) => file.path);
-  const hashtagSet = new Set(hashtag);
+  const hashtagSet = Array.from(new Set(hashtag));
 
   // 요청 변수 검증
   if (!userId || !title || !content) {
