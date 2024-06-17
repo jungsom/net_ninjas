@@ -26,8 +26,8 @@ const boardRouter = express.Router();
 
 // 게시판 기능
 boardRouter.get('/postByUser', authenticateUser, getBoardsByUserId);
-boardRouter.get('/search', searchBoardByHashtag);
-boardRouter.get('/', getAllBoards);
+boardRouter.get('/search', authenticateUser, searchBoardByHashtag);
+boardRouter.get('/', authenticateUser, getAllBoards);
 boardRouter.post(
   '/',
   authenticateUser,

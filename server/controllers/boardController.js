@@ -6,115 +6,132 @@ import {
   NotFound,
   Forbidden
 } from '../middlewares/errorMiddleware.js';
+import {
+  getBoardWithCounts,
+  getBoardWithDetails
+} from '../services/boardService.js';
 
-// 전체 게시판 조회 컨트롤러
+/** 전체 게시판 글 조회 */
 export const getAllBoards = async (req, res, next) => {
   try {
     const limit = req.query.limit || 20;
     const next = req.query.next || null;
+    const userId = req.user.id;
+
+    //요청 변수 검증
+    if (limit <= 0) {
+      throw new BadRequest('최소 1개 이상의 게시글을 요청해주세요.');
+    }
+
+    // 쿼리 조건 정의
     const query = next ? { _id: { $lt: next } } : {};
 
-    // 게시글 조회
+    // 게시글 조회 (페이지네이션)
     const boards = await Board.find(query)
       .sort({ updatedAt: -1 })
       .limit(limit)
       .populate({
         path: 'userId',
-        select: '-__v -password'
+        select: '-_id -__v -password'
       })
       .lean();
 
-    if (boards.length === 0) {
-      throw new NotFound('게시글을 찾을 수 없습니다.');
+    // 게시글 여부 검증
+    if (!boards) {
+      throw new NotFound('게시글이 존재하지 않습니다.');
     }
-
-    const boardsWithCounts = await Promise.all(
-      boards.map(async (board) => {
-        const commentsCount = await Comment.countDocuments({
-          boardId: board._id
-        });
-        const likesCount = await Like.countDocuments({ boardId: board._id });
-        return { ...board, commentsCount, likesCount };
-      })
-    );
 
     const nextCursor = boards[boards.length - 1]._id;
 
-    res.json({ data: boardsWithCounts, nextCursor });
+    // 댓글 수, 좋아요 수, 로그인한 유저 여부 매핑
+    const boardsWithCounts = await getBoardWithCounts(boards, userId);
+
+    res.status(200).json({ data: boardsWithCounts, nextCursor });
   } catch (err) {
     next(err);
   }
 };
 
-// 특정 게시글 조회 컨트롤러
-
-/** 특정 게시글 조회 컨트롤러 */
+/** 특정 게시글 조회 */
 export const getBoardById = async (req, res, next) => {
   try {
     const { boardId } = req.params;
+    const userId = req.user.id;
 
     // 요청 변수 검증
     if (!boardId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
+    // 게시글 조회 (페이지네이션)
     const board = await Board.findById(boardId)
       .populate({
         path: 'userId',
-        select: '-__v -password'
+        select: '-_id -__v -password'
       })
       .lean();
 
+    // 게시글 여부 검증
     if (!board) {
-      throw new NotFound('게시글을 찾을 수 없습니다.');
+      throw new NotFound('게시글이 존재하지 않습니다.');
     }
 
-    const comments = await Comment.find({
-      boardId: board._id
-    }).select('-boardId');
-    const likes = await Like.find({ boardId: board._id }).select(
-      '-id -boardId -__v'
-    );
-    board.comments = comments;
-    board.likes = likes;
+    // 댓글 정보, 좋아요 정보, 로그인한 유저 여부 매핑
+    const boardWithDetails = await getBoardWithDetails(board, userId);
 
-    res.status(200).json({ data: board });
+    res.status(200).json({ data: boardWithDetails });
   } catch (err) {
     next(err);
   }
 };
 
-// 특정 해시태그에 대한 게시글 조회
+/** 특정 해시태그에 대한 게시글 조회 */
 export const searchBoardByHashtag = async (req, res, next) => {
-  const hashtag = req.query.hashtag;
-  const searchLimit = req.query.limit || 20;
-  const searchNext = req.query.next || null;
-
-  const query = searchNext
-    ? { hashtag: { $elemMatch: { $in: [hashtag] } }, _id: { $lt: searchNext } }
-    : { hashtag: { $elemMatch: { $in: [hashtag] } } };
-
   try {
+    const hashtag = req.query.hashtag;
+    const searchLimit = req.query.limit || 20;
+    const searchNext = req.query.next || null;
+    const userId = req.user.id;
+
+    //요청 변수 검증
     if (!hashtag) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
+    } else if (searchLimit <= 0) {
+      throw new BadRequest('최소 1개 이상의 게시글을 요청해주세요.');
     }
 
+    // 쿼리 조건 정의
+    const query = searchNext
+      ? {
+          hashtag: { $elemMatch: { $regex: hashtag, $options: 'i' } },
+          _id: { $lt: searchNext }
+        }
+      : { hashtag: { $elemMatch: { $regex: hashtag, $options: 'i' } } };
+
+    // 게시글 조회 (페이지네이션)
     const hashtagBoards = await Board.find(query)
       .sort({ createdAt: -1 })
       .limit(searchLimit)
       .populate({
         path: 'userId',
-        select: '-__v -password'
+        select: '-_id -__v -password'
       })
       .lean();
 
-    if (hashtagBoards.length === 0) {
+    // 게시글 여부 검증
+    if (!hashtagBoards) {
       throw new NotFound('해당 해시태그에 대한 게시글이 없습니다.');
     }
 
+    // 댓글 수, 좋아요 수, 로그인한 유저 여부 매핑
+    const hashtagBoardsWithCounts = await getBoardWithCounts(
+      hashtagBoards,
+      userId
+    );
+
     const nextCursor = hashtagBoards[hashtagBoards.length - 1]._id;
 
-    res.status(200).json({ data: hashtagBoards, nextCursor });
+    res.status(200).json({ data: hashtagBoardsWithCounts, nextCursor });
   } catch (err) {
     next(err);
   }
@@ -127,28 +144,41 @@ export const getBoardsByUserId = async (req, res, next) => {
     const userNext = req.query.next || null;
     const userId = req.user.id;
 
+    // 요청 변수 검증
+    if (userLimit <= 0) {
+      throw new BadRequest('최소 1개 이상의 게시글을 요청해주세요.');
+    }
+
+    // 쿼리 조건 정의
     const query = userNext ? { userId, _id: { $lt: userNext } } : { userId };
 
-    // 게시글 조회
+    // 게시글 조회 (페이지네이션)
     const userBoards = await Board.find(query)
       .sort({ createdAt: -1 })
       .limit(userLimit)
-      .select('-userId')
+      .populate({
+        path: 'userId',
+        select: '-_id -__v -password'
+      })
       .lean();
 
-    if (userBoards.length === 0) {
-      return res.status(200).json({ message: '게시글이 없습니다.' });
+    // 게시글 여부 검증
+    if (!userBoards) {
+      throw new NotFound('게시글이 존재하지 않습니다.');
     }
+
+    // 댓글 정보, 좋아요 정보, 로그인한 유저 여부 매핑
+    const userBoardsWithCounts = await getBoardWithCounts(userBoards, userId);
 
     const nextCursor = userBoards[userBoards.length - 1]._id;
 
-    res.json({ data: userBoards, nextCursor });
+    res.status(200).json({ data: userBoardsWithCounts, nextCursor });
   } catch (err) {
     next(err);
   }
 };
 
-/** 게시글 작성 컨트롤러 */
+/** 게시글 작성 */
 export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
@@ -199,7 +229,7 @@ export const createBoard = async (req, res, next) => {
   }
 };
 
-/** 게시글 수정 컨트롤러 */
+/** 게시글 수정 */
 export const updateBoardById = async (req, res, next) => {
   try {
     const { boardId } = req.params;
@@ -228,7 +258,7 @@ export const updateBoardById = async (req, res, next) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      throw new NotFound('게시글을 찾을 수 없습니다.');
+      throw new NotFound('게시글이 존재하지 않습니다.');
     }
 
     // 권한 검증
@@ -279,7 +309,7 @@ export const deleteBoardById = async (req, res, next) => {
     const board = await Board.findById(boardId);
 
     if (!board) {
-      throw new NotFound('게시글을 찾을 수 없습니다.');
+      throw new NotFound('게시글이 존재하지 않습니다.');
     }
 
     // 권한 검증

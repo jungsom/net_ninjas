@@ -6,12 +6,14 @@ import {
   Forbidden
 } from '../middlewares/errorMiddleware.js';
 
-// 게시글에 대한 모든 댓글 조회
+/** 게시글에 대한 모든 댓글 조회 */
 export const getCommentsByBoardId = async (req, res, next) => {
   try {
     const { boardId } = req.params;
     const commentLimit = req.query.limit || 20;
     const commentNext = req.query.next || null;
+
+    // 쿼리 조건 정의
     const query = commentNext ? { _id: { $lt: commentNext } } : {};
 
     // 요청 변수 검증
@@ -19,13 +21,17 @@ export const getCommentsByBoardId = async (req, res, next) => {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
+    // 댓글 조회 (페이지네이션)
     const comments = await Comment.find(query)
       .sort({ createdAt: -1 })
       .limit(commentLimit)
-      .select('-userId')
+      .populate({
+        path: 'userId',
+        select: '-_id -__v -password'
+      })
       .lean();
 
-    if (comments.length === 0) {
+    if (!comments) {
       throw new NotFound('댓글을 찾을 수 없습니다.');
     }
 
