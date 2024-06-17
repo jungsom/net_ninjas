@@ -25,6 +25,8 @@ import { uploadBoardImage } from '../config/multer.js';
 const boardRouter = express.Router();
 
 // 게시판 기능
+boardRouter.get('/postByUser', authenticateUser, getBoardsByUserId);
+boardRouter.get('/search', searchBoardByHashtag);
 boardRouter.get('/', getAllBoards);
 boardRouter.post(
   '/',
@@ -38,7 +40,6 @@ boardRouter.get(
   uploadBoardImage.array('image', 5),
   getBoardById
 );
-boardRouter.get('/user', authenticateUser, getBoardsByUserId);
 boardRouter.put(
   '/:boardId',
   authenticateUser,
@@ -46,7 +47,6 @@ boardRouter.put(
   updateBoardById
 );
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
-boardRouter.get('/search', searchBoardByHashtag);
 
 // 댓글 기능
 boardRouter.get('/:boardId/comments', authenticateUser, getCommentsByBoardId);
