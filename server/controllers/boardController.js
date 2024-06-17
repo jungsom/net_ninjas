@@ -152,7 +152,10 @@ export const getBoardsByUserId = async (req, res, next) => {
 export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
-  const image = req.files.map((file) => file.path);
+  const image =
+    req.files.length > 0
+      ? req.files.map((file) => file.path)
+      : ['uploads/boardImages/defaultImage.png'];
   const hashtagSet = hashtag >= 2 ? Array.from(new Set(hashtag)) : hashtag;
 
   // 요청 변수 검증

@@ -20,8 +20,7 @@ const boardSchema = new Schema(
     },
     image: {
       type: [String],
-      required: true,
-      default: ['uploads/boardImages/defaultImage.png']
+      required: true
     }
   },
   { versionKey: false }
