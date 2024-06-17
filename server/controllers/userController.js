@@ -7,32 +7,22 @@ import {
   NotFound,
   Forbidden
 } from '../middlewares/errorMiddleware.js';
-
-// 이메일 형식 검사 정규식 (@ 앞뒤로 공백없는 문자, 도메인 '.'포함)
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// 비밀번호 검사 정규식 (8자 이상, 특수문자 포함)
-const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+import {
+  registerSchema,
+  loginSchema,
+  updateUserSchema
+} from '../validations/userValidation.js';
 
 // 회원가입 컨트롤러
 export async function register(req, res, next) {
   try {
+    const { error } = registerSchema.validate(req.body);
+    if (error) throw new BadRequest(error.message);
+
     const { email, password, name, nickname } = req.body;
     const profileImage = req.file
       ? req.file.path
       : 'uploads/profileImages/defaultImage.png';
-
-    if (!email) throw new BadRequest('이메일을 입력하세요.');
-    if (!emailRegex.test(email))
-      throw new BadRequest('유효한 이메일 형식이 아닙니다.');
-    if (!password) throw new BadRequest('비밀번호를 입력하세요');
-    if (!passwordRegex.test(password))
-      throw new BadRequest(
-        '비밀번호는 8자 이상이고 특수문자를 포함해야 합니다.'
-      );
-    if (!name || !name.trim()) throw new BadRequest('이름을 입력하세요.');
-    if (!nickname || !nickname.trim())
-      throw new BadRequest('닉네임을 입력하세요.');
 
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new BadRequest('이미 사용 중인 이메일입니다.');
@@ -56,10 +46,10 @@ export async function register(req, res, next) {
 // 로그인 컨트롤러
 export async function login(req, res, next) {
   try {
-    const { email, password } = req.body;
+    const { error } = loginSchema.validate(req.body);
+    if (error) throw new BadRequest(error.details[0].message);
 
-    if (!email) throw new BadRequest('이메일을 입력하세요');
-    if (!password) throw new BadRequest('비밀번호를 입력하세요');
+    const { email, password } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) throw new NotFound('등록된 이메일이 없습니다');
@@ -68,13 +58,13 @@ export async function login(req, res, next) {
     if (!isMatch) throw new BadRequest('비밀번호가 일치하지 않습니다');
 
     const token = jwt.sign({ id: user._id }, config.jwtSecret, {
-      expiresIn: '1d'
-    }); // 토큰 유효기간: 1일
+      expiresIn: '7d'
+    }); // 토큰 유효기간: 7일
 
     res.cookie('token', token, {
       httpOnly: true,
       secure: false,
-      maxAge: 24 * 60 * 60 * 1000 // 쿠키 유효기간: 1일
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 쿠키 유효기간: 7일
     });
 
     res.status(200).json({ message: '로그인 되었습니다.' });
@@ -107,23 +97,22 @@ export async function getUserInfo(req, res, next) {
 export async function updateUserInfo(req, res, next) {
   try {
     const userId = req.user.id;
-    const { name, nickname, password } = req.body;
+    const { password, nickname } = req.body;
     const profileImage = req.file ? req.file.path : undefined;
 
     if (!password && !nickname && !profileImage) {
       throw new BadRequest('변경할 정보를 입력하세요.');
     }
 
+    const { error } = updateUserSchema.validate(req.body);
+    if (error) throw new BadRequest(error.details[0].message);
+
     const updatedData = {};
     if (password) {
-      if (!passwordRegex.test(password)) {
-        throw new BadRequest(
-          '비밀번호는 8자 이상이고 특수문자를 포함해야 합니다.'
-        );
-      }
       updatedData.password = await bcrypt.hash(password, 10);
     }
     if (nickname) updatedData.nickname = nickname;
+    if (name) updatedData.name = name;
     if (profileImage) updatedData.profileImage = profileImage;
 
     const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {

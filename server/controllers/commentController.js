@@ -12,7 +12,7 @@ export const getCommentsByBoardId = async (req, res, next) => {
     const { boardId } = req.params;
     const commentLimit = req.query.limit || 20;
     const commentNext = req.query.next || null;
-    const query = commentNext ? { _id: { $lt: commentNext }} : {};
+    const query = commentNext ? { _id: { $lt: commentNext } } : {};
 
     // 요청 변수 검증
     if (!boardId) {
@@ -20,18 +20,18 @@ export const getCommentsByBoardId = async (req, res, next) => {
     }
 
     const comments = await Comment.find(query)
-                                  .sort({ createdAt : -1 })
-                                  .limit(commentLimit)
-                                  .select('-userId')
-                                  .lean()
+      .sort({ createdAt: -1 })
+      .limit(commentLimit)
+      .select('-userId')
+      .lean();
 
     if (comments.length === 0) {
       throw new NotFound('댓글을 찾을 수 없습니다.');
     }
-    
-    const nextCursor = comments[comments.length -1]._id
 
-    res.json({data: comments, nextCursor});
+    const nextCursor = comments[comments.length - 1]._id;
+
+    res.json({ data: comments, nextCursor });
   } catch (err) {
     next(err);
   }
@@ -134,6 +134,7 @@ export const updateCommentById = async (req, res, next) => {
   }
 };
 
+// 댓글 삭제
 export const deleteCommentById = async (req, res, next) => {
   const { commentId } = req.params;
   const userId = req.user.id;
