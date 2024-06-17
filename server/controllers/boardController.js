@@ -153,7 +153,7 @@ export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
   const image = req.files.map((file) => file.path);
-  const hashtagSet = Array.from(new Set(hashtag));
+  const hashtagSet = hashtag > 2 ? Array.from(new Set(hashtag)) : hashtag;
 
   // 요청 변수 검증
   if (!userId || !title || !content) {
