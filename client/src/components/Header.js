@@ -30,6 +30,7 @@ export default function Header() {
                 Separated link
               </NavDropdown.Item> */}
             </NavDropdown>
+            <Nav.Link href='/board'>게시판</Nav.Link>
           </Nav>
           <Nav>
             <Nav.Link href='/user/register'>회원가입</Nav.Link>
