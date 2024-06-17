@@ -3,9 +3,18 @@ import path from 'path';
 import { BadRequest } from '../middlewares/errorMiddleware.js';
 
 // 이미지 저장소 설정
-const storage = multer.diskStorage({
+const boardStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/boardImages/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const profileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/profileImages/');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -21,9 +30,14 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const uploadImage = multer({
-  storage: storage,
+const uploadBoardImage = multer({
+  storage: boardStorage,
   fileFilter: fileFilter
 });
 
-export default uploadImage;
+const uploadProfileImage = multer({
+  storage: profileStorage,
+  fileFilter: fileFilter
+});
+
+export { uploadBoardImage, uploadProfileImage };

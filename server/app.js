@@ -32,6 +32,7 @@ app.set('views', path.join(__dirname, 'client'));
 // static 파일 경로
 app.use(express.static(path.join(__dirname, 'client')));
 app.use(express.static(path.join(__dirname, 'uploads/boardImages')));
+app.use(express.static(path.join(__dirname, 'uploads/profileImages')));
 
 // router
 app.use('/allResearch', allResearchRouter);

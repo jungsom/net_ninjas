@@ -2,7 +2,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import config from '../config/index.js';
-import { BadRequest, NotFound } from '../middlewares/errorMiddleware.js';
+import {
+  BadRequest,
+  NotFound,
+  Forbidden
+} from '../middlewares/errorMiddleware.js';
 
 // 이메일 형식 검사 정규식 (@ 앞뒤로 공백없는 문자, 도메인 '.'포함)
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -13,7 +17,10 @@ const passwordRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
 // 회원가입 컨트롤러
 export async function register(req, res, next) {
   try {
-    const { email, password, name } = req.body;
+    const { email, password, name, nickname } = req.body;
+    const profileImage = req.file
+      ? req.file.path
+      : 'uploads/profileImages/defaultImage.png';
 
     if (!email) throw new BadRequest('이메일을 입력하세요.');
     if (!emailRegex.test(email))
@@ -24,6 +31,8 @@ export async function register(req, res, next) {
         '비밀번호는 8자 이상이고 특수문자를 포함해야 합니다.'
       );
     if (!name || !name.trim()) throw new BadRequest('이름을 입력하세요.');
+    if (!nickname || !nickname.trim())
+      throw new BadRequest('닉네임을 입력하세요.');
 
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new BadRequest('이미 사용 중인 이메일입니다.');
@@ -33,7 +42,9 @@ export async function register(req, res, next) {
     await User.create({
       email,
       password: hashedPassword,
-      name
+      name,
+      nickname,
+      profileImage
     });
 
     res.status(201).json({ message: '회원가입이 완료되었습니다.' });
@@ -76,4 +87,71 @@ export async function login(req, res, next) {
 export async function logout(req, res, next) {
   res.cookie('token', '', { maxAge: 0 });
   res.status(200).json({ message: '로그아웃 되었습니다.' });
+}
+
+// 사용자 정보 조회 컨트롤러
+export async function getUserInfo(req, res, next) {
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId).select('-_id -password').lean();
+    if (!user) throw new NotFound('회원을 찾을 수 없습니다.');
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+}
+
+// 사용자 정보 수정 컨트롤러
+export async function updateUserInfo(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const { name, nickname, password } = req.body;
+    const profileImage = req.file ? req.file.path : undefined;
+
+    if (!name && !nickname && !profileImage && !password) {
+      throw new BadRequest('변경할 정보를 입력하세요.');
+    }
+
+    const updatedData = {};
+    if (name) updatedData.name = name;
+    if (nickname) updatedData.nickname = nickname;
+    if (profileImage) updatedData.profileImage = profileImage;
+    if (password) {
+      if (!passwordRegex.test(password)) {
+        throw new BadRequest(
+          '비밀번호는 8자 이상이고 특수문자를 포함해야 합니다.'
+        );
+      }
+      updatedData.password = await bcrypt.hash(password, 10);
+    }
+    const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+      runValidators: true
+    })
+      .select('-_id -password')
+      .lean();
+    if (!updatedUser) throw new NotFound('회원을 찾을 수 없습니다.');
+
+    res
+      .status(200)
+      .json({ user: updatedUser, message: '회원 정보가 수정되었습니다.' });
+  } catch (error) {
+    next(error);
+  }
+}
+
+// 회원 탈퇴 컨트롤러
+export async function deleteUser(req, res, next) {
+  try {
+    const userId = req.user.id;
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) throw new NotFound('회원을 찾을 수 없습니다.');
+    res.cookie('token', '', { maxAge: 0 });
+
+    res.status(200).json({ message: '회원 탈퇴가 완료되었습니다.' });
+  } catch (error) {
+    next(error);
+  }
 }

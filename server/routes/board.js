@@ -19,7 +19,7 @@ import {
   createLikeByBoardId,
   getLikesByBoardId
 } from '../controllers/likeController.js';
-import uploadImage from '../config/multer.js';
+import { uploadBoardImage } from '../config/multer.js';
 
 const boardRouter = express.Router();
 
@@ -29,19 +29,19 @@ boardRouter.get('/', getAllBoards);
 boardRouter.post(
   '/',
   authenticateUser,
-  uploadImage.array('image', 5),
+  uploadBoardImage.array('image', 5),
   createBoard
 );
 boardRouter.get(
   '/:boardId',
   authenticateUser,
-  uploadImage.array('image', 5),
+  uploadBoardImage.array('image', 5),
   getBoardById
 );
 boardRouter.put(
   '/:boardId',
   authenticateUser,
-  uploadImage.array('image', 5),
+  uploadBoardImage.array('image', 5),
   updateBoardById
 );
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);
