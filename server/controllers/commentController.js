@@ -10,9 +10,9 @@ import {
 export const getCommentsByBoardId = async (req, res, next) => {
   try {
     const { boardId } = req.params;
-    const limit = req.query.limit || 20;
-    const next = req.query.next || null;
-    const query = next ? { _id: { $gt: next }} : {};
+    const commentLimit = req.query.limit || 20;
+    const commentNext = req.query.next || null;
+    const query = commentNext ? { _id: { $lt: commentNext }} : {};
 
     // 요청 변수 검증
     if (!boardId) {
@@ -21,7 +21,8 @@ export const getCommentsByBoardId = async (req, res, next) => {
 
     const comments = await Comment.find(query)
                                   .sort({ createdAt : -1 })
-                                  .limit(limit)
+                                  .limit(commentLimit)
+                                  .select('-userId')
                                   .lean()
 
     if (comments.length === 0) {
@@ -30,15 +31,7 @@ export const getCommentsByBoardId = async (req, res, next) => {
     
     const nextCursor = comments[comments.length -1]._id
 
-    const response = comments.map(comment => ({
-      commentId: comment._id,
-      boardId: boardId,
-      content: comment.content,
-      createdAt: comment.createdAt,
-      updatedAt: comment.updatedAt
-    }));
-
-    res.json({response, nextCursor});
+    res.json({data: comments, nextCursor});
   } catch (err) {
     next(err);
   }
@@ -71,14 +64,14 @@ export const createComment = async (req, res, next) => {
       content
     });
 
-    const response = {
+    const data = {
       commentId: comment._id,
       boardId: boardId,
       content: comment.content,
       createdAt: comment.createdAt
     };
 
-    res.status(200).json({ message: '댓글 작성이 완료되었습니다.', response });
+    res.status(200).json({ message: '댓글 작성이 완료되었습니다.', data });
   } catch (err) {
     next(err);
   }
@@ -128,14 +121,14 @@ export const updateCommentById = async (req, res, next) => {
       { new: true, runValidators: true }
     );
 
-    const response = {
+    const data = {
       boardId: updatedComment._id,
       content: updatedComment.content,
       createdAt: updatedComment.createdAt,
       updatedAt: updatedComment.updatedAt
     };
 
-    res.status(200).json({ message: '댓글 수정이 완료되었습니다.', response });
+    res.status(200).json({ message: '댓글 수정이 완료되었습니다.', data });
   } catch (err) {
     next(err);
   }
