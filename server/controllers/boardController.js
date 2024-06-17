@@ -18,7 +18,7 @@ export const getAllBoards = async (req, res, next) => {
     const boards = await Board.find(query)
       .sort({ updatedAt: -1 })
       .limit(limit)
-      .select('-userId')
+      .select('userId')
       .lean();
 
     if (boards.length === 0) {
@@ -124,8 +124,11 @@ export const getBoardsByUserId = async (req, res, next) => {
 export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
-  const image = req.files.map((file) => file.path);
-  const hashtagSet = new Set(hashtag);
+  const image =
+    req.files.length > 0
+      ? req.files.map((file) => file.path)
+      : ['uploads/boardImages/defaultImage.png'];
+  const hashtagSet = Array.from(new Set(hashtag));
 
   // 요청 변수 검증
   if (!userId || !title || !content) {
