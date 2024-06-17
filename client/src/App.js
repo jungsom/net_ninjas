@@ -19,6 +19,7 @@ import Footer from './components/Footer';
 import RecommendResult from './components/recommend/RecommendResult';
 import GuInformation from './components/GuInformation';
 import Board from './components/Board';
+import MyPage from './components/MyPage';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -76,6 +77,7 @@ function AppContent() {
           <Route path='/recommend' element={<Recommend />} />
           <Route path='/recommend/result' element={<RecommendResult />} />
           <Route path='/board' element={<Board />} />
+          <Route path='/myPage' element={<MyPage />} />
         </Routes>
       </MainContent>
       <Footer />
