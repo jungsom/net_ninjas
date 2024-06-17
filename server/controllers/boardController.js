@@ -7,7 +7,7 @@ import {
   Forbidden
 } from '../middlewares/errorMiddleware.js';
 
-/** 전체 게시판 조회 컨트롤러 */
+// 전체 게시판 조회 컨트롤러
 export const getAllBoards = async (req, res, next) => {
   try {
     const limit = req.query.limit || 20;
@@ -45,6 +45,8 @@ export const getAllBoards = async (req, res, next) => {
     next(err);
   }
 };
+
+// 특정 게시글 조회 컨트롤러
 
 /** 특정 게시글 조회 컨트롤러 */
 export const getBoardById = async (req, res, next) => {
@@ -259,7 +261,7 @@ export const updateBoardById = async (req, res, next) => {
   }
 };
 
-/** 게시글 삭제 컨트롤러 */
+// 게시글 삭제 컨트롤러
 export const deleteBoardById = async (req, res, next) => {
   const { boardId } = req.params;
   const userId = req.user.id;

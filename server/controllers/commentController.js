@@ -134,6 +134,7 @@ export const updateCommentById = async (req, res, next) => {
   }
 };
 
+// 댓글 삭제
 export const deleteCommentById = async (req, res, next) => {
   const { commentId } = req.params;
   const userId = req.user.id;
