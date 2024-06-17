@@ -2,11 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import config from '../config/index.js';
-import {
-  BadRequest,
-  NotFound,
-  Forbidden
-} from '../middlewares/errorMiddleware.js';
+import { BadRequest, NotFound } from '../middlewares/errorMiddleware.js';
 import {
   registerSchema,
   loginSchema,
