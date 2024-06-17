@@ -8,7 +8,6 @@ import {
   Forbidden
 } from '../middlewares/errorMiddleware.js';
 
-
 /** 전체 게시판 조회 컨트롤러 */
 export const getAllBoards = async (req, res, next) => {
   try {
@@ -16,7 +15,7 @@ export const getAllBoards = async (req, res, next) => {
     const pageNo = parseInt(req.query.pageNo) || 1;
 
     // 게시글 조회
-    const data = await Board.find().lean();
+    const data = await Board.find().select('-userId').lean();
 
     // 페이지네이션
     const paginatedData = paginateData(data, perPage, pageNo);
@@ -30,7 +29,6 @@ export const getAllBoards = async (req, res, next) => {
     next(err);
   }
 };
-
 
 /** 게시글 작성 컨트롤러 */
 export const createBoard = async (req, res, next) => {
@@ -88,8 +86,7 @@ export const createBoard = async (req, res, next) => {
   }
 };
 
-
-/** 게시글 조회 컨트롤러 */
+/** 특정 게시글 조회 컨트롤러 */
 export const getBoardById = async (req, res, next) => {
   try {
     const { boardId } = req.params;
@@ -101,7 +98,7 @@ export const getBoardById = async (req, res, next) => {
 
     const board = await Board.findById(boardId).lean();
     const likes = await Like.find({ boardId }).lean();
-    const likes_userId = likes.map(like => like.userId);
+    const likes_userId = likes.map((like) => like.userId);
 
     if (!board) {
       throw new NotFound('게시글을 찾을 수 없습니다.');
@@ -114,7 +111,7 @@ export const getBoardById = async (req, res, next) => {
       image: board.image,
       createdAt: board.createdAt,
       updatedAt: board.updatedAt,
-      likedUserId: likes_userId,
+      likedUserId: likes_userId
     };
 
     res.status(200).json({ message: '게시글이 조회되었습니다.', response });
@@ -123,6 +120,25 @@ export const getBoardById = async (req, res, next) => {
   }
 };
 
+/** 사용자 모든 게시글 조회 컨트롤러 */
+export const getBoardsByUserId = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    console.log('사용자 ID:', userId);
+
+    const data = await Board.find({ userId: userId }).select('-userId').lean();
+
+    console.log(data);
+    if (data.length === 0) {
+      return res.status(200).json({ message: '게시글이 없습니다.' });
+    }
+
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};
 
 /** 게시글 수정 컨트롤러 */
 export const updateBoardById = async (req, res, next) => {
@@ -198,7 +214,6 @@ export const updateBoardById = async (req, res, next) => {
   }
 };
 
-
 /** 게시글 삭제 컨트롤러 */
 export const deleteBoardById = async (req, res, next) => {
   const { boardId } = req.params;
@@ -241,11 +256,15 @@ export const searchBoardByHashtag = async (req, res, next) => {
   const pageNo = parseInt(req.query.pageNo) || 1;
 
   try {
-    if (!hashtag ) {
-      throw new BadRequest('요청 변수를 찾을 수 없습니다.')
+    if (!hashtag) {
+      throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
 
-    const boards = await Board.find({ hashtag: { $elemMatch: { $in: [hashtag] } } }).lean();
+    const boards = await Board.find({
+      hashtag: { $elemMatch: { $in: [hashtag] } }
+    })
+      .select('-userId')
+      .lean();
 
     const paginatedDataByHashtag = paginateData(boards, perPage, pageNo);
 
@@ -254,7 +273,7 @@ export const searchBoardByHashtag = async (req, res, next) => {
     }
 
     res.status(200).json(paginatedDataByHashtag);
-  } catch(err) {
+  } catch (err) {
     next(err);
   }
-}
+};

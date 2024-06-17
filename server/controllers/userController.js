@@ -95,7 +95,7 @@ export async function getUserInfo(req, res, next) {
 
   try {
     const user = await User.findById(userId).select('-_id -password').lean();
-    if (!user) throw new NotFound('회원을 찾을 수 없습니다.');
+    if (!user) throw new NotFound('등록된 회원이 아닙니다.');
 
     res.status(200).json(user);
   } catch (error) {
@@ -110,14 +110,11 @@ export async function updateUserInfo(req, res, next) {
     const { name, nickname, password } = req.body;
     const profileImage = req.file ? req.file.path : undefined;
 
-    if (!name && !nickname && !profileImage && !password) {
+    if (!password && !nickname && !profileImage) {
       throw new BadRequest('변경할 정보를 입력하세요.');
     }
 
     const updatedData = {};
-    if (name) updatedData.name = name;
-    if (nickname) updatedData.nickname = nickname;
-    if (profileImage) updatedData.profileImage = profileImage;
     if (password) {
       if (!passwordRegex.test(password)) {
         throw new BadRequest(
@@ -126,13 +123,16 @@ export async function updateUserInfo(req, res, next) {
       }
       updatedData.password = await bcrypt.hash(password, 10);
     }
+    if (nickname) updatedData.nickname = nickname;
+    if (profileImage) updatedData.profileImage = profileImage;
+
     const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
       new: true,
       runValidators: true
     })
       .select('-_id -password')
       .lean();
-    if (!updatedUser) throw new NotFound('회원을 찾을 수 없습니다.');
+    if (!updatedUser) throw new NotFound('등록된 회원이 아닙니다.');
 
     res
       .status(200)
@@ -147,7 +147,7 @@ export async function deleteUser(req, res, next) {
   try {
     const userId = req.user.id;
     const user = await User.findByIdAndDelete(userId);
-    if (!user) throw new NotFound('회원을 찾을 수 없습니다.');
+    if (!user) throw new NotFound('등록된 회원이 아닙니다.');
     res.cookie('token', '', { maxAge: 0 });
 
     res.status(200).json({ message: '회원 탈퇴가 완료되었습니다.' });
