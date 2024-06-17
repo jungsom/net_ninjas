@@ -31,16 +31,7 @@ function TotalSearch() {
           onChange={(e) => setInputKeyword(e.target.value)}
         />
       </form>
-      <Button
-        variant='primary'
-        title='찾기'
-        onClick={() => {
-          setKeyword(inputKeyword);
-          setPage(1);
-          setSort('');
-          setSortColumn('');
-        }}
-      >
+      <Button variant='primary' title='찾기' onClick={inputEnterSearch}>
         찾기 <Search />
       </Button>
       <Button

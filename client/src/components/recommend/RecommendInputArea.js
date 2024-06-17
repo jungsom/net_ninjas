@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
@@ -21,7 +21,6 @@ const category = {
 };
 
 function RecommendInputArea() {
-  const [selectedItem, setSelectedItem] = useState([]);
   const {
     getRecommendData,
     firstCategory,
@@ -45,11 +44,6 @@ function RecommendInputArea() {
   // 다른 순위에서 선택된 항목들은 선택 못하게 만드는 함수
   function createMenuItem(category, order) {
     const menuItemTag = [];
-    // const items = Object.values(category).filter(
-    //   (item) => !selectedItem.includes(item)
-    // );
-    // console.log(items);
-
     const filter = [];
     order === 'first'
       ? filter.push(secondCategory, thirdCategory) // 매개변수가 "first"면 2순위, 3순위 값이 있는 항목은 제외하고 Menu를 생성
@@ -65,6 +59,26 @@ function RecommendInputArea() {
       );
     }
     return menuItemTag;
+  }
+
+  function inputValidation() {
+    if (!firstCategory || !secondCategory || !thirdCategory || !contractType) {
+      alert('선택하지 않은 값이 있습니다.');
+      return false;
+    }
+
+    if (contractType === 'jeonse' && minDeposit >= maxDeposit) {
+      alert('예산 범위를 다시 확인해주세요.');
+      return false;
+    }
+
+    if (
+      contractType === 'month' &&
+      (minDeposit >= maxDeposit || minRent >= maxRent)
+    ) {
+      alert('예산 범위를 다시 확인해주세요.');
+      return false;
+    }
   }
 
   return (
@@ -86,7 +100,6 @@ function RecommendInputArea() {
               label='firstCategory'
               onChange={(e) => {
                 setFirstCategory(e.target.value);
-                setSelectedItem(e.target.value);
               }}
             >
               {createMenuItem(category, 'first')}
@@ -101,7 +114,6 @@ function RecommendInputArea() {
               label='secondCategory'
               onChange={(e) => {
                 setSecondCategory(e.target.value);
-                setSelectedItem(e.target.value);
               }}
             >
               {createMenuItem(category, 'second')}
@@ -116,7 +128,6 @@ function RecommendInputArea() {
               label='thirdCategory'
               onChange={(e) => {
                 setThirdCategory(e.target.value);
-                setSelectedItem(e.target.value);
               }}
             >
               {createMenuItem(category, 'third')}
@@ -207,7 +218,13 @@ function RecommendInputArea() {
           </div>
         )}
         <StyledBtn>
-          <Button variant='primary' title='찾기' onClick={getRecommendData}>
+          <Button
+            variant='primary'
+            title='찾기'
+            onClick={(e) => {
+              if (inputValidation()) getRecommendData(e);
+            }}
+          >
             찾기 <Search />
           </Button>
           <Button
