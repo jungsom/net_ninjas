@@ -62,8 +62,9 @@ function AppContent() {
   const location = useLocation();
 
   return (
-    <>
+    <ModalContext.Provider>
       <Header />
+      <Modal />
       {/* {location.pathname === '/analysis' && <ChartsNavBar />} */}
       <MainContent>
         <Routes>
@@ -79,7 +80,7 @@ function AppContent() {
         </Routes>
       </MainContent>
       <Footer />
-    </>
+    </ModalContext.Provider>
   );
 }
 
