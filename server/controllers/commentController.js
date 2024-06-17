@@ -171,20 +171,3 @@ export const deleteCommentById = async (req, res, next) => {
     next(err);
   }
 };
-
-// 댓글 개수 조회
-export const getCommentCount = async (req, res, next) => {
-  try {
-    const { boardId } = req.params;
-
-    const commentsCount = await Comment.countDocuments({ boardId });
-
-    if (!boardId) {
-      throw new BadRequest('요청 변수를 찾을 수 없습니다.');
-    }
-
-    res.status(200).json(commentsCount);
-  } catch (err) {
-    next(err);
-  }
-};

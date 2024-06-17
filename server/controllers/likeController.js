@@ -31,20 +31,3 @@ export const createLikeByBoardId = async (req, res, next) => {
     next(err);
   }
 };
-
-// 좋아요 개수 조회
-export const getLikesByBoardId = async (req, res, next) => {
-  try {
-    const { boardId } = req.params;
-
-    const likes = await Like.countDocuments({ boardId });
-
-    if (!boardId) {
-      throw new BadRequest('요청 변수를 찾을 수 없습니다.');
-    }
-
-    res.status(200).json(likes);
-  } catch (err) {
-    next(err);
-  }
-};
