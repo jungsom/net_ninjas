@@ -1,15 +1,18 @@
 import BoardMainPage from './board/BoardMainPage';
+import BoardProvider from './board/BoardProvider';
 import BoardSearchBar from './board/BoardSearchBar';
 import styled from 'styled-components';
 
 function Board() {
   return (
-    <StyledCenterLayout>
-      <StyledContent>
-        <BoardSearchBar />
-        <BoardMainPage />
-      </StyledContent>
-    </StyledCenterLayout>
+    <BoardProvider>
+      <StyledCenterLayout>
+        <StyledContent>
+          <BoardSearchBar />
+          <BoardMainPage />
+        </StyledContent>
+      </StyledCenterLayout>
+    </BoardProvider>
   );
 }
 

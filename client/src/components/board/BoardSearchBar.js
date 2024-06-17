@@ -5,6 +5,7 @@ import { Search } from 'react-bootstrap-icons';
 
 function BoardSearchBar() {
   const [hashtag, setHashtag] = useState('');
+  console.log(new Date());
   return (
     <BoardSearchLayout>
       <div>
@@ -13,7 +14,6 @@ function BoardSearchBar() {
         </h4>
         <div>동네 사진을 올려주세요!</div>
       </div>
-      <div></div>
       <SearchInputBox>
         <Search />
         <InputBox
@@ -28,16 +28,11 @@ function BoardSearchBar() {
 }
 
 const BoardSearchLayout = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  justify-content: space-between;
   margin-top: 40px;
 `;
 
-const SearchInputBox = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
+const SearchInputBox = styled.div``;
 
 export default BoardSearchBar;
