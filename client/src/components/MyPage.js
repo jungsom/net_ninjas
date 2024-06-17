@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import MyInformation from './myPage/MyInformation';
-import Button from 'react-bootstrap/Button';
+import MyPost from './myPage/MyPost';
 
 
 function MyPage() {
@@ -10,11 +10,9 @@ function MyPage() {
         <h2>마이 페이지</h2>
         <MyInformation/>
         <hr/>
-        <div className='menu'>
-        <Button variant='primary'>비밀번호 변경</Button>
-        <Button variant='primary'>내가 작성한 글</Button>
-        <Button variant='primary'>회원탈퇴</Button>
-        </div>
+        <h3>내 게시글</h3>
+        <MyPost/>
+
       </StyledContent>
     </StyledCenterLayout>
   );
@@ -31,11 +29,9 @@ const StyledContent = styled.div`
     text-align: center;
   }
 
-  .menu{
-    display: flex;
+   display: flex;
     flex-direction: column;
     gap: 10px;
-  }
 `;
 
 export default MyPage;

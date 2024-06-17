@@ -20,6 +20,7 @@ import RecommendResult from './components/recommend/RecommendResult';
 import GuInformation from './components/GuInformation';
 import Board from './components/Board';
 import MyPage from './components/MyPage';
+import EditMyInformation from './components/EditMyInformation';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -78,6 +79,7 @@ function AppContent() {
           <Route path='/recommend/result' element={<RecommendResult />} />
           <Route path='/board' element={<Board />} />
           <Route path='/myPage' element={<MyPage />} />
+          <Route path='/EditMyInformation' element={<EditMyInformation />} />
         </Routes>
       </MainContent>
       <Footer />

@@ -1,67 +1,92 @@
 import styled from 'styled-components';
-import { EmojiSmile, PencilSquare, ChevronRight } from 'react-bootstrap-icons';
+import { PencilSquare } from 'react-bootstrap-icons';
 
 
 function MyInformation(){
 
     return(
     <InformationLayout>
-       <Thumbnail>
-       <PencilSquare className='pencil' />
-       <StyledImage src={`img/defaultUser.jpg`}/>
-       </Thumbnail>
-
-    <div>
-        <div className='leftArea'>
-            <NameArea><div><div className='userName'>홍길동</div>님, 안녕하세요! </div></NameArea>
-            <div>gildong@naver.com</div>
+        <div className='thumbnail'>
+            <img className='thumbnailImage' src={`img/defaultUser.jpg`}/>
         </div>
-    <div className='rightArea'>
-    <ChevronRight/>
-    </div>
-    </div>
+
+        <div className='profile'>
+            <div className='info'>
+                <div className='nameArea'>홍길동</div>
+                <div>gildong@naver.com</div>
+            </div>
+            <div className='edit'>
+                <div onClick={()=> window.location.href = '/EditMyInformation'}><PencilSquare/> 내 정보 수정</div>
+            </div>
+        </div>
     </InformationLayout>
     );
 }
 
 const InformationLayout = styled.div`
-`;
+    display: flex;
+    //background-color:red;
+    .profile{
+        display: flex;
+         display: grid;
+        place-content: end;
 
-const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-`;
+        .info, .edit{
+            width: 100%;
+            height: 100px;
+        }
 
-const NameArea = styled.div`
-    .userName{
+        .info{
+            display: grid;
+            place-content: end; 
+        }
+
+        .edit{
+            position: relative;
+            font-size:.8em;
+            color:gray;
+
+            div{
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
+
+            div:hover{
+            cursor: pointer;
+            }    
+        }
+    }
+
+    .thumbnail{
+        position: relative;
+        max-width:200px;
+        max-height:200px;
+        margin:20px;
+        border-radius: 50%;
+        color: white;
+
+        .thumbnailImage{
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            border-radius: 50%;
+        }
+    }
+
+
+
+    .nameArea{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         font-weight: bold;
         font-size: 1.5em;
         display: inline;
     }
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
 `;
 
-const Thumbnail = styled.div`
-    position: relative;
-    width:200px;
-    height:200px;
-    margin:20px;
-    border-radius: 20px;
-    color: white;
-
-
-    .pencil {
-        position: absolute; 
-        top: 5px;
-        right: 5px;
-        font-size: 20px;
-        mix-blend-mode: difference;
-    }
-`;
 
 export default MyInformation;
