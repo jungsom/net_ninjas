@@ -123,6 +123,7 @@ export const createBoard = async (req, res, next) => {
   const { title, content, hashtag } = req.body;
   const userId = req.user.id;
   const image = req.files.map((file) => file.path);
+  const hashtagSet = new Set(hashtag);
 
   // 요청 변수 검증
   if (!userId || !title || !content) {
@@ -142,19 +143,12 @@ export const createBoard = async (req, res, next) => {
       .json({ message: '내용은 최대 1000자까지 입력 가능합니다.' });
   }
 
-  // 해시태그 중복 검증
-  if (hashtag && new Set(hashtag).size !== hashtag.length) {
-    return res
-      .status(200)
-      .json({ message: '중복된 태그를 사용할 수 없습니다.' });
-  }
-
   try {
     const board = await Board.create({
       userId,
       title,
       content,
-      hashtag,
+      hashtag: hashtagSet,
       image
     });
 
@@ -178,7 +172,7 @@ export const updateBoardById = async (req, res, next) => {
     const { boardId } = req.params;
     const { title, content, hashtag } = req.body;
     const userId = req.user.id;
-    const set = new Set(hashtag);
+    const hashtagSet = new Set(hashtag);
     const image = req.files.map((file) => file.path);
 
     // 요청 변수 검증
@@ -195,13 +189,6 @@ export const updateBoardById = async (req, res, next) => {
       return res
         .status(200)
         .json({ message: '제목은 최대 30자까지 입력 가능합니다.' });
-    }
-
-    // 해시태그 중복 검증
-    if (hashtag && hashtag.length !== set.size) {
-      return res
-        .status(200)
-        .json({ message: '중복된 태그를 사용할 수 없습니다.' });
     }
 
     // 게시글 조회
@@ -223,7 +210,7 @@ export const updateBoardById = async (req, res, next) => {
         userId,
         title,
         content,
-        hashtag,
+        hashtag: hashtagSet,
         image
       },
       { new: true, runValidators: true }
