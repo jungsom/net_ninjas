@@ -221,9 +221,10 @@ function RecommendInputArea() {
           <Button
             variant='primary'
             title='찾기'
-            onClick={(e) => {
-              if (inputValidation()) getRecommendData(e);
-            }}
+            // onClick={(e) => {
+            //   if (inputValidation()) getRecommendData(e);
+            // }}
+            onClick={getRecommendData}
           >
             찾기 <Search />
           </Button>

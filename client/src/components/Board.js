@@ -1,4 +1,5 @@
 import BoardMainPage from './board/BoardMainPage';
+import BoardPost from './board/BoardPost';
 import BoardProvider from './board/BoardProvider';
 import BoardSearchBar from './board/BoardSearchBar';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ function Board() {
         <StyledContent>
           <BoardSearchBar />
           <BoardMainPage />
+          <BoardPost />
         </StyledContent>
       </StyledCenterLayout>
     </BoardProvider>

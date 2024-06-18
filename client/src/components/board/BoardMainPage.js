@@ -17,7 +17,10 @@ function BoardMainPage() {
             <ArcticleHeader>
               <AuthorInformation>
                 <div>
-                  <img src='./img/recommend/recommend.jpg' />
+                  <img
+                    src='./img/recommend/recommend.jpg'
+                    alt='프로필 이미지'
+                  />
                 </div>
                 <div className='nickname'>{item.nickname}</div>
                 <div className='timeDiff'>5분 전</div>
@@ -29,7 +32,7 @@ function BoardMainPage() {
             <hr />
             <ArcticleTitle>{item.title}</ArcticleTitle>
             <ContentImage>
-              <img src='./img/recommend/jungu00.jpg' />
+              <img src='./img/recommend/jungu00.jpg' alt='본문 이미지' />
             </ContentImage>
             <hr />
             <LikesAndComments>
@@ -37,11 +40,12 @@ function BoardMainPage() {
                 <img
                   src='./img/heart-black.png'
                   style={{ width: '20px', height: '20px' }}
+                  alt='좋아요'
                 />{' '}
                 {item.likes?.length ?? 0}
               </div>
-              <div>
-                <Chat size={20} /> {item.comments?.length ?? 0}
+              <div className='comments'>
+                <Chat size={19} /> {item.comments?.length ?? 0}
               </div>
             </LikesAndComments>
             <Content>{charMaxLength(item.content)}</Content>
@@ -65,7 +69,7 @@ const BoardContainer = styled.div`
   margin-top: 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 35px;
   place-items: center;
 `;
 
@@ -123,14 +127,14 @@ const ArcticleTitle = styled.div`
   /* 게시글 제목 */
   font-weight: bold;
   padding: 0 10px 10px 10px;
-  font-size: 15px;
+  font-size: 17px;
 `;
 
 const ContentImage = styled.div`
   /* 게시글 이미지 */
   text-align: center;
   img {
-    border-radius: 4px;
+    border-radius: 6px;
     width: 350px;
     height: 280px;
     object-fit: cover;
@@ -144,6 +148,7 @@ const LikesAndComments = styled.div`
   align-items: center;
   padding: 0 10px;
   font-size: 13px;
+  user-select: none;
 `;
 
 const Content = styled.div`

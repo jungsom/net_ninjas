@@ -12,7 +12,7 @@ function BoardSearchBar() {
         <h4>
           <strong>동잇스타그램</strong>
         </h4>
-        <div>동네 사진을 올려주세요!</div>
+        <div className='description'>동네 사진을 올려주세요!</div>
       </div>
       <SearchInputBox>
         <Search />
@@ -31,6 +31,10 @@ const BoardSearchLayout = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
+  .description {
+    color: #6d6d6d;
+    font-size: 14px;
+  }
 `;
 
 const SearchInputBox = styled.div`
