@@ -13,13 +13,9 @@ import {
   createComment,
   getCommentsByBoardId,
   updateCommentById,
-  deleteCommentById,
-  getCommentCount
+  deleteCommentById
 } from '../controllers/commentController.js';
-import {
-  createLikeByBoardId,
-  getLikesByBoardId
-} from '../controllers/likeController.js';
+import { createLikeByBoardId } from '../controllers/likeController.js';
 import { uploadBoardImage } from '../config/multer.js';
 
 const boardRouter = express.Router();
@@ -61,10 +57,8 @@ boardRouter.delete(
   authenticateUser,
   deleteCommentById
 );
-boardRouter.get('/:boardId/comments/count', authenticateUser, getCommentCount);
 
 // 좋아요 기능
-boardRouter.get('/:boardId/likes', authenticateUser, getLikesByBoardId);
 boardRouter.post('/:boardId/likes', authenticateUser, createLikeByBoardId);
 
 export default boardRouter;
