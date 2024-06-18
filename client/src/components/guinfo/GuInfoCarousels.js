@@ -7,6 +7,7 @@ const StyledImage = styled.img`
   height: 100%;
   // border-radius: 10px;
   object-fit: cover; /* 이미지가 부모 요소를 채우도록 */
+  border-radius: 35px;
 `;
 
 const ImageWrapper = styled.div`

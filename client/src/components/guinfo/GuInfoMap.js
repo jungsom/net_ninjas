@@ -4,6 +4,7 @@ import { feature } from 'topojson-client';
 import seoul from '../../data/seoul.json';
 import styled from 'styled-components';
 import GuInfoDescription from './GuInfoDescription';
+import { ChevronUp } from 'react-bootstrap-icons';
 
 // const initialWidth = 850; // 초기 너비
 // const initialHeight = 850; // 초기 높이
@@ -11,6 +12,7 @@ import GuInfoDescription from './GuInfoDescription';
 function GuInfoMap() {
   const [guName, setGuName] = useState('');
   const svgRef = useRef(null);
+  const guInfoRef = useRef(null);
   // const [width, setWidth] = useState(initialWidth);
   // const [height, setHeight] = useState(initialHeight);
 
@@ -44,6 +46,14 @@ function GuInfoMap() {
       .attr('width', width)
       .attr('height', height);
 
+    svg
+      .append('image')
+      .attr('xlink:href', './img/map.png')
+      .attr('x', -110) //
+      .attr('y', -60) //
+      .attr('width', 1100)
+      .attr('height', 1100);
+
     const mapLayer = svg.append('g');
 
     mapLayer
@@ -52,18 +62,19 @@ function GuInfoMap() {
       .enter()
       .append('path') // path element로 추가
       .attr('d', path)
-      .style('fill', '#5b5ba0') // 배경 색상 설정
+      .style('fill', '#5FC3C8') // 배경 색상 설정
       .style('stroke', '#ffffff') // 경계선 설정
-      .style('stroke-width', 0.2) // 경계선 굵기 설정
+      .style('stroke-width', 0.4) // 경계선 굵기 설정
       .on('mouseover', function () {
-        d3.select(this).style('fill', '#212168'); // 마우스를 올렸을 때 변할 색상 설정
+        d3.select(this).style('fill', '#4C9FA3'); // 마우스를 올렸을 때 변할 색상 설정
       })
       .on('mouseout', function () {
-        d3.select(this).style('fill', '#5b5ba0'); // 마우스를 땠을 때 다시 원래대로 돌아가게 설정
+        d3.select(this).style('fill', '#5FC3C8'); // 마우스를 땠을 때 다시 원래대로 돌아가게 설정
       })
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
+        guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
         // setWidth(500);
         // setHeight(500);
       });
@@ -84,6 +95,7 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
+        guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
         // setWidth(500);
         // setHeight(500);
       });
@@ -100,7 +112,23 @@ function GuInfoMap() {
         <StyledMap>
           <svg ref={svgRef}></svg>
         </StyledMap>
-        {guName && <GuInfoDescription guName={guName} />}
+        <div ref={guInfoRef} clssName='guInfoDesc'>
+          {guName && <GuInfoDescription guName={guName} />}
+        </div>
+        <StyledBtn>
+          {guName && (
+            <button
+              onClick={() => {
+                svgRef.current.scrollIntoView({ behavior: 'smooth' });
+                setGuName('');
+              }}
+            >
+              <ChevronUp size={50} color='#5FC3C8' />
+              <br />
+              다른 구 정보
+            </button>
+          )}
+        </StyledBtn>
       </StyledDiv>
     </>
   );
@@ -115,6 +143,31 @@ const StyledDiv = styled.div`
 
 const StyledMap = styled.div`
   user-select: none;
+  position: relative;
+  svg img {
+    z-index: 2;
+  }
+`;
+
+const Styled3D = styled.div`
+  user-select: none;
+  z-index: -1;
+  width: 850px;
+  height: 850px;
+  position: absolute;
+`;
+
+const StyledBtn = styled.div`
+  button {
+    border: none;
+    background: none;
+    font-size: 23px;
+    color: #a9a9a9;
+  }
+  button:hover {
+    color: #5fc3c8;
+  }
+  margin-bottom: 40px;
 `;
 
 export default GuInfoMap;

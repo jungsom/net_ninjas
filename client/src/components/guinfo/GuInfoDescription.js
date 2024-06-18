@@ -43,11 +43,13 @@ function GuInfoDescription({ guName }) {
 
   return (
     <StyledDiv>
-      <h3>서울시 {guName}</h3>
+      <GuTitle>
+        <h4>서울시 {guName}</h4>
+        <h3>서울특별시의 중앙부에 있는 자치구</h3>
+      </GuTitle>
       <GuInfoCarousels guName={guName} />
-      <p>
+      <p style={{ marginTop: '20px' }}>
         <ListTitle>1. 대학교</ListTitle>
-
         <ListDescription>{university || '없음'}</ListDescription>
       </p>
       <hr />
@@ -139,7 +141,18 @@ const StyledDiv = styled.div`
   li {
     list-style: none;
   }
+  margin-top: 80px;
   margin-bottom: 25px;
+`;
+
+const GuTitle = styled.div`
+  h4 {
+    color: #5fc3c8;
+    font-weight: bold;
+  }
+  h3 {
+    font-weight: bold;
+  }
 `;
 
 const ListTitle = styled.div`
