@@ -1,7 +1,6 @@
 import RecommendInputArea from './recommend/RecommendInputArea';
 import RecommendProvider from './recommend/RecommendProvider';
 import styled from 'styled-components';
-import SideArrowButton from './SideArrowButton';
 
 function Recommend() {
   return (

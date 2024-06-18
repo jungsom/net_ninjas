@@ -1,16 +1,12 @@
-import SideArrowButton from './SideArrowButton';
 import GuInfoMap from './guinfo/GuInfoMap';
 import styled from 'styled-components';
 
 function GuInformation() {
   return (
     <StyledCenterLayout>
-      <SideArrowButton arrow='left' title='홈' to='/' />
       <StyledContent>
-        <h2>자치구 소개</h2>
         <GuInfoMap />
       </StyledContent>
-      <SideArrowButton arrow='right' title='추천' to='/recommend' />
     </StyledCenterLayout>
   );
 }

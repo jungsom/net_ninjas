@@ -5,14 +5,17 @@ import seoul from '../../data/seoul.json';
 import styled from 'styled-components';
 import GuInfoDescription from './GuInfoDescription';
 
-const initialWidth = 850; // 초기 너비
-const initialHeight = 850; // 초기 높이
+// const initialWidth = 850; // 초기 너비
+// const initialHeight = 850; // 초기 높이
 
 function GuInfoMap() {
   const [guName, setGuName] = useState('');
   const svgRef = useRef(null);
-  const [width, setWidth] = useState(initialWidth);
-  const [height, setHeight] = useState(initialHeight);
+  // const [width, setWidth] = useState(initialWidth);
+  // const [height, setHeight] = useState(initialHeight);
+
+  const width = 850;
+  const height = 850;
 
   const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
@@ -61,8 +64,8 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
-        setWidth(500);
-        setHeight(500);
+        // setWidth(500);
+        // setHeight(500);
       });
 
     mapLayer
@@ -81,8 +84,8 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
-        setWidth(500);
-        setHeight(500);
+        // setWidth(500);
+        // setHeight(500);
       });
   };
 
@@ -99,19 +102,15 @@ function GuInfoMap() {
         </StyledMap>
         {guName && <GuInfoDescription guName={guName} />}
       </StyledDiv>
-      {!guName && (
-        <StyledDiv>
-          <h4>환영 문구</h4>
-        </StyledDiv>
-      )}
     </>
   );
 }
 
 const StyledDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
 `;
 
 const StyledMap = styled.div`
