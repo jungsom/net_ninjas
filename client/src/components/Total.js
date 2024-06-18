@@ -2,19 +2,15 @@ import TotalTable from './total/TotalTable';
 import TotalSearch from './total/TotalSearch';
 import TotalProvider from './total/TotalProvider';
 import styled from 'styled-components';
-import SideArrowButton from './SideArrowButton';
 
 function Total() {
   return (
     <TotalProvider>
       <StyledCenterLayout>
-        <SideArrowButton arrow='left' title='추천' to='/recommend' />
         <StyledContent>
-          <h2>전체 통계</h2>
           <TotalSearch />
           <TotalTable />
         </StyledContent>
-        <SideArrowButton arrow='right' title='통계 분석' to='/analysis' />
       </StyledCenterLayout>
     </TotalProvider>
   );
