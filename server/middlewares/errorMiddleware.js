@@ -33,6 +33,13 @@ export class MethodNotAllowed extends Error {
   }
 }
 
+export class InternalServerError extends Error {
+  constructor(message) {
+    super(message);
+    this.status = 500;
+  }
+}
+
 export const errorMiddleware = (err, req, res, next) => {
   console.error(err.stack);
 

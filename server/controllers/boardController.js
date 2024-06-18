@@ -186,7 +186,7 @@ export const createBoard = async (req, res, next) => {
   const image =
     req.files.length > 0
       ? req.files.map((file) => file.path)
-      : ['uploads/boardImages/defaultImage.png'];
+      : ['boardImages/defaultImage.png'];
   const hashtagSet = hashtag >= 2 ? Array.from(new Set(hashtag)) : hashtag;
 
   // 유효성 검증
