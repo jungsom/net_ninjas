@@ -1,16 +1,15 @@
 import { BadRequest } from '../middlewares/errorMiddleware.js';
 import Region from '../models/region.js';
 
-function validateRecommend(query) {
+export function validateRecommend(query) {
   // 우선순위 변수가 없을 때, 400 에러
-  if (!query.first || !query.second || !query.third) {
-    throw new BadRequest('우선순위 카테고리를 찾을 수 없습니다.');
+  if (!query.first || !query.second || !query.third || !query.option) {
+    throw new BadRequest('요청 변수를 찾을 수 없습니다.');
   }
 
   if (query.option === 'jeonse') {
     // 옵션, 전세에 대한 예산 금액을 입력하지 않을 때, 400 에러
     if (
-      !query.option ||
       !query.min_price ||
       !query.max_price ||
       query.min_price_2 ||
@@ -25,7 +24,6 @@ function validateRecommend(query) {
   } else if (query.option === 'month') {
     // 옵션, 월세에 대한 예산 금액을 입력하지 않을 때, 400 에러
     if (
-      !query.option ||
       !query.min_price ||
       !query.max_price ||
       !query.min_price_2 ||
@@ -45,7 +43,7 @@ function validateRecommend(query) {
   }
 }
 
-async function getModelData(modelName) {
+export async function getModelData(modelName) {
   const models = {
     convenience: 'convScore',
     education: 'eduScore',
@@ -63,4 +61,24 @@ async function getModelData(modelName) {
   return data.map((item) => item[modelField]);
 }
 
-export { validateRecommend, getModelData };
+export async function calculateTotalScores(
+  firstData,
+  secondData,
+  thirdData,
+  gudongData
+) {
+  const totalScores = firstData.map((_, index) => {
+    return (
+      firstData[index] * 1.3 + secondData[index] * 0.7 + thirdData[index] * 0.2
+    );
+  });
+
+  const totalDatas = totalScores.map((score, index) => ({
+    id: gudongData[index]._id,
+    gu: gudongData[index].gu,
+    dong: gudongData[index].dong,
+    totalScore: score
+  }));
+
+  return totalDatas;
+}

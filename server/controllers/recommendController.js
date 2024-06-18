@@ -1,7 +1,8 @@
 import * as categorizationService from '../services/categorizationService.js';
 import {
   validateRecommend,
-  getModelData
+  getModelData,
+  calculateTotalScores
 } from '../services/recommendService.js';
 
 export async function recommend(req, res, next) {
@@ -29,22 +30,12 @@ export async function recommend(req, res, next) {
     const thirdData = await getModelData(third);
 
     // 최종 추천 데이터 생성
-    const totalScore = firstData.map((_, index) => {
-      return (
-        firstData[index] * 1.3 +
-        secondData[index] * 0.7 +
-        thirdData[index] * 0.2
-      );
-    });
-
-    const totalData = totalScore.map((score, index) => {
-      return {
-        id: gudongData[index]._id,
-        gu: gudongData[index].gu,
-        dong: gudongData[index].dong,
-        totalScore: score
-      };
-    });
+    const totalData = await calculateTotalScores(
+      firstData,
+      secondData,
+      thirdData,
+      gudongData
+    );
 
     // 옵션이 전세일 경우
     if (option === 'jeonse') {
