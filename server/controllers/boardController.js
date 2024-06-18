@@ -10,6 +10,7 @@ import {
   getBoardWithCounts,
   getBoardWithDetails
 } from '../services/boardService.js';
+import { boardSchema } from '../validations/boardValidation.js';
 
 /** 전체 게시판 글 조회 */
 export const getAllBoards = async (req, res, next) => {
@@ -188,22 +189,11 @@ export const createBoard = async (req, res, next) => {
       : ['uploads/boardImages/defaultImage.png'];
   const hashtagSet = hashtag >= 2 ? Array.from(new Set(hashtag)) : hashtag;
 
-  // 요청 변수 검증
-  if (!userId || !title || !content) {
-    throw new BadRequest('요청 변수를 찾을 수 없습니다.');
-  }
+  // 유효성 검증
+  const { error } = boardSchema.validate({ title, content });
 
-  // 제목과 내용 검증
-  if (!title.trim() || !content.trim()) {
-    return res.status(200).json({ message: '제목 혹은 내용을 입력해주세요.' });
-  } else if (title.length > 30) {
-    return res
-      .status(200)
-      .json({ message: '제목은 최대 30자까지 입력 가능합니다.' });
-  } else if (content.length > 1000) {
-    return res
-      .status(200)
-      .json({ message: '내용은 최대 1000자까지 입력 가능합니다.' });
+  if (error) {
+    return res.status(400).json({ code: 400, message: error.message });
   }
 
   try {
@@ -239,19 +229,15 @@ export const updateBoardById = async (req, res, next) => {
     const image = req.files.map((file) => file.path);
 
     // 요청 변수 검증
-    if (!boardId || !title || !content) {
+    if (!boardId) {
       throw new NotFound('요청 변수를 찾을 수 없습니다.');
     }
 
-    // 제목과 내용 검증
-    if (title.trim().length === 0 || content.trim().length === 0) {
-      return res
-        .status(200)
-        .json({ message: '제목 혹은 내용을 입력해주세요.' });
-    } else if (title.length > 30) {
-      return res
-        .status(200)
-        .json({ message: '제목은 최대 30자까지 입력 가능합니다.' });
+    // 유효성 검증
+    const { error } = boardSchema.validate({ title, content });
+
+    if (error) {
+      return res.status(400).json({ code: 400, message: error.message });
     }
 
     // 게시글 조회
