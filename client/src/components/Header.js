@@ -2,8 +2,22 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useCookies } from 'react-cookie';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
+  // const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // useEffect(() => {
+  //   // 쿠키에 토큰이 있는지 확인
+  //   if (cookies.token) {
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     setIsAuthenticated(false);
+  //   }
+  // }, [cookies]);
+
   return (
     <Navbar
       sticky='top'
@@ -31,13 +45,6 @@ export default function Header() {
               </NavDropdown.Item> */}
             </NavDropdown>
             <Nav.Link href='/board'>게시판</Nav.Link>
-          </Nav>
-          <Nav>
-            <Nav.Link href='/user/register'>회원가입</Nav.Link>
-            <Nav.Link href='/user/login'>로그인</Nav.Link>
-            {/* <Nav.Link eventKey={2} href="#memes">
-                Dank memes
-              </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

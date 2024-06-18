@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Register() {
@@ -23,6 +24,8 @@ export default function Register() {
     isPasswordSame &&
     !isNameEmpty;
 
+  const navigate = useNavigate();
+
   // handleSubmit 함수 작성
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +42,7 @@ export default function Register() {
         }
       );
       console.log(response.data);
+      navigate('/user/login'); // 회원가입 성공하면 로그인 페이지로 이동
     } catch (e) {
       console.error(e.response.data);
     }

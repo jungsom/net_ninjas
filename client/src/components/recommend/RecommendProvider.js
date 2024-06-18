@@ -41,6 +41,7 @@ function RecommendProvider({ children }) {
         // console.log(response.data);
       }
       const data = response.data;
+      console.log(data);
       setRecommendData(data);
       navigate('/recommend/result', {
         state: {

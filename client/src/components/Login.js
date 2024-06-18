@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -9,6 +10,8 @@ export default function Register() {
   const isEmailEmpty = email === '';
   const isPasswordEmpty = password === '';
   const isFormValid = !isEmailEmpty && !isPasswordEmpty;
+
+  const navigate = useNavigate();
 
   // handleSubmit 함수 작성
   const handleSubmit = async (e) => {
@@ -26,9 +29,11 @@ export default function Register() {
           withCredentials: true
         }
       );
-      console.log(response.data);
+      console.log(response);
+      navigate('/'); // 회원가입 성공하면 home 페이지로 이동
     } catch (e) {
-      console.error(e.response.data);
+      // console.error(e.response.data);
+      console.error(e);
     }
   };
 
