@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import RecommendContext from './RecommendContext';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function RecommendResult() {
   const location = useLocation();
@@ -46,14 +46,14 @@ export default function RecommendResult() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const firstResponse = await axios.get(
-          `http://localhost:8080/allResearch/search?keyword=${first[0].dong}`
+        const firstResponse = await baseAxios.get(
+          `/allResearch/search?keyword=${first[0].dong}`
         );
-        const secondResponse = await axios.get(
-          `http://localhost:8080/allResearch/search?keyword=${second[0].dong}`
+        const secondResponse = await baseAxios.get(
+          `/allResearch/search?keyword=${second[0].dong}`
         );
-        const thirdResponse = await axios.get(
-          `http://localhost:8080/allResearch/search?keyword=${third[0].dong}`
+        const thirdResponse = await baseAxios.get(
+          `/allResearch/search?keyword=${third[0].dong}`
         );
 
         setFirstData(firstResponse.data);

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
-import axios from 'axios';
+import baseAxios from './shared/api';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -19,16 +19,12 @@ export default function Register() {
     const data = { email: email, password: password };
     const bodyData = JSON.stringify(data);
     try {
-      const response = await axios.post(
-        'http://localhost:8080/user/login',
-        bodyData,
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        }
-      );
+      const response = await baseAxios.post('/user/login', bodyData, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
       console.log(response);
       navigate('/'); // 회원가입 성공하면 home 페이지로 이동
     } catch (e) {

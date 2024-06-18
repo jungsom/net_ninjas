@@ -48,7 +48,7 @@ function GuInfoMap() {
 
     svg
       .append('image')
-      .attr('xlink:href', './img/map.png')
+      .attr('href', './img/map.png')
       .attr('x', -110) //
       .attr('y', -60) //
       .attr('width', 1100)

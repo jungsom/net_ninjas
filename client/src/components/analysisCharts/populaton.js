@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Population() {
   const [populationData, setPopulationData] = useState(null);
@@ -11,8 +11,8 @@ export default function Population() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/allResearch/population?perPage=20&pageNo=1&column=youthRate&sorting=desc`
+        const response = await baseAxios.get(
+          `/allResearch/population?perPage=20&pageNo=1&column=youthRate&sorting=desc`
         );
         const data = response.data.paginatedData;
         // console.log(data);

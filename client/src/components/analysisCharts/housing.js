@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Housing() {
   const [jeonseDepositData, setJeonseDepositData] = useState(null);
@@ -14,8 +14,8 @@ export default function Housing() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/allResearch/housing?perPage=464`
+        const response = await baseAxios.get(
+          `/allResearch/housing?perPage=464`
         );
         const allData = response.data.paginatedData;
 

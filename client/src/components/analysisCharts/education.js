@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 import CustomOverlay from './skeleton';
 
 export default function Education() {
@@ -13,11 +13,11 @@ export default function Education() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const academyResponse = await axios.get(
-          `http://localhost:8080/allResearch/education?perPage=464&pageNo=1&column=academyCount&sorting=desc`
+        const academyResponse = await baseAxios.get(
+          `/allResearch/education?perPage=464&pageNo=1&column=academyCount&sorting=desc`
         );
-        const libraryResponse = await axios.get(
-          `http://localhost:8080/allResearch/education?perPage=20&pageNo=1&column=libraryCount&sorting=desc`
+        const libraryResponse = await baseAxios.get(
+          `/allResearch/education?perPage=20&pageNo=1&column=libraryCount&sorting=desc`
         );
 
         // gu, academyCount 값만 추출

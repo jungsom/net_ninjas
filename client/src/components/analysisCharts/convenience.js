@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Convenience() {
   const [supermarketData, setSupermarketData] = useState(null);
@@ -11,8 +11,8 @@ export default function Convenience() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/allResearch/convenience?perPage=464&pageNo=1&column=supermarket&sorting=desc`
+        const response = await baseAxios.get(
+          `/allResearch/convenience?perPage=464&pageNo=1&column=supermarket&sorting=desc`
         );
 
         // gu, supermaket 값만 추출

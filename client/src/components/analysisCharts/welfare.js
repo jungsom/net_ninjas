@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Welfare() {
   const [totalData, setTotalData] = useState(null);
@@ -16,14 +16,14 @@ export default function Welfare() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const totalResponse = await axios.get(
-          `http://localhost:8080/allResearch/welfare?perPage=20&pageNo=1&column=welfareTotal&sorting=desc`
+        const totalResponse = await baseAxios.get(
+          `/allResearch/welfare?perPage=20&pageNo=1&column=welfareTotal&sorting=desc`
         );
-        const cultureResponse = await axios.get(
-          `http://localhost:8080/allResearch/welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
+        const cultureResponse = await baseAxios.get(
+          `/allResearch/welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
         );
-        const medicalResponse = await axios.get(
-          `http://localhost:8080/allResearch/welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
+        const medicalResponse = await baseAxios.get(
+          `/allResearch/welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
         );
         // console.log(cultureResponse.data.paginatedData);
         // console.log(medicalResponse.data.paginatedData);

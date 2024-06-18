@@ -1,6 +1,6 @@
 import RecommendContext from './RecommendContext';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 import { useNavigate } from 'react-router-dom';
 import { min } from 'd3';
 
@@ -23,14 +23,14 @@ function RecommendProvider({ children }) {
     let response;
     try {
       if (contractType === 'jeonse') {
-        response = await axios.get(
-          `http://localhost:8080/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}`
+        response = await baseAxios.get(
+          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}`
         );
         console.log(response.data);
       }
       if (contractType === 'month') {
-        response = await axios.get(
-          `http://localhost:8080/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}&min_price_2=${minRent}&max_price_2=${maxRent}`
+        response = await baseAxios.get(
+          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}&min_price_2=${minRent}&max_price_2=${maxRent}`
         );
         console.log(response.data);
       }

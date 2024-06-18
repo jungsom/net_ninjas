@@ -44,7 +44,7 @@ export default function Header() {
                 Separated link
               </NavDropdown.Item> */}
             </NavDropdown>
-            <Nav.Link href='/board'>게시판</Nav.Link>
+            {/* <Nav.Link href='/board'>게시판</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>
