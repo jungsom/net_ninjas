@@ -1,10 +1,10 @@
 import Comment from '../models/comment.js';
-import { paginateData } from '../services/allResearchService.js';
 import {
   BadRequest,
   NotFound,
   Forbidden
 } from '../middlewares/errorMiddleware.js';
+import { commentSchema } from '../validations/boardValidation.js';
 
 /** 게시글에 대한 모든 댓글 조회 */
 export const getCommentsByBoardId = async (req, res, next) => {
@@ -13,13 +13,13 @@ export const getCommentsByBoardId = async (req, res, next) => {
     const commentLimit = req.query.limit || 20;
     const commentNext = req.query.next || null;
 
-    // 쿼리 조건 정의
-    const query = commentNext ? { _id: { $lt: commentNext } } : {};
-
     // 요청 변수 검증
     if (!boardId) {
       throw new BadRequest('요청 변수를 찾을 수 없습니다.');
     }
+
+    // 쿼리 조건 정의
+    const query = commentNext ? { _id: { $lt: commentNext } } : {};
 
     // 댓글 조회 (페이지네이션)
     const comments = await Comment.find(query)
@@ -50,17 +50,15 @@ export const createComment = async (req, res, next) => {
   const userId = req.user.id;
 
   // 요청 변수 검증
-  if (!boardId || !content) {
+  if (!boardId) {
     return next(new NotFound('요청 변수를 찾을 수 없습니다.'));
   }
 
-  // 댓글 내용 검증
-  if (!content.trim()) {
-    return res.status(200).json({ message: '댓글 내용을 입력해주세요.' });
-  } else if (content.length > 500) {
-    return res
-      .status(200)
-      .json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
+  // 유효성 검증
+  const { error } = commentSchema.validate({ content });
+
+  if (error) {
+    return res.status(400).json({ code: 400, message: error.message });
   }
 
   try {
@@ -91,17 +89,15 @@ export const updateCommentById = async (req, res, next) => {
     const userId = req.user.id;
 
     // 요청 변수 검증
-    if (!boardId || !content || !commentId) {
+    if (!boardId || !commentId) {
       throw new NotFound('요청 변수를 찾을 수 없습니다.');
     }
 
-    // 댓글 검증
-    if (content.trim().length === 0) {
-      return res.status(200).json({ message: '댓글 내용을 입력해주세요.' });
-    } else if (content.length > 500) {
-      return res
-        .status(200)
-        .json({ message: '댓글은 최대 100자까지 입력 가능합니다.' });
+    // 유효성 검증
+    const { error } = commentSchema.validate({ content });
+
+    if (error) {
+      return res.status(400).json({ code: 400, message: error.message });
     }
 
     // 댓글 조회
