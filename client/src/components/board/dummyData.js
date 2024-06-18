@@ -3,7 +3,7 @@ const boardDummyData = [
     boardId: 1,
     userId: 1,
     nickname: 'Lapras',
-    title: '테스트',
+    title: '안녕하세요?',
     content:
       '안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요? 안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?안녕하세요?',
     hashtag: ['도봉구', '쌍문동'],
@@ -34,8 +34,8 @@ const boardDummyData = [
     boardId: 1,
     userId: 1,
     nickname: '닌자',
-    title: '테스트',
-    content: '안녕하세요',
+    title: 'Hello',
+    content: 'Hi.',
     hashtag: ['도봉구', '쌍문동'],
     createdAt: '2024-06-15T03:41:47.242Z',
     comments: [
