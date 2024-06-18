@@ -4,12 +4,13 @@ import {
   paginateData
 } from '../services/allResearchService.js';
 
-function isGuDong(keywords, gu, dong) {
-  return keywords.some((keyword) => {
-    let str = keyword.split(' ');
-    if (str[0] == gu && str[1] == dong) return true;
-
-    return false;
+function includesSameRegion(regions, targetRegion) {
+  return regions.some((region) => {
+    const regionParts = region.split(' ');
+    return targetRegion
+      .split(' ')
+      .slice(0, 2)
+      .every((targetPart, idx) => targetPart === regionParts[idx]);
   });
 }
 
@@ -19,16 +20,9 @@ export async function searchData(req, res, next) {
   const { keyword, column, sorting } = req.query;
   const keywords = keyword.split(',').map((k) => k.trim());
 
-  console.log('keywords : ', keywords);
-
   try {
     let data = (await getAllData()).filter((t) => {
-      if (
-        keywords.some((k) => t.gu.includes(k)) ||
-        keywords.some((k) => t.dong.includes(k)) ||
-        isGuDong(keywords, t.gu, t.dong)
-      )
-        return true;
+      if (includesSameRegion(keywords, `${t.gu} ${t.dong}`)) return true;
     });
 
     data = sortData(data, column, sorting);
