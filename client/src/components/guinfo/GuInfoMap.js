@@ -119,7 +119,9 @@ function GuInfoMap() {
           {guName && (
             <button
               onClick={() => {
-                svgRef.current.scrollIntoView({ behavior: 'smooth' });
+                svgRef.current.scrollIntoView({
+                  behavior: 'smooth'
+                });
                 setGuName('');
               }}
             >
