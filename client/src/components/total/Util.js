@@ -1,3 +1,5 @@
+import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
+
 export function whitespace(data) {
   const count = data.length;
   const tag = [];
@@ -37,4 +39,10 @@ export function numberToKoreanCurreny(number) {
   }
 
   return resultString.trim(); // 숫자 마지막에 공백이 들어가서 공백을 제거
+}
+
+export function getSortIcon(name, sortColumn, sort) {
+  if (name === sortColumn) {
+    return sort === 'asc' ? <ArrowUp /> : sort === 'desc' ? <ArrowDown /> : '';
+  }
 }

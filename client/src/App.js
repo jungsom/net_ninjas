@@ -21,6 +21,7 @@ import GuInformation from './components/GuInformation';
 import Board from './components/Board';
 import MyPage from './components/MyPage';
 import EditMyInformation from './components/EditMyInformation';
+import TotalProvider from './components/total/TotalProvider';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -64,7 +65,7 @@ function AppContent() {
   const location = useLocation();
 
   return (
-    <>
+    <TotalProvider>
       <Header />
       {/* {location.pathname === '/analysis' && <ChartsNavBar />} */}
       <MainContent>
@@ -83,7 +84,7 @@ function AppContent() {
         </Routes>
       </MainContent>
       <Footer />
-    </>
+    </TotalProvider>
   );
 }
 
