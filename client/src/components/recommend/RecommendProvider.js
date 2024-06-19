@@ -21,7 +21,6 @@ function RecommendProvider({ children }) {
   const [fourthOpen, setFourthOpen] = useState(false);
   const [fifthOpen, setFifthOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
 
   const jeonseQueryString = qs.stringify({
