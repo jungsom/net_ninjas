@@ -12,7 +12,7 @@ export default function Population() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/Population?perPage=20&pageNo=1&column=youthRate&sorting=desc`
+          `/allResearch/population?perPage=20&pageNo=1&column=youthRate&sorting=desc`
         );
         const data = response.data.paginatedData;
         // console.log(data);

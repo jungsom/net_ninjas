@@ -12,7 +12,7 @@ export default function Convenience() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/Convenience?perPage=464&pageNo=1&column=supermarket&sorting=desc`
+          `/allResearch/convenience?perPage=464&pageNo=1&column=supermarket&sorting=desc`
         );
 
         // gu, supermaket 값만 추출

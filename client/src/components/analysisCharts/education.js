@@ -31,10 +31,10 @@ export default function Education() {
     const fetchData = async () => {
       try {
         const academyResponse = await baseAxios.get(
-          `/allResearch/Education?perPage=464&pageNo=1&column=academyCount&sorting=desc`
+          `/allResearch/education?perPage=464&pageNo=1&column=academyCount&sorting=desc`
         );
         const libraryResponse = await baseAxios.get(
-          `/allResearch/Education?perPage=20&pageNo=1&column=libraryCount&sorting=desc`
+          `/allResearch/education?perPage=20&pageNo=1&column=libraryCount&sorting=desc`
         );
 
         // gu, academyCount 값만 추출

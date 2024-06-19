@@ -17,13 +17,13 @@ export default function Welfare() {
     const fetchData = async () => {
       try {
         const totalResponse = await baseAxios.get(
-          `/allResearch/Welfare?perPage=20&pageNo=1&column=welfareTotal&sorting=desc`
+          `/allResearch/welfare?perPage=20&pageNo=1&column=welfareTotal&sorting=desc`
         );
         const cultureResponse = await baseAxios.get(
-          `/allResearch/Welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
+          `/allResearch/welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
         );
         const medicalResponse = await baseAxios.get(
-          `/allResearch/Welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
+          `/allResearch/welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
         );
         // console.log(cultureResponse.data.paginatedData);
         // console.log(medicalResponse.data.paginatedData);
