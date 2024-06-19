@@ -85,6 +85,18 @@ const FirstText = styled.div`
       font-weight: bold;
     }
   }
+
+  @media (max-width: 650px) {
+    .qna {
+      font-size: 30px;
+    }
+    span:nth-child(2) {
+      font-size: 20px;
+      .important {
+        font-weight: bold;
+      }
+    }
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -95,6 +107,11 @@ const SelectContainer = styled.div`
   background-image: url('./img/recommendInput/group18.png');
   background-repeat: no-repeat;
   background-size: 600px;
+
+  @media (max-width: 650px) {
+    background-size: 100%;
+    height: 250px;
+  }
 `;
 
 const SecondText = styled.div`
@@ -112,6 +129,15 @@ const SecondText = styled.div`
   span:nth-child(2) {
     font-size: 25px;
   }
+
+  @media (max-width: 650px) {
+    span:nth-child(1) {
+      font-size: 25px;
+    }
+    span:nth-child(2) {
+      font-size: 18px;
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -121,6 +147,16 @@ const ButtonContainer = styled.div`
 
   button:disabled {
     background-color: #a9a9a9;
+  }
+
+  @media (max-width: 650px) {
+    width: 399px;
+    padding: 0 20px;
+    button {
+      width: 120px;
+      font-size: 18px;
+      padding: 10px 20px;
+    }
   }
 `;
 
@@ -140,12 +176,28 @@ const OptionContainer = styled.div`
     border-bottom: 3px solid #5fc3c8;
     outline: none;
   }
+
+  @media (max-width: 650px) {
+    span {
+      font-size: 20px;
+      line-height: 35px;
+    }
+    input {
+      margin-left: 10px;
+      width: 120px;
+      font-size: 18px;
+    }
+  }
 `;
 
 const FirstOption = styled.div`
   margin-top: 20px;
   display: flex;
   align-items: center;
+
+  @media (max-width: 650px) {
+    margin-top: 5px;
+  }
 `;
 
 const SecondOption = styled.div`

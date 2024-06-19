@@ -15,16 +15,12 @@ function Recommend() {
 }
 
 const StyledCenterLayout = styled.div`
+  min-width: 460px;
   display: flex;
   justify-content: center;
 `;
 
 const StyledContent = styled.div`
-  width: 1600px;
-  h2 {
-    margin-top: 30px;
-    text-align: center;
-  }
   display: flex;
   flex-direction: column;
 `;

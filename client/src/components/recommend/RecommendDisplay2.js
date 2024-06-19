@@ -143,6 +143,18 @@ const FirstText = styled.div`
       font-weight: bold;
     }
   }
+
+  @media (max-width: 650px) {
+    .qna {
+      font-size: 30px;
+    }
+    span:nth-child(2) {
+      font-size: 20px;
+      .important {
+        font-weight: bold;
+      }
+    }
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -153,6 +165,11 @@ const SelectContainer = styled.div`
   background-image: url('./img/recommendInput/group18.png');
   background-repeat: no-repeat;
   background-size: 600px;
+
+  @media (max-width: 650px) {
+    background-size: 100%;
+    height: 250px;
+  }
 `;
 
 const SecondText = styled.div`
@@ -169,6 +186,15 @@ const SecondText = styled.div`
   }
   span:nth-child(2) {
     font-size: 25px;
+  }
+
+  @media (max-width: 650px) {
+    span:nth-child(1) {
+      font-size: 25px;
+    }
+    span:nth-child(2) {
+      font-size: 18px;
+    }
   }
 `;
 
@@ -189,6 +215,19 @@ const OptionContainer = styled.div`
     background: url('../img/recommendInput/polygon1.png') no-repeat right 10px
       center;
     background-size: 15px;
+  }
+
+  @media (max-width: 650px) {
+    span {
+      font-size: 20px;
+      line-height: 35px;
+    }
+    select {
+      margin-left: 10px;
+      width: 120px;
+      font-size: 18px;
+      background-size: 12px;
+    }
   }
 `;
 
@@ -214,6 +253,15 @@ const ButtonContainer = styled.div`
 
   button:disabled {
     background-color: #a9a9a9;
+  }
+
+  @media (max-width: 650px) {
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      width: 120px;
+      height: 60px;
+    }
   }
 `;
 
