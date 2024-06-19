@@ -41,11 +41,11 @@ app.set('views', path.join(__dirname, 'client'));
 app.use(express.static(path.join(__dirname, 'client')));
 
 // router
-app.use('/allResearch', allResearchRouter);
-app.use('/board', boardRouter);
-app.use('/allPlace', placeRouter);
-app.use('/recommend', recommendRouter);
-app.use('/user', userRouter);
+app.use('/api/allResearch', allResearchRouter);
+app.use('/api/board', boardRouter);
+app.use('/api/allPlace', placeRouter);
+app.use('/api/recommend', recommendRouter);
+app.use('/api/user', userRouter);
 
 // 에러 처리 미들웨어
 app.use(errorMiddleware);
