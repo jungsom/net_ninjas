@@ -134,6 +134,7 @@ export default function Education() {
 
   return (
     <>
+      <h1>교육</h1>
       <h4>&#127979; 평생직업 교육학원</h4>
       <p>
         평생직업 교육학원은 1위 {academyData[0].gu}(

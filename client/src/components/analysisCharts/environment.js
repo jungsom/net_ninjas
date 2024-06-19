@@ -11,7 +11,7 @@ export default function Environment() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/Environment?perPage=464&pageNo=1&column=parkRate&sorting=desc`
+          `/allResearch/environment?perPage=464&pageNo=1&column=parkRate&sorting=desc`
         );
         // gu, parkRate 값만 추출
         const extractedData = response.data.paginatedData.map((item) => ({

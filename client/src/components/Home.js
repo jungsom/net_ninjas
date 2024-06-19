@@ -5,6 +5,8 @@ import Slider from './home/slider';
 import Stack from 'react-bootstrap/Stack';
 import { ReactComponent as GuInfo } from './home/guInfo.svg';
 import { ReactComponent as Total } from './home/total.svg';
+import { ReactComponent as Analysis } from './home/analysis.svg';
+import { ReactComponent as Recommend } from './home/recommend.svg';
 // import { ReactComponent as Arrow } from './home/arrow.svg';
 import { Link } from 'react-router-dom';
 
@@ -83,7 +85,7 @@ export default function Home() {
         gap={5}
         justifyContent='center'
         alignItems='center'
-        style={{ marginTop: '50px' }}
+        style={{ marginTop: '50px', marginBottom: '100px' }}
       >
         <TitleWrapper>
           <Content
@@ -114,6 +116,7 @@ export default function Home() {
               '동네의 주요 정보들을 8개의 카테고리로 나누어 보았어요.\n제일 안전한 동네, 복지가 제일 좋은 동네 등이 어디인지 알아볼 수 있어요.'
             }
           />
+          <Analysis style={{ margin: '0 auto' }} />
         </TitleWrapper>
         <TitleWrapper>
           <Content
@@ -124,6 +127,7 @@ export default function Home() {
               '동네에서 가장 중요하게 생각하는 기준이 있나요?\n동잇에게 알려주시면 해당 정보를 바탕으로 동네를 추천해드려요.'
             }
           />
+          <Recommend style={{ margin: '0 auto' }} />
         </TitleWrapper>
       </Stack>
     </Container>
