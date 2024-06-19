@@ -16,7 +16,8 @@ import {
   deleteCommentById
 } from '../controllers/commentController.js';
 import { createLikeByBoardId } from '../controllers/likeController.js';
-import { uploadBoardImage, resizeBoardImages } from '../config/multer.js';
+import { uploadBoardImage } from '../config/multer.js';
+import { resizeBoardImage } from '../services/imageService.js';
 
 const boardRouter = express.Router();
 
@@ -28,7 +29,7 @@ boardRouter.post(
   '/',
   authenticateUser,
   uploadBoardImage,
-  resizeBoardImages,
+  resizeBoardImage,
   createBoard
 );
 boardRouter.get('/:boardId', authenticateUser, getBoardById);
@@ -36,7 +37,7 @@ boardRouter.put(
   '/:boardId',
   authenticateUser,
   uploadBoardImage,
-  resizeBoardImages,
+  resizeBoardImage,
   updateBoardById
 );
 boardRouter.delete('/:boardId', authenticateUser, deleteBoardById);

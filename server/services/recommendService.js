@@ -69,7 +69,7 @@ export async function calculateTotalScores(
 ) {
   const totalScores = firstData.map((_, index) => {
     return (
-      firstData[index] * 1.3 + secondData[index] * 0.7 + thirdData[index] * 0.2
+      firstData[index] * 1.2 + secondData[index] * 0.5 + thirdData[index] * 0.2
     );
   });
 

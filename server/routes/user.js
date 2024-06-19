@@ -8,7 +8,8 @@ import {
   deleteUser
 } from '../controllers/userController.js';
 import authenticateUser from '../middlewares/authenticateMiddleware.js';
-import { uploadProfileImage, resizeProfileImage } from '../config/multer.js';
+import { uploadProfileImage } from '../config/multer.js';
+import { resizeProfileImage } from '../services/imageService.js';
 
 const userRouter = express.Router();
 

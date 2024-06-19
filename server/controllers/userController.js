@@ -18,7 +18,7 @@ export async function register(req, res, next) {
     const { email, password, name, nickname } = req.body;
     const profileImage = req.file
       ? req.file.path
-      : 'uploads/profileImages/defaultImage.png';
+      : 'profileImages/defaultImage.png';
 
     const existingUser = await User.findOne({ email });
     if (existingUser) throw new BadRequest('이미 사용 중인 이메일입니다.');
