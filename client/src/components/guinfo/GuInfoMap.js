@@ -6,18 +6,16 @@ import styled from 'styled-components';
 import GuInfoDescription from './GuInfoDescription';
 import { ChevronUp } from 'react-bootstrap-icons';
 
-// const initialWidth = 850; // 초기 너비
-// const initialHeight = 850; // 초기 높이
+const initialWidth = 850; // 초기 너비
+const initialHeight = 850; // 초기 높이
 
 function GuInfoMap() {
   const [guName, setGuName] = useState('');
   const svgRef = useRef(null);
   const guInfoRef = useRef(null);
-  // const [width, setWidth] = useState(initialWidth);
-  // const [height, setHeight] = useState(initialHeight);
-
-  const width = 850;
-  const height = 850;
+  const [width, setWidth] = useState(initialWidth);
+  const [height, setHeight] = useState(initialHeight);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 윈도우 크기를 받아와서, 830px보다 작으면 줄어들게 할거임
 
   const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
@@ -46,13 +44,24 @@ function GuInfoMap() {
       .attr('width', width)
       .attr('height', height);
 
-    svg
-      .append('image')
-      .attr('href', './img/map.png')
-      .attr('x', -110) //
-      .attr('y', -60) //
-      .attr('width', 1100)
-      .attr('height', 1100);
+    // 윈도우 넓이가 830보다 작으면, 지도의 뒤에 배치할 3D Map의 크기를 조절함
+    if (windowWidth > 830) {
+      svg
+        .append('image')
+        .attr('href', './img/map.png')
+        .attr('x', -110) //
+        .attr('y', -60) //
+        .attr('width', 1100)
+        .attr('height', 1100);
+    } else {
+      svg
+        .append('image')
+        .attr('href', './img/map.png')
+        .attr('x', -65) //
+        .attr('y', -40) //
+        .attr('width', 595)
+        .attr('height', 595);
+    }
 
     const mapLayer = svg.append('g');
 
@@ -75,8 +84,6 @@ function GuInfoMap() {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
-        // setWidth(500);
-        // setHeight(500);
       });
 
     mapLayer
@@ -96,15 +103,32 @@ function GuInfoMap() {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
-        // setWidth(500);
-        // setHeight(500);
       });
   };
 
-  // 페이지가 처음 랜더링될 때 그려주도록 설정
+  //
   useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth); // 창 크기를 조절할 때마다 windowWidth에 저장함
+    };
+
+    window.addEventListener('resize', handleResize); // 창 크기가 resize 될 때마다, handleResize를 이용해서 windowWidth에 저장
+    return () => {
+      window.removeEventListener('resize', handleResize); // 정리함수
+    };
+  }, []);
+
+  // 윈도우 크기가 830보다 작으면, 지도 크기를 450x450으로 설정, 830보다 크다면 초기에 설정한 값으로 설정
+  useEffect(() => {
+    if (windowWidth < 830) {
+      setWidth(450);
+      setHeight(450);
+    } else {
+      setWidth(initialWidth);
+      setHeight(initialHeight);
+    }
     printD3();
-  }, [width, height]); // width와 height 상태가 변경될 때마다 printD3 함수를 호출하여 지도를 다시 그리도록 설정
+  }, [windowWidth, width, height]); // windowWidth 상태가 변경될 때마다 printD3 함수를 호출하여 지도를 다시 그리도록 설정
 
   return (
     <>
@@ -112,7 +136,7 @@ function GuInfoMap() {
         <StyledMap>
           <svg ref={svgRef}></svg>
         </StyledMap>
-        <div ref={guInfoRef} clssName='guInfoDesc'>
+        <div ref={guInfoRef} className='guInfoDesc'>
           {guName && <GuInfoDescription guName={guName} />}
         </div>
         <StyledBtn>
@@ -145,20 +169,7 @@ const StyledDiv = styled.div`
 
 const StyledMap = styled.div`
   user-select: none;
-  position: relative;
-  svg img {
-    z-index: 2;
-  }
 `;
-
-const Styled3D = styled.div`
-  user-select: none;
-  z-index: -1;
-  width: 850px;
-  height: 850px;
-  position: absolute;
-`;
-
 const StyledBtn = styled.div`
   button {
     border: none;
@@ -170,6 +181,15 @@ const StyledBtn = styled.div`
     color: #5fc3c8;
   }
   margin-bottom: 40px;
+
+  @media (max-width: 830px) {
+    button {
+      font-size: 20px;
+    }
+    button svg {
+      width: 40px;
+    }
+  }
 `;
 
 export default GuInfoMap;

@@ -51,6 +51,16 @@ const FirstText = styled.div`
     width: 50px;
     height: 50px;
   }
+
+  @media (max-width: 650px) {
+    span {
+      font-size: 20px;
+    }
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
 `;
 
 const SecondText = styled.div`
@@ -58,6 +68,12 @@ const SecondText = styled.div`
   span {
     display: block;
     font-size: 19px;
+  }
+
+  @media (max-width: 650px) {
+    span {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -79,6 +95,12 @@ const ThirdText = styled.div`
     display: block;
     font-size: 19px;
   }
+
+  @media (max-width: 650px) {
+    span {
+      font-size: 15px;
+    }
+  }
 `;
 
 const NextButton = styled.div`
@@ -89,6 +111,13 @@ const NextButton = styled.div`
     font-weight: bold;
     border: none;
     background: none;
+  }
+
+  @media (max-width: 650px) {
+    font-size: 20px;
+    img {
+      height: 28px;
+    }
   }
 `;
 

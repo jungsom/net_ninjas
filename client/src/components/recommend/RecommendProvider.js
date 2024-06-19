@@ -2,7 +2,7 @@ import RecommendContext from './RecommendContext';
 import { useState, useEffect } from 'react';
 import baseAxios from '../shared/api';
 import { useNavigate } from 'react-router-dom';
-import { min } from 'd3';
+import qs from 'qs';
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function RecommendProvider({ children }) {
@@ -21,24 +21,36 @@ function RecommendProvider({ children }) {
   const [fourthOpen, setFourthOpen] = useState(false);
   const [fifthOpen, setFifthOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const navigate = useNavigate();
+
+  const jeonseQueryString = qs.stringify({
+    first: firstCategory,
+    second: secondCategory,
+    third: thirdCategory,
+    option: contractType,
+    min_price: minDeposit,
+    max_price: maxDeposit
+  });
+
+  const monthQueryString = qs.stringify({
+    first: firstCategory,
+    second: secondCategory,
+    third: thirdCategory,
+    option: contractType,
+    min_price: minDeposit,
+    max_price: maxDeposit,
+    min_price_2: minRent,
+    max_price_2: maxRent
+  });
 
   const getRecommendData = async () => {
     let response;
     try {
-      if (contractType === 'jeonse') {
-        response = await baseAxios.get(
-          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}`
-        );
-        console.log(response.data);
-      }
-      if (contractType === 'month') {
-        response = await baseAxios.get(
-          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}&min_price_2=${minRent}&max_price_2=${maxRent}`
-        );
-        console.log(response.data);
-      }
+      if (contractType === 'jeonse')
+        response = await baseAxios.get(`/recommend?${jeonseQueryString}`);
+      if (contractType === 'month')
+        response = await baseAxios.get(`/recommend?${monthQueryString}`);
+
       const data = response.data;
       console.log(data);
       setRecommendData(data);

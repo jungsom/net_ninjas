@@ -29,7 +29,7 @@ export default function Welfare() {
           `/allResearch/welfare?perPage=20&pageNo=1&column=cultureCount&sorting=desc`
         );
         const medicalResponse = await baseAxios.get(
-          `/allResearch/Welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
+          `/allResearch/welfare?perPage=20&pageNo=1&column=medicalCount&sorting=desc`
         );
         // console.log(cultureResponse.data.paginatedData);
         // console.log(medicalResponse.data.paginatedData);

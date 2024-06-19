@@ -41,6 +41,13 @@ const LoadingImg = styled.div`
       transform: rotate(360deg);
     }
   }
+
+  @media (max-width: 650px) {
+    margin-top: 100px;
+    img {
+      width: 90px;
+    }
+  }
 `;
 
 const LoadingMessage = styled.div`
@@ -62,6 +69,10 @@ const LoadingMessage = styled.div`
     100% {
       color: #5fc3c8;
     }
+  }
+
+  @media (max-width: 650px) {
+    font-size: 16px;
   }
 `;
 

@@ -13,16 +13,23 @@ function GuInformation() {
 }
 
 const StyledCenterLayout = styled.div`
+  min-width: 450px;
   display: flex;
   justify-content: center;
 `;
 
 const StyledContent = styled.div`
-  width: 950px;
   h2 {
     margin-top: 50px;
+    margin-left: 20px;
     text-align: left;
     font-weight: bold;
+  }
+
+  @media (max-width: 830px) {
+    h2 {
+      font-size: 22px;
+    }
   }
 `;
 export default GuInformation;
