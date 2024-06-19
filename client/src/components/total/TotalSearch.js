@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import TotalContext from './TotalContext';
 import styled from 'styled-components';
 import InputBox from '../InputBox';
@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function TotalSearch() {
-  const { setKeyword, setPage, setSort, setSortColumn } =
+  const { keyword, setKeyword, setPage, setSort, setSortColumn } =
     useContext(TotalContext); // TotalContext의 setData를 구조분해할당으로 가져옴
 
   const [inputKeyword, setInputKeyword] = useState('');
@@ -18,6 +18,10 @@ function TotalSearch() {
     setSort('');
     setSortColumn('');
   };
+
+  useEffect(() => {
+    setInputKeyword(keyword);
+  }, []);
 
   // keyword를 받아서 API 요청, 받은 결과값을 data로 설정해줌
   // 초기화 버튼을 누르면 data를 다시 빈 배열로 초기화

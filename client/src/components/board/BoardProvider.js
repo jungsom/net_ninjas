@@ -1,6 +1,6 @@
 import BoardContext from './BoardContext';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function BoardProvider({ children }) {
@@ -8,7 +8,7 @@ function BoardProvider({ children }) {
 
   const getBoardContents = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/board');
+      const response = await baseAxios.get('/board');
       setBoardContents(response.data);
     } catch (e) {
       console.log(e);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Transportation() {
   const [busStationData, setBusStationData] = useState(null);
@@ -11,8 +11,8 @@ export default function Transportation() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/allResearch/transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
+        const response = await baseAxios.get(
+          `/allResearch/transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
         );
         const data = response.data.paginatedData;
         // console.log(data);

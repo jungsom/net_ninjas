@@ -1,18 +1,15 @@
 import TotalTable from './total/TotalTable';
 import TotalSearch from './total/TotalSearch';
-import TotalProvider from './total/TotalProvider';
 import styled from 'styled-components';
 
 function Total() {
   return (
-    <TotalProvider>
-      <StyledCenterLayout>
-        <StyledContent>
-          <TotalSearch />
-          <TotalTable />
-        </StyledContent>
-      </StyledCenterLayout>
-    </TotalProvider>
+    <StyledCenterLayout>
+      <StyledContent>
+        <TotalSearch />
+        <TotalTable />
+      </StyledContent>
+    </StyledCenterLayout>
   );
 }
 

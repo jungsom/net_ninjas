@@ -1,6 +1,6 @@
 import TotalContext from './TotalContext';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function TotalProvider({ children }) {
@@ -14,14 +14,14 @@ function TotalProvider({ children }) {
   const getTotalData = async () => {
     try {
       if (keyword.length > 1) {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch/search?keyword=${keyword}&pageNo=${page}&column=${sortColumn}&sorting=${sort}`
+        const response = await baseAxios.get(
+          `/allResearch/search?keyword=${keyword}&pageNo=${page}&column=${sortColumn}&sorting=${sort}`
         );
         setDongData(response.data.paginatedData);
         setDataLength(response.data.totalData);
       } else {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch?pageNo=${page}&column=${sortColumn}&sorting=${sort}`
+        const response = await baseAxios.get(
+          `/allResearch?pageNo=${page}&column=${sortColumn}&sorting=${sort}`
         );
         setDongData(response.data.paginatedData);
         setDataLength(response.data.totalData);

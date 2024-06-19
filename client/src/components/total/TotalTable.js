@@ -2,12 +2,7 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import TotalContext from './TotalContext';
 import TotalPagenation from './TotalPagenation';
-import {
-  whitespace,
-  numberToKoreanCurreny,
-  sortDongColumnData
-} from './Util.js';
-import { ArrowUp, ArrowDown } from 'react-bootstrap-icons';
+import { whitespace, numberToKoreanCurreny, getSortIcon } from './Util.js';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
@@ -17,18 +12,6 @@ function TotalTable() {
   const handleThClick = (name) => {
     sortDongColumnData(name);
     setSortColumn(name);
-  };
-
-  const getSortIcon = (name) => {
-    if (name === sortColumn) {
-      return sort === 'asc' ? (
-        <ArrowUp />
-      ) : sort === 'desc' ? (
-        <ArrowDown />
-      ) : (
-        ''
-      );
-    }
   };
 
   // column을 누르면 누른 곳의 className이름을 가져와서 기존의 sortColumn 값과 비교해서 정렬 방식을 결정하는 함수
@@ -74,50 +57,50 @@ function TotalTable() {
               className='gu'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              자치구{getSortIcon('gu')}
+              자치구{getSortIcon('gu', sortColumn, sort)}
             </th>
             <th
               className='dong'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              법정동{getSortIcon('dong')}
+              법정동{getSortIcon('dong', sortColumn, sort)}
             </th>
             <th
               className='academyCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              *학원 수{getSortIcon('academyCount')}
+              *학원 수{getSortIcon('academyCount', sortColumn, sort)}
             </th>
             <th
               className='libraryCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              **도서관 수{getSortIcon('libraryCount')}
+              **도서관 수{getSortIcon('libraryCount', sortColumn, sort)}
             </th>
             <th
               className='busStation'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              버스정류장 수{getSortIcon('busStation')}
+              버스정류장 수{getSortIcon('busStation', sortColumn, sort)}
             </th>
             <th
               className='cultureCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              **문화시설 수{getSortIcon('cultureCount')}
+              **문화시설 수{getSortIcon('cultureCount', sortColumn, sort)}
             </th>
             <th
               className='medicalCount'
               onClick={(e) => handleThClick(e.target.className)}
             >
-              **의료시설 수{getSortIcon('medicalCount')}
+              **의료시설 수{getSortIcon('medicalCount', sortColumn, sort)}
             </th>
             <th
               className='crimeRate'
               onClick={(e) => handleThClick(e.target.className)}
             >
               *범죄율
-              {getSortIcon('crimeRate')}
+              {getSortIcon('crimeRate', sortColumn, sort)}
               <br />
               (1,000명당)
             </th>
@@ -126,7 +109,7 @@ function TotalTable() {
               onClick={(e) => handleThClick(e.target.className)}
             >
               청년 비율
-              {getSortIcon('youthRate')}
+              {getSortIcon('youthRate', sortColumn, sort)}
               <br />
               (19세~34세)
             </th>
@@ -135,7 +118,7 @@ function TotalTable() {
               onClick={(e) => handleThClick(e.target.className)}
             >
               전세 보증금
-              {getSortIcon('jeonseDeposit')}
+              {getSortIcon('jeonseDeposit', sortColumn, sort)}
               <br />
               (평균)
             </th>
@@ -144,7 +127,7 @@ function TotalTable() {
               onClick={(e) => handleThClick(e.target.className)}
             >
               월세 보증금
-              {getSortIcon('monthDeposit')}
+              {getSortIcon('monthDeposit', sortColumn, sort)}
               <br />
               (평균)
             </th>
@@ -153,7 +136,7 @@ function TotalTable() {
               onClick={(e) => handleThClick(e.target.className)}
             >
               월세가
-              {getSortIcon('monthRent')}
+              {getSortIcon('monthRent', sortColumn, sort)}
               <br />
               (평균)
             </th>
@@ -163,14 +146,14 @@ function TotalTable() {
             >
               대형마트,
               <br />
-              백화점 수{getSortIcon('supermarket')}
+              백화점 수{getSortIcon('supermarket', sortColumn, sort)}
             </th>
             <th
               className='parkRate'
               onClick={(e) => handleThClick(e.target.className)}
             >
               *공원 면적
-              {getSortIcon('parkRate')}
+              {getSortIcon('parkRate', sortColumn, sort)}
               <br />
               (1인당)
             </th>

@@ -21,6 +21,8 @@ import GuInformation from './components/GuInformation';
 import Board from './components/Board';
 import MyPage from './components/MyPage';
 import EditMyInformation from './components/EditMyInformation';
+import TotalProvider from './components/total/TotalProvider';
+import NotFound from './components/NotFound';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -64,7 +66,7 @@ function AppContent() {
   const location = useLocation();
 
   return (
-    <>
+    <TotalProvider>
       <Header />
       {/* {location.pathname === '/analysis' && <ChartsNavBar />} */}
       <MainContent>
@@ -80,10 +82,11 @@ function AppContent() {
           <Route path='/board' element={<Board />} />
           <Route path='/myPage' element={<MyPage />} />
           <Route path='/EditMyInformation' element={<EditMyInformation />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </MainContent>
       <Footer />
-    </>
+    </TotalProvider>
   );
 }
 

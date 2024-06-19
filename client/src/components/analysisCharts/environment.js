@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 
 export default function Environment() {
   const [parkData, setParkData] = useState(null);
@@ -10,8 +10,8 @@ export default function Environment() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/allResearch/environment?perPage=464&pageNo=1&column=parkRate&sorting=desc`
+        const response = await baseAxios.get(
+          `/allResearch/environment?perPage=464&pageNo=1&column=parkRate&sorting=desc`
         );
         // gu, parkRate 값만 추출
         const extractedData = response.data.paginatedData.map((item) => ({

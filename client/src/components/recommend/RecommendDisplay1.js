@@ -1,0 +1,95 @@
+import styled from 'styled-components';
+import { useContext } from 'react';
+import RecommendContext from './RecommendContext';
+
+function RecommendFirstDisplay() {
+  const { setFirstOpen, setSecondOpen } = useContext(RecommendContext);
+
+  return (
+    <>
+      <FirstText>
+        <span>나, 이제 막 상경했어요!</span>
+        <img src='./img/recommendInput/image27.png' alt='sad' />
+      </FirstText>
+      <SecondText>
+        <span>학교와 직장을 위해 상경한 당신.</span>
+        <span>어떤 동네가 나에게 가장 잘 맞는 동네인지 잘 모르겠다구요?</span>
+      </SecondText>
+      <LogoImage>
+        <img src='./img/recommendInput/home_logo_title.png' alt='logo' />
+      </LogoImage>
+      <ThirdText>
+        <span>동잇팀이 당신과 동네를 이어드립니다!</span>
+        <span>
+          방대한 DB와 추천 알고리즘을 바탕으로 가장 알맞는 동네를 알려드려요.
+        </span>
+      </ThirdText>
+      <NextButton>
+        <button
+          onClick={() => {
+            setFirstOpen(false);
+            setSecondOpen(true);
+          }}
+        >
+          지금 동네 추천 받으러 가기!{' '}
+          <img src='./img/recommendInput/vector.png' />
+        </button>
+      </NextButton>
+    </>
+  );
+}
+
+const FirstText = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  span {
+    font-size: 30px;
+    font-weight: 900;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+const SecondText = styled.div`
+  margin-top: 10px;
+  span {
+    display: block;
+    font-size: 19px;
+  }
+`;
+
+const LogoImage = styled.div`
+  width: 100%;
+  height: 190px;
+  margin: 50px 0;
+  background-color: #bcf6f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 90px;
+  }
+`;
+
+const ThirdText = styled.div`
+  span {
+    display: block;
+    font-size: 19px;
+  }
+`;
+
+const NextButton = styled.div`
+  text-align: center;
+  font-size: 30px;
+  margin-top: 70px;
+  button {
+    font-weight: bold;
+    border: none;
+    background: none;
+  }
+`;
+
+export default RecommendFirstDisplay;
