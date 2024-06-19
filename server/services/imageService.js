@@ -1,9 +1,15 @@
 import supabase from '../config/supabase.js';
 import { InternalServerError } from '../middlewares/errorMiddleware.js';
+import sharp from 'sharp';
+
+const sanitizeFileName = (fileName) => {
+  return fileName.replace(/[^a-zA-Z0-9.]/g, '_');
+};
 
 const uploadAndResizeImage = async (file, bucket) => {
   const { originalname, buffer } = file;
-  const encodedFileName = encodeURIComponent(originalname);
+  const sanitizedFileName = sanitizeFileName(originalname);
+  const encodedFileName = encodeURIComponent(sanitizedFileName);
 
   // Supabase에 이미지 업로드
   const { error: uploadError } = await supabase.storage
@@ -15,13 +21,18 @@ const uploadAndResizeImage = async (file, bucket) => {
     throw new InternalServerError('이미지를 업로드 하는데 실패했습니다.');
   }
 
+  // Sharp를 사용하여 이미지 리사이징
+  const resizedBuffer = await sharp(buffer)
+    .resize(500, 700, { fit: 'contain' })
+    .toBuffer();
+
   // 리사이징된 이미지 경로 생성
   const resizedFilePath = `resized-${encodedFileName}`;
 
   // 이미지 변환 API
   const { error: resizeError } = await supabase.storage
     .from(bucket)
-    .update(resizedFilePath, buffer, {
+    .upload(resizedFilePath, resizedBuffer, {
       transform: {
         width: 500,
         height: 700,
