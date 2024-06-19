@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 import { useState, useEffect } from 'react';
 import { StringSplitAndSort } from './Util';
 import GuInfoCarousels from './GuInfoCarousels';
@@ -22,9 +22,7 @@ function GuInfoDescription({ guName }) {
   const [market, setMarket] = useState('');
 
   const getGuInformationData = async () => {
-    const response = await axios.get(
-      'http://kdt-ai-10-team05.elicecoding.com:3000/allPlace'
-    );
+    const response = await baseAxios.get('/allPlace');
     const allGuData = response.data;
 
     const selectedGuData = allGuData.filter((item) => item.gu === guName)[0];
