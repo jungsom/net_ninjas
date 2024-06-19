@@ -17,13 +17,13 @@ import RecommendDisplay5 from './RecommendDisplay5';
 import Loading from './Loading';
 
 const category = {
-  교육: 'Education',
-  교통: 'Transportation',
-  복지: 'Welfare',
-  안전: 'Safety',
-  인구: 'Population',
-  편의: 'Convenience',
-  환경: 'Environment'
+  교육: 'education',
+  교통: 'transportation',
+  복지: 'welfare',
+  안전: 'fafety',
+  인구: 'population',
+  편의: 'convenience',
+  환경: 'environment'
 };
 
 function RecommendInputArea() {

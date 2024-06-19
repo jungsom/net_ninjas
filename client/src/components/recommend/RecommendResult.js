@@ -91,36 +91,36 @@ export default function RecommendResult() {
   };
 
   const category = {
-    Education: '🎒 교육',
-    Transportation: '🚌 교통',
-    Welfare: '💙 복지',
-    Safety: '🚨 안전',
-    Population: '👪 인구',
-    Convenience: '🏪 편의',
-    Environment: '🌳 환경'
+    education: '🎒 교육',
+    transportation: '🚌 교통',
+    welfare: '💙 복지',
+    safety: '🚨 안전',
+    population: '👪 인구',
+    convenience: '🏪 편의',
+    environment: '🌳 환경'
   };
   const rank = {
-    Education: {
+    education: {
       libraryCountRank: '공공도서관 수',
       academyCountRank: '평생직업 사설학원 수'
     },
-    Transportation: {
+    transportation: {
       busStationRank: '버스 정류장 수'
     },
-    Welfare: {
+    welfare: {
       cultureCountRank: '문화시설 수',
       medicalCountRank: '병의원 및 약국'
     },
-    Safety: {
+    safety: {
       crimeRateRank: '1000명당 범죄 발생 수'
     },
-    Population: {
+    population: {
       youthRateRank: '청년층 비율'
     },
-    Convenience: {
+    convenience: {
       supermarketRank: '대형마트 수'
     },
-    Environment: {
+    environment: {
       parkRateRank: '1인당 공원 면적'
     }
   };

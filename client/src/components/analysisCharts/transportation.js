@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { BarChart } from '@mui/x-charts/BarChart';
 import baseAxios from '../shared/api';
+import Content from './content';
+import Stack from 'react-bootstrap/Stack';
 
 export default function Transportation() {
   const [busStationData, setBusStationData] = useState(null);
@@ -12,7 +14,7 @@ export default function Transportation() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/Transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
+          `/allResearch/transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
         );
         const data = response.data.paginatedData;
         // console.log(data);
@@ -63,15 +65,29 @@ export default function Transportation() {
 
   return (
     <>
-      <h4>&#128652; 버스 정류장</h4>
-      <p>
-        버스 정류장은 1위 {busStationData[0].gu} {busStationData[0].dong}(
-        {busStationData[0].busStation}), 2위 {busStationData[1].gu}{' '}
-        {busStationData[1].dong}({busStationData[1].busStation}), 3위{' '}
-        {busStationData[2].gu} {busStationData[0].dong}(
-        {busStationData[2].busStation})에 가장 많았습니다.
-      </p>
-      <BarChart {...chartSetting} />
+      <Stack gap={5} style={{ paddingTop: '30px', paddingBottom: '50px' }}>
+        <h2 style={{ textAlign: 'center', fontWeight: 'bold' }}>교통</h2>
+        <div>
+          <h5 style={{ color: '#5fc3c8', fontWeight: 'bold' }}>
+            🚏 버스 정류장이 가장 많은 동네는?
+          </h5>
+          <BarChart {...chartSetting} />
+          <div style={{ marginTop: '3%' }}>
+            <h3 style={{ fontWeight: 'bold' }}>
+              1위 {busStationData[0].gu} {busStationData[0].dong}
+            </h3>
+            <Content
+              boldText={'버스 정류장'}
+              text1={
+                '은 대중교통의 핵심 요소로, 시민들이 편리하게 이동할 수 있도록 도와줍니다.'
+              }
+              img={'img/analysisCharts/bus-stop.png'}
+              text2={`대중교통을 자주 이용하시거나 교통 편의성이 중요한 분이라면 ${busStationData[0].gu}에 대해 더 알아보는건 어떨까요?`}
+              data={busStationData}
+            />
+          </div>
+        </div>
+      </Stack>
     </>
   );
 }
