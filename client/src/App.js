@@ -23,6 +23,7 @@ import MyPage from './components/MyPage';
 import EditMyInformation from './components/EditMyInformation';
 import TotalProvider from './components/total/TotalProvider';
 import NotFound from './components/NotFound';
+import ScrollTriggerDemo from './components/ScrollTriggerDemo';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -81,6 +82,7 @@ function AppContent() {
           <Route path='/recommend/result' element={<RecommendResult />} />
           <Route path='/board' element={<Board />} />
           <Route path='/myPage' element={<MyPage />} />
+          <Route path='/ScrollTriggerDemo' element={<ScrollTriggerDemo />} />
           <Route path='/EditMyInformation' element={<EditMyInformation />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
