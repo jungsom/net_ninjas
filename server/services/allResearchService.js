@@ -6,21 +6,21 @@ async function getAllData() {
 
 async function getAllDataByCategory(category) {
   switch (category) {
-    case 'Convenience':
+    case 'convenience':
       return await categorizationService.getAllConvenienceData();
-    case 'Education':
+    case 'education':
       return await categorizationService.getAllEducationData();
-    case 'Environment':
+    case 'environment':
       return await categorizationService.getAllEnvironmentData();
-    case 'Housing':
+    case 'housing':
       return await categorizationService.getAllHousingData();
-    case 'Population':
+    case 'population':
       return await categorizationService.getAllPopulationData();
-    case 'Safety':
+    case 'safety':
       return await categorizationService.getAllSafetyData();
-    case 'Transportation':
+    case 'transportation':
       return await categorizationService.getAllTransportationData();
-    case 'Welfare':
+    case 'welfare':
       return await categorizationService.getAllWelfareData();
     default:
       throw new BadRequest('존재하지않는 카테고리');
