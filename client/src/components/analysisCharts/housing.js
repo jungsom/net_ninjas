@@ -15,7 +15,7 @@ export default function Housing() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/housing?perPage=464`
+          `/allResearch/Housing?perPage=464`
         );
         const allData = response.data.paginatedData;
 
