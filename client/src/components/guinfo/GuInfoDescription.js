@@ -142,9 +142,20 @@ const StyledDiv = styled.div`
   }
   margin-top: 80px;
   margin-bottom: 25px;
+
+  @media (max-width: 830px) {
+    width: 100%;
+    height: 1750px;
+  }
+
+  @media (min-width: 715px) {
+    width: 100%;
+    height: 1420px;
+  }
 `;
 
 const GuTitle = styled.div`
+  margin-left: 5px;
   h4 {
     color: #5fc3c8;
     font-weight: bold;
@@ -152,18 +163,36 @@ const GuTitle = styled.div`
   h3 {
     font-weight: bold;
   }
+
+  @media (max-width: 830px) {
+    margin-left: 10px;
+    h4 {
+      font-size: 17px;
+    }
+    h3 {
+      font-size: 19px;
+    }
+  }
 `;
 
 const ListTitle = styled.div`
   margin: 8px;
   font-weight: bold;
   font-size: 1.6em;
+
+  @media (max-width: 830px) {
+    font-size: 1.3em;
+  }
 `;
 
 const DBContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+
+  @media (max-width: 830px) {
+    grid-template-columns: repeat(auto-fill, 350px);
+  }
 `;
 
 const DBGridContainer = styled.div`
@@ -174,11 +203,19 @@ const DBTitle = styled.div`
   margin: 10px;
   font-weight: bold;
   font-size: 1.2em;
+
+  @media (max-width: 830px) {
+    font-size: 1.1em;
+  }
 `;
 
 const ListDescription = styled.span`
   display: block;
   margin-left: 15px;
   font-size: 1em;
+
+  @media (max-width: 830px) {
+    font-size: 0.9em;
+  }
 `;
 export default GuInfoDescription;

@@ -2,20 +2,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
 import GuinfoCarouselsList from './GuinfoCarouselsList';
 
-const StyledImage = styled.img`
-  width: 100%;
-  height: 100%;
-  // border-radius: 10px;
-  object-fit: cover; /* 이미지가 부모 요소를 채우도록 */
-  border-radius: 35px;
-`;
-
-const ImageWrapper = styled.div`
-  width: 100%; /* 부모 요소의 너비 설정 */
-  height: 500px; /* 부모 요소의 높이 설정 */
-  overflow: hidden; /* 자식 이미지가 벗어나지 않도록 설정 */
-`;
-
 const baseURL =
   'https://ctatxiqcizqokmjdikym.supabase.co/storage/v1/object/public/img/recommend';
 
@@ -61,5 +47,26 @@ function GuInfoCarousels({ guName }) {
     </Carousel>
   );
 }
+
+const ImageWrapper = styled.div`
+  width: 100%; /* 부모 요소의 너비 설정 */
+  height: 500px; /* 부모 요소의 높이 설정 */
+  overflow: hidden; /* 자식 이미지가 벗어나지 않도록 설정 */
+  text-align: center;
+`;
+
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  // border-radius: 10px;
+  object-fit: cover; /* 이미지가 부모 요소를 채우도록 */
+  border-radius: 35px;
+  padding: 0 5px;
+
+  @media (max-width: 830px) {
+    padding: 0 8px;
+    border-radius: 20px;
+  }
+`;
 
 export default GuInfoCarousels;

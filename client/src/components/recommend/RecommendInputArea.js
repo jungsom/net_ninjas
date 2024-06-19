@@ -1,14 +1,6 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
-import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 import RecommendDisplay1 from './RecommendDisplay1';
 import RecommendDisplay2 from './RecommendDisplay2';
 import RecommendDisplay3 from './RecommendDisplay3';
@@ -36,26 +28,6 @@ function RecommendInputArea() {
     isLoading,
     contractType
   } = useContext(RecommendContext);
-
-  // function inputValidation() {
-  //   if (!firstCategory || !secondCategory || !thirdCategory || !contractType) {
-  //     alert('선택하지 않은 값이 있습니다.');
-  //     return false;
-  //   }
-
-  //   if (contractType === 'jeonse' && minDeposit >= maxDeposit) {
-  //     alert('예산 범위를 다시 확인해주세요.');
-  //     return false;
-  //   }
-
-  //   if (
-  //     contractType === 'month' &&
-  //     (minDeposit >= maxDeposit || minRent >= maxRent)
-  //   ) {
-  //     alert('예산 범위를 다시 확인해주세요.');
-  //     return false;
-  //   }
-  // }
 
   return (
     <DisplayContainer>
