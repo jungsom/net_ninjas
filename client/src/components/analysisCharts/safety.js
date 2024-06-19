@@ -18,10 +18,10 @@ export default function Safety() {
     const fetchData = async () => {
       try {
         const totalResponse = await baseAxios.get(
-          `/allResearch/safety?perPage=464&pageNo=1&column=crimeRate&sorting=asc`
+          `/allResearch/Safety?perPage=464&pageNo=1&column=crimeRate&sorting=asc`
         );
         const crimeRateResponse = await baseAxios.get(
-          `/allResearch/safety?perPage=464&pageNo=1&column=crimeRate&sorting=asc`
+          `/allResearch/Safety?perPage=464&pageNo=1&column=crimeRate&sorting=asc`
         );
         // dong 제외한 모든 값 추출
         const extractedData = totalResponse.data.paginatedData.map((item) => ({
