@@ -12,7 +12,7 @@ export default function Transportation() {
     const fetchData = async () => {
       try {
         const response = await baseAxios.get(
-          `/allResearch/transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
+          `/allResearch/Transportation?perPage=20&pageNo=1&column=busStation&sorting=desc`
         );
         const data = response.data.paginatedData;
         // console.log(data);
