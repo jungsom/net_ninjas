@@ -3,26 +3,19 @@ import React, { useState, useEffect } from 'react';
 
 
 function ScrollTriggerDemo() {
-
     const [visibleSections, setVisibleSections] = useState({});
-
-    const sections = [
-        { id: 'target1' },
-        { id: 'target2' },
-        { id: 'target3' },
-      ];
+    const sections = ['target1', 'target2', 'target3'];
 
     const handleScroll = () => {
       const updatedVisibleSections = {};
       sections.forEach(section => {
-        const targetSection = document.getElementById(section.id);
+        const targetSection = document.getElementById(section);
         const position = targetSection.getBoundingClientRect();
   
-        if (position.top + 100 < window.innerHeight && position.bottom >= 0) {
-          updatedVisibleSections[section.id] = true;
-        } else {
-          updatedVisibleSections[section.id] = false;
-        }
+        if (position.top + 100 < window.innerHeight && position.bottom >= 0) // + 100 은 임의값
+          updatedVisibleSections[section] = true;
+         else 
+          updatedVisibleSections[section] = false;
       });
       setVisibleSections(updatedVisibleSections);
     };
@@ -33,7 +26,6 @@ function ScrollTriggerDemo() {
           window.removeEventListener('scroll', handleScroll);
         };
     }, []);    
-
 
   return (
     <StyledCenterLayout>
