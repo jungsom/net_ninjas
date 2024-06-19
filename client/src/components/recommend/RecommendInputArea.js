@@ -9,6 +9,12 @@ import RecommendContext from './RecommendContext';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
+import RecommendDisplay1 from './RecommendDisplay1';
+import RecommendDisplay2 from './RecommendDisplay2';
+import RecommendDisplay3 from './RecommendDisplay3';
+import RecommendDisplay4 from './RecommendDisplay4';
+import RecommendDisplay5 from './RecommendDisplay5';
+import Loading from './Loading';
 
 const category = {
   교육: 'education',
@@ -22,70 +28,58 @@ const category = {
 
 function RecommendInputArea() {
   const {
-    getRecommendData,
-    firstCategory,
-    setFirstCategory,
-    secondCategory,
-    setSecondCategory,
-    thirdCategory,
-    setThirdCategory,
-    contractType,
-    setContractType,
-    minDeposit,
-    setMinDeposit,
-    maxDeposit,
-    setMaxDeposit,
-    minRent,
-    setMinRent,
-    maxRent,
-    setMaxRent
+    firstOpen,
+    secondOpen,
+    thirdOpen,
+    fourthOpen,
+    fifthOpen,
+    isLoading,
+    contractType
   } = useContext(RecommendContext);
 
-  // 다른 순위에서 선택된 항목들은 선택 못하게 만드는 함수
-  function createMenuItem(category, order) {
-    const menuItemTag = [];
-    const filter = [];
-    order === 'first'
-      ? filter.push(secondCategory, thirdCategory) // 매개변수가 "first"면 2순위, 3순위 값이 있는 항목은 제외하고 Menu를 생성
-      : order === 'second'
-      ? filter.push(firstCategory, thirdCategory)
-      : filter.push(firstCategory, secondCategory);
-    for (const key in category) {
-      if (filter.includes(category[key])) continue; // filter 배열에 포함되면
-      menuItemTag.push(
-        <MenuItem key={category[key]} value={category[key]}>
-          {key}
-        </MenuItem>
-      );
-    }
-    return menuItemTag;
-  }
+  // function inputValidation() {
+  //   if (!firstCategory || !secondCategory || !thirdCategory || !contractType) {
+  //     alert('선택하지 않은 값이 있습니다.');
+  //     return false;
+  //   }
 
-  function inputValidation() {
-    if (!firstCategory || !secondCategory || !thirdCategory || !contractType) {
-      alert('선택하지 않은 값이 있습니다.');
-      return false;
-    }
+  //   if (contractType === 'jeonse' && minDeposit >= maxDeposit) {
+  //     alert('예산 범위를 다시 확인해주세요.');
+  //     return false;
+  //   }
 
-    if (contractType === 'jeonse' && minDeposit >= maxDeposit) {
-      alert('예산 범위를 다시 확인해주세요.');
-      return false;
-    }
-
-    if (
-      contractType === 'month' &&
-      (minDeposit >= maxDeposit || minRent >= maxRent)
-    ) {
-      alert('예산 범위를 다시 확인해주세요.');
-      return false;
-    }
-  }
+  //   if (
+  //     contractType === 'month' &&
+  //     (minDeposit >= maxDeposit || minRent >= maxRent)
+  //   ) {
+  //     alert('예산 범위를 다시 확인해주세요.');
+  //     return false;
+  //   }
+  // }
 
   return (
+    <DisplayContainer>
+      {firstOpen && <RecommendDisplay1 />}
+      {!firstOpen && secondOpen && <RecommendDisplay2 />}
+      {!secondOpen && thirdOpen && <RecommendDisplay3 />}
+      {!thirdOpen && fourthOpen && <RecommendDisplay4 />}
+      {!fourthOpen && fifthOpen && <RecommendDisplay5 />}
+      {contractType === 'jeonse' && !fourthOpen && isLoading && <Loading />}
+      {contractType === 'month' && !fifthOpen && isLoading && <Loading />}
+    </DisplayContainer>
+  );
+}
+
+const DisplayContainer = styled.div`
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 100px;
+`;
+export default RecommendInputArea;
+
+/*
+ return (
     <StyledLayout>
-      <StyledImage>
-        <img src='./img/recommend/recommend.jpg' />
-      </StyledImage>
       <StyledInputArea>
         <div>
           <h4>1. 우선 순위 선택</h4>
@@ -253,11 +247,6 @@ const StyledLayout = styled.div`
   display: flex;
   margin-top: 20px;
 `;
-const StyledImage = styled.div`
-  margin: 0;
-  padding: 0;
-`;
-
 const StyledInputArea = styled.div`
   padding-left: 20px;
   display: flex;
@@ -282,4 +271,4 @@ const StyledBtn = styled.div`
   }
 `;
 
-export default RecommendInputArea;
+*/

@@ -15,11 +15,16 @@ function RecommendProvider({ children }) {
   const [maxDeposit, setMaxDeposit] = useState(0);
   const [minRent, setMinRent] = useState(0);
   const [maxRent, setMaxRent] = useState(0);
+  const [firstOpen, setFirstOpen] = useState(true);
+  const [secondOpen, setSecondOpen] = useState(false);
+  const [thirdOpen, setThirdOpen] = useState(false);
+  const [fourthOpen, setFourthOpen] = useState(false);
+  const [fifthOpen, setFifthOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const getRecommendData = async (e) => {
-    e.preventDefault();
+  const getRecommendData = async () => {
     let response;
     try {
       if (contractType === 'jeonse') {
@@ -71,7 +76,19 @@ function RecommendProvider({ children }) {
         minRent,
         setMinRent,
         maxRent,
-        setMaxRent
+        setMaxRent,
+        firstOpen,
+        setFirstOpen,
+        secondOpen,
+        setSecondOpen,
+        thirdOpen,
+        setThirdOpen,
+        fourthOpen,
+        setFourthOpen,
+        fifthOpen,
+        setFifthOpen,
+        isLoading,
+        setIsLoading
       }}
     >
       {children}
