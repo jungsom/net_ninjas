@@ -60,6 +60,7 @@ const StyledSearch = styled.div`
   justify-content: flex-end;
   width: 100%;
   padding: 8px 0 8px 8px;
+  margin-top: 10px;
   input {
     margin-right: 3px;
   }
