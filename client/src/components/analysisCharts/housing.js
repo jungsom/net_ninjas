@@ -63,34 +63,41 @@ export default function Housing() {
         : monthDepositData,
     height: 300,
     grid: { horizontal: true },
-    series: [
-      {
-        dataKey: 'jeonseDeposit',
-        label: '전세 보증금(평균)',
-        highlightScope: {
-          highlighted: 'item'
-        },
-        valueFormatter
-      },
-      {
-        dataKey: 'monthDeposit',
-        label: '월세 보증금(평균)',
-        stack: 'total',
-        highlightScope: {
-          highlighted: 'item'
-        },
-        valueFormatter
-      },
-      {
-        dataKey: 'monthRent',
-        label: '월세 임대료(평균)',
-        stack: 'total',
-        highlightScope: {
-          highlighted: 'item'
-        },
-        valueFormatter
-      }
-    ],
+    series:
+      selectedDataset === 'jeonseDeposit'
+        ? [
+            {
+              dataKey: 'jeonseDeposit',
+              label: '전세 보증금(평균)',
+              highlightScope: {
+                highlighted: 'item'
+              },
+              valueFormatter,
+              color: '#ffb080'
+            }
+          ]
+        : [
+            {
+              dataKey: 'monthDeposit',
+              label: '월세 보증금(평균)',
+              stack: 'total',
+              highlightScope: {
+                highlighted: 'item'
+              },
+              valueFormatter,
+              color: '#ff7312'
+            },
+            {
+              dataKey: 'monthRent',
+              label: '월세 임대료(평균)',
+              stack: 'total',
+              highlightScope: {
+                highlighted: 'item'
+              },
+              valueFormatter,
+              color: '#9b3a00'
+            }
+          ],
     xAxis: [
       {
         dataKey: 'dong',
@@ -157,39 +164,6 @@ export default function Housing() {
           </div>
         </div>
       </Stack>
-      {/* <h4>&#127968; 전월세 금액</h4>
-      <p>
-        전세 금액이 가장 싼 곳은 1위 {jeonseDepositData[0].gu}{' '}
-        {jeonseDepositData[0].dong}({jeonseDepositData[0].jeonseDeposit}만원),
-        2위 {jeonseDepositData[1].gu} {jeonseDepositData[1].dong}(
-        {jeonseDepositData[1].jeonseDeposit}만원), 3위 {jeonseDepositData[2].gu}{' '}
-        {jeonseDepositData[0].dong}({jeonseDepositData[2].jeonseDeposit}
-        만원)입니다.
-      </p>
-      <p>
-        월세 금액이 가장 싼 곳은 1위 {monthDepositData[0].gu}{' '}
-        {monthDepositData[0].dong}({monthDepositData[0].monthDeposit}만원), 2위{' '}
-        {monthDepositData[1].gu} {monthDepositData[1].dong}(
-        {monthDepositData[1].monthDeposit}만원), 3위 {monthDepositData[2].gu}{' '}
-        {monthDepositData[0].dong}({monthDepositData[2].monthDeposit}
-        만원)입니다.
-      </p>
-      <TextField
-        select
-        value={selectedDataset}
-        onChange={(event) => setSelectedDataset(event.target.value)}
-        label='정렬 기준'
-        sx={{ minWidth: 150 }}
-      >
-        <MenuItem value='jeonseDeposit'>전세 보증금</MenuItem>
-        <MenuItem value='monthDeposit'>월세 보증금</MenuItem>
-      </TextField>
-      {/* <button onClick={() => setSelectedDataset('jeonseDeposit')}>
-        전세 보증금
-      </button>
-      <button onClick={() => setSelectedDataset('monthDeposit')}>
-        월세 보증금
-      </button> */}
     </>
   );
 }

@@ -86,7 +86,7 @@ export default function Education() {
       {
         dataKey: 'academyCount',
         label: '평생직업 교육학원 수',
-        color: '#fdb462',
+        color: '#ee6b6e',
         valueFormatter
       }
     ],

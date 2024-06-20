@@ -63,8 +63,7 @@ export default function Convenience() {
       {
         dataKey: 'supermarket',
         label: '대형마트 수',
-        valueFormatter,
-        color: '#fdb462'
+        color: '#66B3FF'
       }
     ],
     xAxis: [

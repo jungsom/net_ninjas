@@ -174,7 +174,7 @@ export default function RecommendResult() {
     welfare: '💙 복지',
     safety: '🚨 안전',
     population: '👪 인구',
-    convenience: '🏪 편의',
+    convenience: '🛒 편의',
     environment: '🌳 환경'
   };
   const rank = {
@@ -187,7 +187,7 @@ export default function RecommendResult() {
     },
     welfare: {
       cultureCountRank: '문화시설 수',
-      medicalCountRank: '병의원 및 약국'
+      medicalCountRank: '병의원 및 약국 수'
     },
     safety: {
       crimeRateRank: '1000명당 범죄 발생 수'
@@ -330,31 +330,35 @@ export default function RecommendResult() {
               thridCategoryRanks={firstThridCategoryRanks}
             />
           </div>
-          <h3 style={{ padding: '10%', color: '#5fc3c8' }}>
-            혹시... 다른 동네는 어떠세요?
-          </h3>
-          <div>
-            <h2>
-              &#129352; {second[0].gu} {second[0].dong}
-            </h2>
-            <Content
-              data={second}
-              firstCategoryRanks={secondFirstCategoryRanks}
-              secondCategoryRanks={secondSecondCategoryRanks}
-              thridCategoryRanks={secondThirdCategoryRanks}
-            />
-          </div>
-          <div>
-            <h2>
-              &#129353; {third[0].gu} {third[0].dong}
-            </h2>
-            <Content
-              data={third}
-              firstCategoryRanks={thirdFirstCategoryRanks}
-              secondCategoryRanks={thirdSecondCategoryRanks}
-              thridCategoryRanks={thirdThirdCategoryRanks}
-            />
-          </div>
+          {second || third ? (
+            <>
+              <h3 style={{ padding: '10%', color: '#5fc3c8' }}>
+                혹시... 다른 동네는 어떠세요?
+              </h3>
+              <div>
+                <h2>
+                  &#129352; {second[0].gu} {second[0].dong}
+                </h2>
+                <Content
+                  data={second}
+                  firstCategoryRanks={secondFirstCategoryRanks}
+                  secondCategoryRanks={secondSecondCategoryRanks}
+                  thridCategoryRanks={secondThirdCategoryRanks}
+                />
+              </div>
+              <div>
+                <h2>
+                  &#129353; {third[0].gu} {third[0].dong}
+                </h2>
+                <Content
+                  data={third}
+                  firstCategoryRanks={thirdFirstCategoryRanks}
+                  secondCategoryRanks={thirdSecondCategoryRanks}
+                  thridCategoryRanks={thirdThirdCategoryRanks}
+                />
+              </div>
+            </>
+          ) : null}
         </Stack>
       </Wrapper>
     </>
