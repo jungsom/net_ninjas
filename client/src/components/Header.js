@@ -6,7 +6,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 function CollapsibleMenu() {
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
-      <Container>
+      <Container
+        breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]}
+        minBreakpoint="sm"
+      >
         <Navbar.Brand href="#home">동네잇유</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -25,8 +28,8 @@ function CollapsibleMenu() {
           <Nav>
             <Nav.Link href="#deets">로그인</Nav.Link>
             {/* <Nav.Link eventKey={2} href="#memes">
-              Dank memes
-            </Nav.Link> */}
+                Dank memes
+              </Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

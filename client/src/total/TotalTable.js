@@ -1,6 +1,14 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import TotalContext from "./TotalContext";
+import TotalNumberHandler from "./TotalNumberHandler";
 
-function TotalTable({ data }) {
+// MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
+function TotalTable() {
+  const { data } = useContext(TotalContext); // useContext를 이용해 다른 페이지에서 data를 받아옴
+
+  const roundedData = TotalNumberHandler(data, 1); // TotalNumberHandler 함수를 이용해서 숫자 표시 형식을 변경해줌, 숫자는 Rate 항목의 소수점 자리를 지정
+
   return (
     <StyledTable>
       <thead>
@@ -20,11 +28,7 @@ function TotalTable({ data }) {
           <th>동</th>
           <th>학원 수</th>
           <th>도서관 수</th>
-          <th>
-            1인당 공원률
-            <br />
-            (단위: ㎡)
-          </th>
+          <th>1인당 공원 면적</th>
           <th>
             범죄율
             <br />
@@ -41,17 +45,17 @@ function TotalTable({ data }) {
             의료시설 수
           </th>
           <th>
-            평균 전세 보증금
+            전세 보증금
             <br />
-            (단위: 만원)
+            (평균)
           </th>
           <th>
-            평균 월세 보증금 <br />
-            (단위: 만원)
+            월세 보증금 <br />
+            (평균)
           </th>
           <th>
-            평균 월세가 <br />
-            (단위: 만원)
+            월세가 <br />
+            (평균)
           </th>
           <th>
             청년 비율
@@ -67,21 +71,21 @@ function TotalTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data.map((item, index) => (
+        {roundedData.map((item, index) => (
           <tr key={index}>
             <td>{item.regeion.gu}</td>
             <td>{item.regeion.dong}</td>
-            <td>{item.education.academyCount}</td>
-            <td>{item.education.libraryCount}</td>
-            <td>{item.environment.parkRate}</td>
-            <td>{item.safety.crimeRate}</td>
-            <td>{item.welfare.cultureCount}</td>
-            <td>{item.welfare.medicalCount}</td>
+            <td>{item.education.academyCount}개</td>
+            <td>{item.education.libraryCount}개</td>
+            <td>{item.environment.parkRate}㎡</td>
+            <td>{item.safety.crimeRate}%</td>
+            <td>{item.welfare.cultureCount}개</td>
+            <td>{item.welfare.medicalCount}개</td>
             <td>{item.housing.jeonseDeposit}</td>
             <td>{item.housing.monthDeposit}</td>
             <td>{item.housing.monthRent}</td>
-            <td>{item.population.youthRate}</td>
-            <td>{item.transportation.busStation}</td>
+            <td>{item.population.youthRate}%</td>
+            <td>{item.transportation.busStation}개</td>
             <td>{item.convenience.supermarket}</td>
           </tr>
         ))}
