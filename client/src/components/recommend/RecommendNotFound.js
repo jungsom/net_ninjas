@@ -2,19 +2,25 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { ChevronRight } from 'react-bootstrap-icons';
 
-function NotFound() {
+function RecommendNotFound() {
   const navigate = useNavigate();
 
   return (
     <Container>
-      <img src='../img/recommendInput/404.png' />
-      <p>페이지를 찾을 수 없습니다.</p>
-      <span>요청하신 페이지를 찾을 수 없습니다.</span>
-      <span>주소를 다시 확인하거나 다른 페이지로 이동해 주세요.</span>
-      <button onClick={() => navigate('/')}>
-        홈으로 이동
-        <ChevronRight size={42} color='#5FC3C8' />
-      </button>
+      <img src='../img/recommendInput/recommendNotFound.png' />
+      <p>동네를 찾을 수가 없어요.</p>
+      <span>입력하신 조건에 부합하는 동네를 찾지 못했어요.</span>
+      <span>다른 조건을 입력해 주시면 다시 찾아드릴게요.</span>
+      <ButtonContainer>
+        <button onClick={() => navigate('/recommend')}>
+          다시 하기
+          <ChevronRight size={42} color='#5FC3C8' />
+        </button>
+        <button onClick={() => navigate('/')}>
+          홈으로 이동
+          <ChevronRight size={42} color='#5FC3C8' />
+        </button>
+      </ButtonContainer>
     </Container>
   );
 }
@@ -69,4 +75,10 @@ const Container = styled.div`
   }
 `;
 
-export default NotFound;
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+`;
+
+export default RecommendNotFound;

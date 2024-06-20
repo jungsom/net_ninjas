@@ -21,12 +21,12 @@ function RecommendProvider({ children }) {
   const [thirdCategory, setThirdCategory] = useState('');
   const [contractType, setContractType] = useState('');
   const [deposit, setDeposit] = useState({
-    min: 0,
-    max: 0
+    min: 1,
+    max: 1
   });
   const [rent, setRent] = useState({
-    min: 0,
-    max: 0
+    min: 1,
+    max: 1
   });
   const [funnelStep, setFunnelStep] = useState(
     RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST
@@ -62,18 +62,21 @@ function RecommendProvider({ children }) {
       if (contractType === 'month')
         response = await baseAxios.get(`/recommend?${monthQueryString}`);
       console.log(monthQueryString);
-
       const data = response.data;
       console.log(data);
       setRecommendData(data);
-      navigate('/recommend/result', {
-        state: {
-          firstCategory,
-          secondCategory,
-          thirdCategory,
-          recommendData: data
-        }
-      });
+      if (data?.first.length === 0) {
+        navigate('/recommend/notFound');
+      } else {
+        navigate('/recommend/result', {
+          state: {
+            firstCategory,
+            secondCategory,
+            thirdCategory,
+            recommendData: data
+          }
+        });
+      }
     } catch (e) {
       console.log(e);
     }

@@ -24,6 +24,7 @@ import EditMyInformation from './components/EditMyInformation';
 import TotalProvider from './components/total/TotalProvider';
 import NotFound from './components/NotFound';
 import ScrollTriggerDemo from './components/ScrollTriggerDemo';
+import RecommendNotFound from './components/recommend/RecommendNotFound';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -84,6 +85,7 @@ function AppContent() {
           <Route path='/myPage' element={<MyPage />} />
           <Route path='/ScrollTriggerDemo' element={<ScrollTriggerDemo />} />
           <Route path='/EditMyInformation' element={<EditMyInformation />} />
+          <Route path='recommend/notFound' element={<RecommendNotFound />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </MainContent>

@@ -97,7 +97,8 @@ const SelectContainer = styled.div`
   background-size: 600px;
 
   @media (max-width: 650px) {
-    background-size: 100%;
+    background: none;
+    border: 1.5px solid;
     height: 250px;
   }
 `;
@@ -134,7 +135,7 @@ const ContractTypeButtonContainer = styled.div`
   align-items: center;
   button {
     width: 550px;
-    margin: 15px;
+    margin: 15px 0;
     background-color: #8dd2d6;
   }
   .activatedBtn {
@@ -144,16 +145,21 @@ const ContractTypeButtonContainer = styled.div`
   @media (max-width: 650px) {
     button {
       margin-top: -5px;
-      width: 369px;
       height: 50px;
       font-size: 18px;
+      width: 100%;
+      margin: 15px 0;
     }
   }
 `;
 
-const JeonseButton = styled.div``;
+const JeonseButton = styled.div`
+  width: 90%;
+`;
 
-const MonthButton = styled.div``;
+const MonthButton = styled.div`
+  width: 90%;
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -166,7 +172,8 @@ const ButtonContainer = styled.div`
   @media (max-width: 650px) {
     padding: 0 20px;
     button {
-      width: 120px;
+      width: 60px;
+      height: 35px;
       font-size: 18px;
       padding: 10px 20px;
     }

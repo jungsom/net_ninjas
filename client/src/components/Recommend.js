@@ -15,7 +15,6 @@ function Recommend() {
 }
 
 const StyledCenterLayout = styled.div`
-  min-width: 460px;
   display: flex;
   justify-content: center;
 `;

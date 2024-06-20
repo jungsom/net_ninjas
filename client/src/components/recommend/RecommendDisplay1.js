@@ -46,6 +46,7 @@ const FirstText = styled.div`
   span {
     font-size: 30px;
     font-weight: 900;
+    word-break: keep-all;
   }
   img {
     width: 50px;
@@ -68,6 +69,7 @@ const SecondText = styled.div`
   span {
     display: block;
     font-size: 19px;
+    word-break: keep-all;
   }
 
   @media (max-width: 650px) {
@@ -99,6 +101,7 @@ const ThirdText = styled.div`
   @media (max-width: 650px) {
     span {
       font-size: 15px;
+      word-break: keep-all;
     }
   }
 `;
