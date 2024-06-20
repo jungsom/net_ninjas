@@ -1,6 +1,7 @@
 import TotalContext from './TotalContext';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import baseAxios from '../shared/api';
+import qs from 'qs';
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function TotalProvider({ children }) {
@@ -11,21 +12,24 @@ function TotalProvider({ children }) {
   const [keyword, setKeyword] = useState('');
   const [dataLength, setDataLength] = useState(0);
 
+  const queryString = qs.stringify({
+    keyword: keyword,
+    pageNo: page,
+    column: sortColumn,
+    sorting: sort
+  });
+
   const getTotalData = async () => {
     try {
+      let response;
       if (keyword.length > 1) {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch/search?keyword=${keyword}&pageNo=${page}&column=${sortColumn}&sorting=${sort}`
-        );
-        setDongData(response.data.paginatedData);
-        setDataLength(response.data.totalData);
-      } else {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/allResearch?pageNo=${page}&column=${sortColumn}&sorting=${sort}`
-        );
-        setDongData(response.data.paginatedData);
-        setDataLength(response.data.totalData);
+        response = await baseAxios.get(`/allResearch/search?${queryString}`);
       }
+      if (keyword.length === 0) {
+        response = await baseAxios.get(`/allResearch?${queryString}`);
+      }
+      setDongData(response.data.paginatedData);
+      setDataLength(response.data.totalData);
     } catch (e) {
       console.log(e);
     }
@@ -33,7 +37,6 @@ function TotalProvider({ children }) {
 
   useEffect(() => {
     getTotalData();
-    console.log(dongData);
   }, [page, sortColumn, sort, keyword]);
 
   return (

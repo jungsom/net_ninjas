@@ -1,8 +1,17 @@
 import RecommendContext from './RecommendContext';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
+import baseAxios from '../shared/api';
 import { useNavigate } from 'react-router-dom';
-import { min } from 'd3';
+import qs from 'qs';
+
+export const RECOMMEND_FUNNEL_STEP = {
+  RECOMMEND_FIRST: 1,
+  RECOMMEND_SECOND: 2,
+  RECOMMEND_THIRD: 3,
+  RECOMMEND_FOURTH: 4,
+  RECOMMEND_FIFTH: 5,
+  RECOMMEND_LOADING: 6
+};
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function RecommendProvider({ children }) {
@@ -11,31 +20,65 @@ function RecommendProvider({ children }) {
   const [secondCategory, setSecondCategory] = useState('');
   const [thirdCategory, setThirdCategory] = useState('');
   const [contractType, setContractType] = useState('');
-  const [minDeposit, setMinDeposit] = useState(0);
-  const [maxDeposit, setMaxDeposit] = useState(0);
-  const [minRent, setMinRent] = useState(0);
-  const [maxRent, setMaxRent] = useState(0);
-
+  const [deposit, setDeposit] = useState({
+    min: 1,
+    max: 1
+  });
+  const [rent, setRent] = useState({
+    min: 1,
+    max: 1
+  });
+  const [funnelStep, setFunnelStep] = useState(
+    RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST
+  );
   const navigate = useNavigate();
 
-  const getRecommendData = async (e) => {
-    e.preventDefault();
+  const jeonseQueryString = qs.stringify({
+    first: firstCategory,
+    second: secondCategory,
+    third: thirdCategory,
+    option: contractType,
+    min_price: deposit.min,
+    max_price: deposit.max
+  });
+
+  const monthQueryString = qs.stringify({
+    first: firstCategory,
+    second: secondCategory,
+    third: thirdCategory,
+    option: contractType,
+    min_price: deposit.min,
+    max_price: deposit.max,
+    min_price_2: rent.min,
+    max_price_2: rent.max
+  });
+
+  const getRecommendData = async () => {
+    let response;
     try {
-      // navigate('/recommend/result');
-      if (contractType === 'jeonse') {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}`
-        );
-        console.log(response.data);
-        setRecommendData(response.data);
-        navigate('/recommend/result');
-      } else if (contractType === 'month') {
-        const response = await axios.get(
-          `http://kdt-ai-10-team05.elicecoding.com:3000/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${minDeposit}&max_price=${maxDeposit}&min_price_2=${minRent}&max_price_2=${maxRent}`
-        );
-        console.log(response.data);
-        setRecommendData(response.data);
-        navigate('/recommend/result');
+      if (contractType === 'jeonse')
+        response = await baseAxios.get(`/recommend?${jeonseQueryString}`);
+      console.log(jeonseQueryString);
+      if (contractType === 'month')
+        response = await baseAxios.get(`/recommend?${monthQueryString}`);
+      console.log(monthQueryString);
+      const data = response.data;
+      console.log(data);
+      setRecommendData(data);
+      if (data?.first.length === 0) {
+        navigate('/recommend/notFound');
+      } else {
+        navigate('/recommend/result', {
+          state: {
+            firstCategory,
+            secondCategory,
+            thirdCategory,
+            contractType,
+            deposit,
+            rent,
+            recommendData: data
+          }
+        });
       }
     } catch (e) {
       console.log(e);
@@ -56,14 +99,12 @@ function RecommendProvider({ children }) {
         setThirdCategory,
         contractType,
         setContractType,
-        minDeposit,
-        setMinDeposit,
-        maxDeposit,
-        setMaxDeposit,
-        minRent,
-        setMinRent,
-        maxRent,
-        setMaxRent
+        deposit,
+        setDeposit,
+        rent,
+        setRent,
+        funnelStep,
+        setFunnelStep
       }}
     >
       {children}

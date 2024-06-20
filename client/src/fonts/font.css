@@ -1,0 +1,24 @@
+@font-face {
+  font-family: '에스코어 드림 4 Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./SCDream4.woff') format('woff');
+}
+@font-face {
+  font-family: '에스코어 드림 4 Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./SCDream4.otf') format('otf');
+}
+
+@font-face {
+  font-family: '에스코어 드림 4 Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./SCDream4.eot') format('eot');
+}
+
+*,
+body {
+  font-family: '에스코어 드림 4 Regular';
+}

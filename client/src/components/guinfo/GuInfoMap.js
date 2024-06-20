@@ -4,6 +4,7 @@ import { feature } from 'topojson-client';
 import seoul from '../../data/seoul.json';
 import styled from 'styled-components';
 import GuInfoDescription from './GuInfoDescription';
+import { ChevronUp } from 'react-bootstrap-icons';
 
 const initialWidth = 850; // 초기 너비
 const initialHeight = 850; // 초기 높이
@@ -11,8 +12,10 @@ const initialHeight = 850; // 초기 높이
 function GuInfoMap() {
   const [guName, setGuName] = useState('');
   const svgRef = useRef(null);
+  const guInfoRef = useRef(null);
   const [width, setWidth] = useState(initialWidth);
   const [height, setHeight] = useState(initialHeight);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 윈도우 크기를 받아와서, 900px보다 작으면 줄어들게 할거임
 
   const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
@@ -41,6 +44,25 @@ function GuInfoMap() {
       .attr('width', width)
       .attr('height', height);
 
+    // 윈도우 넓이가 900보다 작으면, 지도의 뒤에 배치할 3D Map의 크기를 조절함
+    if (windowWidth > 900) {
+      svg
+        .append('image')
+        .attr('href', './img/map.png')
+        .attr('x', -110) //
+        .attr('y', -60) //
+        .attr('width', 1100)
+        .attr('height', 1100);
+    } else {
+      svg
+        .append('image')
+        .attr('href', './img/map.png')
+        .attr('x', -65) //
+        .attr('y', -40) //
+        .attr('width', 595)
+        .attr('height', 595);
+    }
+
     const mapLayer = svg.append('g');
 
     mapLayer
@@ -49,20 +71,19 @@ function GuInfoMap() {
       .enter()
       .append('path') // path element로 추가
       .attr('d', path)
-      .style('fill', '#5b5ba0') // 배경 색상 설정
+      .style('fill', '#5FC3C8') // 배경 색상 설정
       .style('stroke', '#ffffff') // 경계선 설정
-      .style('stroke-width', 0.2) // 경계선 굵기 설정
+      .style('stroke-width', 0.4) // 경계선 굵기 설정
       .on('mouseover', function () {
-        d3.select(this).style('fill', '#212168'); // 마우스를 올렸을 때 변할 색상 설정
+        d3.select(this).style('fill', '#4C9FA3'); // 마우스를 올렸을 때 변할 색상 설정
       })
       .on('mouseout', function () {
-        d3.select(this).style('fill', '#5b5ba0'); // 마우스를 땠을 때 다시 원래대로 돌아가게 설정
+        d3.select(this).style('fill', '#5FC3C8'); // 마우스를 땠을 때 다시 원래대로 돌아가게 설정
       })
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
-        setWidth(500);
-        setHeight(500);
+        guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
 
     mapLayer
@@ -81,15 +102,33 @@ function GuInfoMap() {
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
         console.log(d.properties.SIGUNGU_NM);
-        setWidth(500);
-        setHeight(500);
+        guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
   };
 
-  // 페이지가 처음 랜더링될 때 그려주도록 설정
+  //
   useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth); // 창 크기를 조절할 때마다 windowWidth에 저장함
+    };
+
+    window.addEventListener('resize', handleResize); // 창 크기가 resize 될 때마다, handleResize를 이용해서 windowWidth에 저장
+    return () => {
+      window.removeEventListener('resize', handleResize); // 정리함수
+    };
+  }, []);
+
+  // 윈도우 크기가 900보다 작으면, 지도 크기를 450x450으로 설정, 900보다 크다면 초기에 설정한 값으로 설정
+  useEffect(() => {
+    if (windowWidth < 900) {
+      setWidth(450);
+      setHeight(450);
+    } else {
+      setWidth(initialWidth);
+      setHeight(initialHeight);
+    }
     printD3();
-  }, [width, height]); // width와 height 상태가 변경될 때마다 printD3 함수를 호출하여 지도를 다시 그리도록 설정
+  }, [windowWidth, width, height]); // windowWidth 상태가 변경될 때마다 printD3 함수를 호출하여 지도를 다시 그리도록 설정
 
   return (
     <>
@@ -97,25 +136,64 @@ function GuInfoMap() {
         <StyledMap>
           <svg ref={svgRef}></svg>
         </StyledMap>
-        {guName && <GuInfoDescription guName={guName} />}
+        <div ref={guInfoRef} className='guInfoDesc'>
+          {guName && <GuInfoDescription guName={guName} />}
+        </div>
+        <StyledBtn>
+          {guName && (
+            <button
+              onClick={() => {
+                svgRef.current.scrollIntoView({
+                  behavior: 'smooth'
+                });
+                setGuName('');
+              }}
+            >
+              <ChevronUp size={50} color='#5FC3C8' />
+              <br />
+              다른 구 정보
+            </button>
+          )}
+        </StyledBtn>
       </StyledDiv>
-      {!guName && (
-        <StyledDiv>
-          <h4>환영 문구</h4>
-        </StyledDiv>
-      )}
     </>
   );
 }
 
 const StyledDiv = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+
+  @media (min-width: 900px) {
+    width: 900px;
+  }
 `;
 
 const StyledMap = styled.div`
   user-select: none;
+`;
+const StyledBtn = styled.div`
+  button {
+    border: none;
+    background: none;
+    font-size: 23px;
+    color: #a9a9a9;
+  }
+  button:hover {
+    color: #5fc3c8;
+  }
+  margin-bottom: 40px;
+
+  @media (max-width: 900px) {
+    button {
+      font-size: 20px;
+    }
+    button svg {
+      width: 40px;
+    }
+  }
 `;
 
 export default GuInfoMap;

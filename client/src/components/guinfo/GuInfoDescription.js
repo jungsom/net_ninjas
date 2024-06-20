@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import axios from 'axios';
+import baseAxios from '../shared/api';
 import { useState, useEffect } from 'react';
 import { StringSplitAndSort } from './Util';
 import GuInfoCarousels from './GuInfoCarousels';
+import GuInfoCarouselsList from './GuinfoCarouselsList';
 import {
   PencilFill,
   BusFrontFill,
@@ -21,9 +22,7 @@ function GuInfoDescription({ guName }) {
   const [market, setMarket] = useState('');
 
   const getGuInformationData = async () => {
-    const response = await axios.get(
-      'http://kdt-ai-10-team05.elicecoding.com:3000/allPlace'
-    );
+    const response = await baseAxios.get('/allPlace');
     const allGuData = response.data;
 
     const selectedGuData = allGuData.filter((item) => item.gu === guName)[0];
@@ -43,11 +42,13 @@ function GuInfoDescription({ guName }) {
 
   return (
     <StyledDiv>
-      <h3>서울시 {guName}</h3>
+      <GuTitle>
+        <h4>서울시 {guName}</h4>
+        <h3>{GuInfoCarouselsList[guName]?.subtitle}</h3>
+      </GuTitle>
       <GuInfoCarousels guName={guName} />
-      <p>
+      <p style={{ marginTop: '20px' }}>
         <ListTitle>1. 대학교</ListTitle>
-
         <ListDescription>{university || '없음'}</ListDescription>
       </p>
       <hr />
@@ -135,22 +136,63 @@ function GuInfoDescription({ guName }) {
 
 const StyledDiv = styled.div`
   width: 900px;
+  height: 1420px;
   li {
     list-style: none;
   }
+  margin-top: 80px;
   margin-bottom: 25px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    height: 1750px;
+  }
+
+  @media (min-width: 715px) {
+    width: 100%;
+    height: 1420px;
+  }
+`;
+
+const GuTitle = styled.div`
+  margin-left: 5px;
+  h4 {
+    color: #5fc3c8;
+    font-weight: bold;
+  }
+  h3 {
+    font-weight: bold;
+  }
+
+  @media (max-width: 900px) {
+    margin-left: 10px;
+    h4 {
+      font-size: 17px;
+    }
+    h3 {
+      font-size: 19px;
+    }
+  }
 `;
 
 const ListTitle = styled.div`
   margin: 8px;
   font-weight: bold;
   font-size: 1.6em;
+
+  @media (max-width: 900px) {
+    font-size: 1.3em;
+  }
 `;
 
 const DBContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(auto-fill, 350px);
+  }
 `;
 
 const DBGridContainer = styled.div`
@@ -161,11 +203,19 @@ const DBTitle = styled.div`
   margin: 10px;
   font-weight: bold;
   font-size: 1.2em;
+
+  @media (max-width: 900px) {
+    font-size: 1.1em;
+  }
 `;
 
 const ListDescription = styled.span`
   display: block;
   margin-left: 15px;
   font-size: 1em;
+
+  @media (max-width: 900px) {
+    font-size: 0.9em;
+  }
 `;
 export default GuInfoDescription;
