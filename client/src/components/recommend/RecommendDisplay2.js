@@ -163,6 +163,11 @@ const SelectContainer = styled.div`
   background-repeat: no-repeat;
   background-size: 600px;
 
+  @media (max-width: 440px) {
+    background: none;
+    border: 1.5px solid;
+  }
+
   @media (max-width: 650px) {
     background-size: 100%;
     height: 250px;
@@ -256,8 +261,8 @@ const ButtonContainer = styled.div`
     button {
       font-size: 18px;
       padding: 10px 20px;
-      width: 120px;
-      height: 60px;
+      width: 60px;
+      height: 35px;
     }
   }
 `;

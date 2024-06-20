@@ -26,6 +26,7 @@ function RecommendDisplay4() {
             <span>최소는</span>
             <input
               value={deposit.min}
+              type='number'
               onChange={(e) =>
                 setDeposit({
                   ...deposit,
@@ -39,6 +40,7 @@ function RecommendDisplay4() {
             <span>최대는</span>
             <input
               value={deposit.max}
+              type='number'
               onChange={(e) =>
                 setDeposit({
                   ...deposit,
@@ -60,7 +62,7 @@ function RecommendDisplay4() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (deposit.min >= deposit.max) {
+            if (Number(deposit.min) > Number(deposit.max)) {
               alert('예산 범위를 확인해주세요!');
               return;
             }
@@ -113,7 +115,8 @@ const SelectContainer = styled.div`
   background-size: 600px;
 
   @media (max-width: 650px) {
-    background-size: 100%;
+    background: none;
+    border: 1.5px solid;
     height: 250px;
   }
 `;
@@ -154,10 +157,10 @@ const ButtonContainer = styled.div`
   }
 
   @media (max-width: 650px) {
-    width: 399px;
     padding: 0 20px;
     button {
-      width: 120px;
+      width: 60px;
+      height: 35px;
       font-size: 18px;
       padding: 10px 20px;
     }
@@ -179,6 +182,11 @@ const OptionContainer = styled.div`
     border-style: none;
     border-bottom: 3px solid #5fc3c8;
     outline: none;
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 
   @media (max-width: 650px) {
