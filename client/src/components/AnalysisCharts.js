@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import Container from '@mui/material/Container';
 import Stack from 'react-bootstrap/Stack';
 // import styled from 'styled-components';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Nav from 'react-bootstrap/Nav';
 import styled from 'styled-components';
 
 import Education from './analysisCharts/education';
@@ -18,81 +19,100 @@ import Environment from './analysisCharts/environment';
 const Container = styled.section`
   width: 90%;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ContentContainer = styled.div`
+  margin-top: 20px;
+`;
+
+const StyledNavLink = styled(Nav.Link)`
+  color: black;
+  &:hover,
+  &:focus,
+  &.active {
+    color: #5fc3c8;
+  }
 `;
 
 export default function AnalysisCharts() {
+  const [activeKey, setActiveKey] = useState('education');
   return (
     <Container>
-      <Tabs
+      <Nav
+        variant='underline'
         defaultActiveKey='education'
-        id='justify-tab-example'
-        className='mb-3'
-        justify
+        activeKey={activeKey}
+        onSelect={(selectedKey) => setActiveKey(selectedKey)}
       >
-        <Tab eventKey='education' title='&#127890; 교육'>
-          <Education />
-        </Tab>
-        <Tab eventKey='profile' title='&#128652; 교통'>
-          <Transportation />
-        </Tab>
-        <Tab eventKey='longer-tab' title='&#128153; 복지'>
-          <Welfare />
-        </Tab>
-        <Tab eventKey='satety' title='&#128680; 안전'>
-          <Safety />
-        </Tab>
-        <Tab eventKey='population' title='&#128106; 인구'>
-          <Population />
-        </Tab>
-        <Tab eventKey='housing' title='&#127968; 주거'>
-          <Housing />
-        </Tab>
-        <Tab eventKey='convenience' title='&#127978; 편의'>
-          <Convenience />
-        </Tab>
-        <Tab eventKey='environment' title='&#127795; 환경'>
-          <Environment />
-        </Tab>
-      </Tabs>
+        <Nav.Item>
+          <StyledNavLink
+            eventKey='education'
+            activeKey={activeKey === 'education'}
+          >
+            교육
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink
+            eventKey='transportation'
+            activeKey={activeKey === 'transportation'}
+          >
+            교통
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink eventKey='welfare' activeKey={activeKey === 'welfare'}>
+            복지
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink eventKey='safety' activeKey={activeKey === 'safety'}>
+            안전
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink
+            eventKey='population'
+            activeKey={activeKey === 'population'}
+          >
+            인구
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink eventKey='housing' activeKey={activeKey === 'housing'}>
+            주거
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink
+            eventKey='convenience'
+            activeKey={activeKey === 'convenience'}
+          >
+            편의
+          </StyledNavLink>
+        </Nav.Item>
+        <Nav.Item>
+          <StyledNavLink
+            eventKey='environment'
+            activeKey={activeKey === 'environment'}
+          >
+            환경
+          </StyledNavLink>
+        </Nav.Item>
+      </Nav>
+      <ContentContainer>
+        {activeKey === 'education' && <Education />}
+        {activeKey === 'transportation' && <Transportation />}
+        {activeKey === 'welfare' && <Welfare />}
+        {activeKey === 'safety' && <Safety />}
+        {activeKey === 'population' && <Population />}
+        {activeKey === 'housing' && <Housing />}
+        {activeKey === 'convenience' && <Convenience />}
+        {activeKey === 'environment' && <Environment />}
+      </ContentContainer>
     </Container>
   );
 }
-
-// export default function AnalysisCharts() {
-//   return (
-//     <Stack gap={3}>
-//       <div className='p-2' id='education'>
-//         <h4>교육</h4>
-//         <Education />
-//       </div>
-//       <div className='p-2' id='transfortation'>
-//         <h4>교통</h4>
-//         <Transportation />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='welfare'>복지</h4>
-//         <Welfare />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='safety'>안전</h4>
-//         <Safety />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='population'>인구</h4>
-//         <Population />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='housing'>주거</h4>
-//         <Housing />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='convenience'>편의</h4>
-//         <Convenience />
-//       </div>
-//       <div className='p-2'>
-//         <h4 id='environment'>환경</h4>
-//         <Environment />
-//       </div>
-//     </Stack>
-//   );
-// }

@@ -220,7 +220,7 @@ export default function RecommendResult() {
     thridCategoryRanks
   }) {
     return (
-      <div style={{ padding: '5% 1%' }}>
+      <div style={{ padding: '3% 1%' }}>
         <div style={{ textAlign: 'center' }}>
           <h5>{category[firstCategory]}</h5>
           <p>
