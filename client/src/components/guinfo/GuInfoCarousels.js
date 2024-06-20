@@ -63,7 +63,7 @@ const StyledImage = styled.img`
   border-radius: 35px;
   padding: 0 5px;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     padding: 0 8px;
     border-radius: 20px;
   }

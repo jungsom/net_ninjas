@@ -26,7 +26,7 @@ const StyledContent = styled.div`
     font-weight: bold;
   }
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     h2 {
       font-size: 22px;
     }

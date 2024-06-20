@@ -15,7 +15,7 @@ function GuInfoMap() {
   const guInfoRef = useRef(null);
   const [width, setWidth] = useState(initialWidth);
   const [height, setHeight] = useState(initialHeight);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 윈도우 크기를 받아와서, 830px보다 작으면 줄어들게 할거임
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // 윈도우 크기를 받아와서, 900px보다 작으면 줄어들게 할거임
 
   const featureData = feature(seoul, seoul.objects['seoul-topo']); // mapshaper에서 simplify한 파일을 가져와서 지리 정보를 표현하는데 씀
 
@@ -44,8 +44,8 @@ function GuInfoMap() {
       .attr('width', width)
       .attr('height', height);
 
-    // 윈도우 넓이가 830보다 작으면, 지도의 뒤에 배치할 3D Map의 크기를 조절함
-    if (windowWidth > 830) {
+    // 윈도우 넓이가 900보다 작으면, 지도의 뒤에 배치할 3D Map의 크기를 조절함
+    if (windowWidth > 900) {
       svg
         .append('image')
         .attr('href', './img/map.png')
@@ -118,9 +118,9 @@ function GuInfoMap() {
     };
   }, []);
 
-  // 윈도우 크기가 830보다 작으면, 지도 크기를 450x450으로 설정, 830보다 크다면 초기에 설정한 값으로 설정
+  // 윈도우 크기가 900보다 작으면, 지도 크기를 450x450으로 설정, 900보다 크다면 초기에 설정한 값으로 설정
   useEffect(() => {
-    if (windowWidth < 830) {
+    if (windowWidth < 900) {
       setWidth(450);
       setHeight(450);
     } else {
@@ -165,6 +165,10 @@ const StyledDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: 900px) {
+    width: 900px;
+  }
 `;
 
 const StyledMap = styled.div`
@@ -182,7 +186,7 @@ const StyledBtn = styled.div`
   }
   margin-bottom: 40px;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     button {
       font-size: 20px;
     }

@@ -143,7 +143,7 @@ const StyledDiv = styled.div`
   margin-top: 80px;
   margin-bottom: 25px;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     width: 100%;
     height: 1750px;
   }
@@ -164,7 +164,7 @@ const GuTitle = styled.div`
     font-weight: bold;
   }
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     margin-left: 10px;
     h4 {
       font-size: 17px;
@@ -180,7 +180,7 @@ const ListTitle = styled.div`
   font-weight: bold;
   font-size: 1.6em;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     font-size: 1.3em;
   }
 `;
@@ -190,7 +190,7 @@ const DBContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     grid-template-columns: repeat(auto-fill, 350px);
   }
 `;
@@ -204,7 +204,7 @@ const DBTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     font-size: 1.1em;
   }
 `;
@@ -214,7 +214,7 @@ const ListDescription = styled.span`
   margin-left: 15px;
   font-size: 1em;
 
-  @media (max-width: 830px) {
+  @media (max-width: 900px) {
     font-size: 0.9em;
   }
 `;
