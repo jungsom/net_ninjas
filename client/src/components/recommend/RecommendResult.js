@@ -2,17 +2,56 @@ import React, { useState, useContext, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Stack from 'react-bootstrap/Stack';
 import { useLocation } from 'react-router-dom';
-import { styled } from '@mui/material/styles';
+// import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import RecommendContext from './RecommendContext';
 import baseAxios from '../shared/api';
+import styled from 'styled-components';
+
+const SelectContainer = styled.div`
+  width: 600px;
+  height: 350px;
+  // margin: 40px 0;
+  margin-bottom: 10%;
+  background-color: transparent;
+  background-image: url('${process.env
+    .PUBLIC_URL}/img/recommendInput/group18.png');
+  background-repeat: no-repeat;
+  background-size: 600px;
+  background-position: center;
+  position: relative; /* Added to allow absolute positioning inside */
+`;
+
+const TextOverlay = styled.div`
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: black; /* Adjust text color for better visibility */
+  font-size: 20px; /* Adjust font size as needed */
+  text-align: center;
+`;
+
+const Gif = styled.img`
+  content: url('${process.env.PUBLIC_URL}/img/result.gif');
+  width: 5%;
+  padding-bottom: 2%;
+`;
 
 export default function RecommendResult() {
   const location = useLocation();
-  const { firstCategory, secondCategory, thirdCategory, recommendData } =
-    location.state || {};
+  const {
+    firstCategory,
+    secondCategory,
+    thirdCategory,
+    contractType,
+    deposit,
+    rent,
+    recommendData
+  } = location.state || {};
   const first = recommendData.first;
   const second = recommendData.second;
   const third = recommendData.third;
@@ -125,15 +164,66 @@ export default function RecommendResult() {
     }
   };
 
+  console.log(
+    firstCategory,
+    secondCategory,
+    thirdCategory,
+    contractType,
+    deposit,
+    rent,
+    recommendData
+  );
+
   return (
     <>
-      <Container maxWidth='xl'>
-        {/* <h4>ooo님에게 가장 적합한 동네는...</h4> */}
+      {/* <h4>ooo님에게 가장 적합한 동네는...</h4> */}
+      <div
+        style={{
+          padding: '5%',
+          width: '50%'
+          // flex: '1',
+          // display: 'flex',
+          // flexDirection: 'column'
+        }}
+      >
+        <SelectContainer>
+          <TextOverlay>
+            <p>
+              1순위는 {category[firstCategory]}, 2순위는{' '}
+              {category[secondCategory]}, 3순위는 {category[thirdCategory]}이고
+              <br />
+              {contractType == 'jeonse' ? (
+                <>
+                  전세가는 {deposit.min}만원 ~ {deposit.max}만원까지 알아보고
+                  있는
+                  <br />
+                </>
+              ) : (
+                <>
+                  월세 보증금은 {deposit.min}~{deposit.max}만원,
+                  <br />
+                  월세 보증금은 {rent.min}~{rent.max}만원까지 알아보고 있는
+                </>
+              )}
+              <br />
+              당신에게 추천드리는 동네는...
+            </p>
+          </TextOverlay>
+        </SelectContainer>
         <Stack gap={3}>
           <div>
-            <h2>
-              &#129351; {first[0].gu} {first[0].dong}
+            {/* <div style={{ textAlign: 'center' }}> */}
+            <h2 style={{ textAlign: 'center' }}>
+              {/* <img src={`${process.env.PUBLIC_URL}/img/result.gif`} /> */}
+              <Gif />
+              &nbsp;
+              <span style={{ fontWeight: 'bold' }}>
+                {first[0].gu} {first[0].dong}
+              </span>{' '}
+              추천드립니다! &nbsp;
+              <Gif />
             </h2>
+            {/* </div> */}
             <h5>{category[firstCategory]}</h5>
             <p>
               {first[0].gu} {first[0].dong}은&nbsp;
@@ -255,7 +345,7 @@ export default function RecommendResult() {
             </p>
           </div>
         </Stack>
-      </Container>
+      </div>
     </>
   );
 }
