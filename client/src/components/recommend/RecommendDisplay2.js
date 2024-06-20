@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
+import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
 const category = {
   교육: 'education',
@@ -15,9 +16,7 @@ const category = {
 
 function RecommendDisplay2() {
   const {
-    setFirstOpen,
-    setSecondOpen,
-    setThirdOpen,
+    setFunnelStep,
     firstCategory,
     setFirstCategory,
     secondCategory,
@@ -113,16 +112,14 @@ function RecommendDisplay2() {
         <RecommendButton
           name='이전'
           onClick={() => {
-            setFirstOpen(true);
-            setSecondOpen(false);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST);
           }}
           style={{ display: 'none' }}
         />
         <RecommendButton
           name='다음'
           onClick={() => {
-            setSecondOpen(false);
-            setThirdOpen(true);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_THIRD);
           }}
           disabled={!firstCategory || !secondCategory || !thirdCategory}
         />

@@ -8,7 +8,7 @@ function Loading() {
   useEffect(() => {
     const timer = setTimeout(() => {
       getRecommendData();
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(timer); // 정리 함수
   }, [getRecommendData]);

@@ -2,19 +2,11 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
+import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
 function RecommendDisplay4() {
-  const {
-    setThirdOpen,
-    setFourthOpen,
-    setFifthOpen,
-    setIsLoading,
-    contractType,
-    minDeposit,
-    setMinDeposit,
-    maxDeposit,
-    setMaxDeposit
-  } = useContext(RecommendContext);
+  const { setFunnelStep, contractType, deposit, setDeposit } =
+    useContext(RecommendContext);
   return (
     <>
       <FirstText>
@@ -33,16 +25,26 @@ function RecommendDisplay4() {
           <FirstOption>
             <span>최소는</span>
             <input
-              value={minDeposit}
-              onChange={(e) => setMinDeposit(e.target.value)}
+              value={deposit.min}
+              onChange={(e) =>
+                setDeposit({
+                  ...deposit,
+                  min: e.target.value
+                })
+              }
             />
             <span>만원</span>
           </FirstOption>
           <SecondOption>
             <span>최대는</span>
             <input
-              value={maxDeposit}
-              onChange={(e) => setMaxDeposit(e.target.value)}
+              value={deposit.max}
+              onChange={(e) =>
+                setDeposit({
+                  ...deposit,
+                  max: e.target.value
+                })
+              }
             />
             <span>만원</span>
           </SecondOption>
@@ -52,24 +54,21 @@ function RecommendDisplay4() {
         <RecommendButton
           name='이전'
           onClick={() => {
-            setThirdOpen(true);
-            setFourthOpen(false);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_THIRD);
           }}
         />
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (minDeposit >= maxDeposit) {
+            if (deposit.min >= deposit.max) {
               alert('예산 범위를 확인해주세요!');
               return;
             }
             if (contractType === 'jeonse') {
-              setFourthOpen(false);
-              setIsLoading(true);
+              setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_LOADING);
             }
             if (contractType === 'month') {
-              setFourthOpen(false);
-              setFifthOpen(true);
+              setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_FIFTH);
             }
           }}
         />

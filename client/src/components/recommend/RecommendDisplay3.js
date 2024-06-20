@@ -2,15 +2,11 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
+import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
 function RecommendDisplay3() {
-  const {
-    setSecondOpen,
-    setThirdOpen,
-    setFourthOpen,
-    contractType,
-    setContractType
-  } = useContext(RecommendContext);
+  const { setFunnelStep, contractType, setContractType } =
+    useContext(RecommendContext);
   return (
     <>
       <FirstText>
@@ -50,15 +46,13 @@ function RecommendDisplay3() {
         <RecommendButton
           name='이전'
           onClick={() => {
-            setSecondOpen(true);
-            setThirdOpen(false);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_SECOND);
           }}
         />
         <RecommendButton
           name='다음'
           onClick={() => {
-            setThirdOpen(false);
-            setFourthOpen(true);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_FOURTH);
           }}
           disabled={!contractType}
         />

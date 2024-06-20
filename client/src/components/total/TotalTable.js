@@ -79,7 +79,7 @@ function TotalTable() {
                 </Tooltip.Trigger>
                 <Tooltip.Portal>
                   <Tooltip.Content className='TooltipContent' sideOffset={10}>
-                    학원 수 (자치구 기준)
+                    학원 수 (평생직업 교육학원), 자치구 기준
                     <Tooltip.Arrow className='TooltipArrow' />
                   </Tooltip.Content>
                 </Tooltip.Portal>

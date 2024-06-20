@@ -2,18 +2,11 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
+import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
 function RecommendDisplay5() {
-  const {
-    setFourthOpen,
-    setFifthOpen,
-    setIsLoading,
-    contractType,
-    minRent,
-    setMinRent,
-    maxRent,
-    setMaxRent
-  } = useContext(RecommendContext);
+  const { setFunnelStep, contractType, rent, setRent } =
+    useContext(RecommendContext);
   return (
     <>
       <FirstText>
@@ -32,16 +25,26 @@ function RecommendDisplay5() {
           <FirstOption>
             <span>최소는</span>
             <input
-              value={minRent}
-              onChange={(e) => setMinRent(e.target.value)}
+              value={rent.min}
+              onChange={(e) =>
+                setRent({
+                  ...rent,
+                  min: e.target.value
+                })
+              }
             />
             <span>만원</span>
           </FirstOption>
           <SecondOption>
             <span>최대는</span>
             <input
-              value={maxRent}
-              onChange={(e) => setMaxRent(e.target.value)}
+              value={rent.max}
+              onChange={(e) =>
+                setRent({
+                  ...rent,
+                  max: e.target.value
+                })
+              }
             />
             <span>만원</span>
           </SecondOption>
@@ -51,20 +54,18 @@ function RecommendDisplay5() {
         <RecommendButton
           name='이전'
           onClick={() => {
-            setFourthOpen(true);
-            setFifthOpen(false);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_FOURTH);
           }}
         />
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (minRent >= maxRent) {
+            if (rent.min >= rent.max) {
               alert('예산 범위를 확인해주세요!');
               return;
             }
             if (contractType === 'month') {
-              setFifthOpen(false);
-              setIsLoading(true);
+              setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_LOADING);
             }
           }}
         />

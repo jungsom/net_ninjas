@@ -1,8 +1,17 @@
 import RecommendContext from './RecommendContext';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import baseAxios from '../shared/api';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
+
+export const RECOMMEND_FUNNEL_STEP = {
+  RECOMMEND_FIRST: 1,
+  RECOMMEND_SECOND: 2,
+  RECOMMEND_THIRD: 3,
+  RECOMMEND_FOURTH: 4,
+  RECOMMEND_FIFTH: 5,
+  RECOMMEND_LOADING: 6
+};
 
 // TotalProvider를 이용해 data 값을 제공해 줌
 function RecommendProvider({ children }) {
@@ -11,16 +20,17 @@ function RecommendProvider({ children }) {
   const [secondCategory, setSecondCategory] = useState('');
   const [thirdCategory, setThirdCategory] = useState('');
   const [contractType, setContractType] = useState('');
-  const [minDeposit, setMinDeposit] = useState(0);
-  const [maxDeposit, setMaxDeposit] = useState(0);
-  const [minRent, setMinRent] = useState(0);
-  const [maxRent, setMaxRent] = useState(0);
-  const [firstOpen, setFirstOpen] = useState(true);
-  const [secondOpen, setSecondOpen] = useState(false);
-  const [thirdOpen, setThirdOpen] = useState(false);
-  const [fourthOpen, setFourthOpen] = useState(false);
-  const [fifthOpen, setFifthOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [deposit, setDeposit] = useState({
+    min: 0,
+    max: 0
+  });
+  const [rent, setRent] = useState({
+    min: 0,
+    max: 0
+  });
+  const [funnelStep, setFunnelStep] = useState(
+    RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST
+  );
   const navigate = useNavigate();
 
   const jeonseQueryString = qs.stringify({
@@ -28,8 +38,8 @@ function RecommendProvider({ children }) {
     second: secondCategory,
     third: thirdCategory,
     option: contractType,
-    min_price: minDeposit,
-    max_price: maxDeposit
+    min_price: deposit.min,
+    max_price: deposit.max
   });
 
   const monthQueryString = qs.stringify({
@@ -37,10 +47,10 @@ function RecommendProvider({ children }) {
     second: secondCategory,
     third: thirdCategory,
     option: contractType,
-    min_price: minDeposit,
-    max_price: maxDeposit,
-    min_price_2: minRent,
-    max_price_2: maxRent
+    min_price: deposit.min,
+    max_price: deposit.max,
+    min_price_2: rent.min,
+    max_price_2: rent.max
   });
 
   const getRecommendData = async () => {
@@ -48,8 +58,10 @@ function RecommendProvider({ children }) {
     try {
       if (contractType === 'jeonse')
         response = await baseAxios.get(`/recommend?${jeonseQueryString}`);
+      console.log(jeonseQueryString);
       if (contractType === 'month')
         response = await baseAxios.get(`/recommend?${monthQueryString}`);
+      console.log(monthQueryString);
 
       const data = response.data;
       console.log(data);
@@ -81,26 +93,12 @@ function RecommendProvider({ children }) {
         setThirdCategory,
         contractType,
         setContractType,
-        minDeposit,
-        setMinDeposit,
-        maxDeposit,
-        setMaxDeposit,
-        minRent,
-        setMinRent,
-        maxRent,
-        setMaxRent,
-        firstOpen,
-        setFirstOpen,
-        secondOpen,
-        setSecondOpen,
-        thirdOpen,
-        setThirdOpen,
-        fourthOpen,
-        setFourthOpen,
-        fifthOpen,
-        setFifthOpen,
-        isLoading,
-        setIsLoading
+        deposit,
+        setDeposit,
+        rent,
+        setRent,
+        funnelStep,
+        setFunnelStep
       }}
     >
       {children}

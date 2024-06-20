@@ -10,6 +10,7 @@ function RecommendButton({ name, ...rest }) {
 
 const Button = styled.button`
   background-color: #5fc3c8;
+  text-align: center;
   width: 200px;
   height: 60px;
   border: none;

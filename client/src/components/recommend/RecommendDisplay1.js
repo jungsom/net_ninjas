@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
 import RecommendContext from './RecommendContext';
+import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
 function RecommendFirstDisplay() {
-  const { setFirstOpen, setSecondOpen } = useContext(RecommendContext);
+  const { setFunnelStep } = useContext(RecommendContext);
 
   return (
     <>
@@ -27,8 +28,7 @@ function RecommendFirstDisplay() {
       <NextButton>
         <button
           onClick={() => {
-            setFirstOpen(false);
-            setSecondOpen(true);
+            setFunnelStep(RECOMMEND_FUNNEL_STEP.RECOMMEND_SECOND);
           }}
         >
           지금 동네 추천 받으러 가기!{' '}

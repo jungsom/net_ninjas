@@ -19,25 +19,16 @@ const category = {
 };
 
 function RecommendInputArea() {
-  const {
-    firstOpen,
-    secondOpen,
-    thirdOpen,
-    fourthOpen,
-    fifthOpen,
-    isLoading,
-    contractType
-  } = useContext(RecommendContext);
+  const { funnelStep } = useContext(RecommendContext);
 
   return (
     <DisplayContainer>
-      {firstOpen && <RecommendDisplay1 />}
-      {!firstOpen && secondOpen && <RecommendDisplay2 />}
-      {!secondOpen && thirdOpen && <RecommendDisplay3 />}
-      {!thirdOpen && fourthOpen && <RecommendDisplay4 />}
-      {!fourthOpen && fifthOpen && <RecommendDisplay5 />}
-      {contractType === 'jeonse' && !fourthOpen && isLoading && <Loading />}
-      {contractType === 'month' && !fifthOpen && isLoading && <Loading />}
+      {funnelStep === 1 && <RecommendDisplay1 />}
+      {funnelStep === 2 && <RecommendDisplay2 />}
+      {funnelStep === 3 && <RecommendDisplay3 />}
+      {funnelStep === 4 && <RecommendDisplay4 />}
+      {funnelStep === 5 && <RecommendDisplay5 />}
+      {funnelStep === 6 && <Loading />}
     </DisplayContainer>
   );
 }
