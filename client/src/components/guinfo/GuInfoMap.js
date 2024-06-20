@@ -45,15 +45,15 @@ function GuInfoMap() {
       .attr('height', height);
 
     // 윈도우 넓이가 900보다 작으면, 지도의 뒤에 배치할 3D Map의 크기를 조절함
-    if (windowWidth > 900) {
+    if (windowWidth < 450) {
       svg
         .append('image')
         .attr('href', './img/map.png')
-        .attr('x', -110) //
-        .attr('y', -60) //
-        .attr('width', 1100)
-        .attr('height', 1100);
-    } else {
+        .attr('x', -40) //
+        .attr('y', -22) //
+        .attr('width', 390)
+        .attr('height', 390);
+    } else if (windowWidth < 900) {
       svg
         .append('image')
         .attr('href', './img/map.png')
@@ -61,6 +61,14 @@ function GuInfoMap() {
         .attr('y', -40) //
         .attr('width', 595)
         .attr('height', 595);
+    } else {
+      svg
+        .append('image')
+        .attr('href', './img/map.png')
+        .attr('x', -110) //
+        .attr('y', -60) //
+        .attr('width', 1100)
+        .attr('height', 1100);
     }
 
     const mapLayer = svg.append('g');
@@ -86,7 +94,7 @@ function GuInfoMap() {
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
 
-    mapLayer
+    const label = mapLayer
       .selectAll('.gu-label')
       .data(featureData.features)
       .enter()
@@ -104,6 +112,15 @@ function GuInfoMap() {
         console.log(d.properties.SIGUNGU_NM);
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
+
+    // 창 크기를 받아서 다시 그려질 때 마다 font-size를 줄여줌
+    if (windowWidth < 450) {
+      label.style('font-size', '10px');
+    } else if (windowWidth < 900) {
+      label.style('font-size', '12px');
+    } else {
+      label.style('font-size', '13px');
+    }
   };
 
   //
@@ -120,7 +137,10 @@ function GuInfoMap() {
 
   // 윈도우 크기가 900보다 작으면, 지도 크기를 450x450으로 설정, 900보다 크다면 초기에 설정한 값으로 설정
   useEffect(() => {
-    if (windowWidth < 900) {
+    if (windowWidth < 450) {
+      setWidth(300);
+      setHeight(300);
+    } else if (windowWidth < 900) {
       setWidth(450);
       setHeight(450);
     } else {
@@ -169,12 +189,16 @@ const StyledDiv = styled.div`
   @media (min-width: 900px) {
     width: 900px;
   }
+
+  @media (max-width: 900px) {
+  }
 `;
 
 const StyledMap = styled.div`
   user-select: none;
 `;
 const StyledBtn = styled.div`
+  text-align: center;
   button {
     border: none;
     background: none;

@@ -19,7 +19,6 @@ const StyledCenterLayout = styled.div`
 `;
 
 const StyledContent = styled.div`
-  width: 1600px;
   h2 {
     margin-top: 30px;
     text-align: center;

@@ -136,7 +136,7 @@ function GuInfoDescription({ guName }) {
 
 const StyledDiv = styled.div`
   width: 900px;
-  height: 1420px;
+  height: 100%;
   li {
     list-style: none;
   }
@@ -145,12 +145,6 @@ const StyledDiv = styled.div`
 
   @media (max-width: 900px) {
     width: 100%;
-    height: 1750px;
-  }
-
-  @media (min-width: 715px) {
-    width: 100%;
-    height: 1420px;
   }
 `;
 
@@ -211,7 +205,7 @@ const DBTitle = styled.div`
 
 const ListDescription = styled.span`
   display: block;
-  margin-left: 15px;
+  margin: 0 15px;
   font-size: 1em;
 
   @media (max-width: 900px) {
