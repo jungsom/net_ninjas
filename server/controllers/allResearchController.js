@@ -9,9 +9,11 @@ export async function allDataPerPage(req, res, next) {
   const pageNo = parseInt(req.query.pageNo) || 1;
   const column = req.query.column;
   const sorting = req.query.sorting;
+  const minDeposit = parseInt(req.query.minDeposit);
+  const minRent = parseInt(req.query.minRent);
 
   try {
-    let data = await getAllData();
+    let data = await getAllData(minDeposit, minRent);
 
     // 데이터 정렬
     data = sortData(data, column, sorting);
