@@ -73,6 +73,9 @@ function RecommendProvider({ children }) {
             firstCategory,
             secondCategory,
             thirdCategory,
+            contractType,
+            deposit,
+            rent,
             recommendData: data
           }
         });

@@ -13,7 +13,6 @@ function GuInformation() {
 }
 
 const StyledCenterLayout = styled.div`
-  min-width: 450px;
   display: flex;
   justify-content: center;
 `;

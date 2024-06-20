@@ -136,7 +136,7 @@ export default function Safety() {
   return (
     <>
       <Stack gap={5} style={{ paddingTop: '30px', paddingBottom: '50px' }}>
-        <h2 style={{ textAlign: 'center', fontWeight: 'bold' }}>교통</h2>
+        <h2 style={{ textAlign: 'center', fontWeight: 'bold' }}>안전</h2>
         <div>
           <h5 style={{ color: '#5fc3c8', fontWeight: 'bold' }}>
             🚔 인구 1000명 당 범죄 발생수가 가장 적은 자치구는?

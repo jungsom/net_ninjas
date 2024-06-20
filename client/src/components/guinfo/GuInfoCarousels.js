@@ -50,7 +50,6 @@ function GuInfoCarousels({ guName }) {
 
 const ImageWrapper = styled.div`
   width: 100%; /* 부모 요소의 너비 설정 */
-  height: 500px; /* 부모 요소의 높이 설정 */
   overflow: hidden; /* 자식 이미지가 벗어나지 않도록 설정 */
   text-align: center;
 `;
