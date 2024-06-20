@@ -1,7 +1,11 @@
 import * as categorizationService from './categorizationService.js';
 
-async function getAllData(minDeposit, minRent) {
-  return await categorizationService.getAllData(minDeposit, minRent);
+async function getAllData(jeonseMinDeposit, monthMinDeposit, minRent) {
+  return await categorizationService.getAllData(
+    jeonseMinDeposit,
+    monthMinDeposit,
+    minRent
+  );
 }
 
 async function getAllDataByCategory(category) {

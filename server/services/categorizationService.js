@@ -78,8 +78,12 @@ export async function getAllWelfareData() {
   ]);
 }
 
-export async function getAllData(minDeposit = 0, minRent = 0) {
-  return await getRegions(minDeposit, minRent);
+export async function getAllData(
+  jeonseMinDeposit = 0,
+  monthMinDeposit = 0,
+  minRent = 0
+) {
+  return await getRegions(jeonseMinDeposit, monthMinDeposit, minRent);
 }
 
 async function generateDataByFields(fields) {
@@ -122,26 +126,29 @@ function getCustomFieldData(field) {
   }
 }
 
-async function getRegions(minDeposit = 0, minRent = 0) {
+async function getRegions(
+  jeonseMinDeposit = 0,
+  monthMinDeposit = 0,
+  minRent = 0
+) {
   try {
-    const filter = {
-      $and: []
-    };
+    const minConditions = [];
 
-    if (minDeposit > 0) {
-      filter.$and.push({ jeonseDeposit: { $gte: minDeposit } });
-      filter.$and.push({ monthDeposit: { $gte: minDeposit } });
+    if (jeonseMinDeposit > 0) {
+      minConditions.push({ jeonseDeposit: { $gte: jeonseMinDeposit } });
+    }
+
+    if (monthMinDeposit > 0) {
+      minConditions.push({ monthDeposit: { $gte: monthMinDeposit } });
     }
 
     if (minRent > 0) {
-      filter.$and.push({ monthRent: { $gte: minRent } });
+      minConditions.push({ monthRent: { $gte: minRent } });
     }
 
-    if (filter.$and.length === 0) {
-      return await Region.find().lean();
-    } else {
-      return await Region.find(filter).lean();
-    }
+    const filter = minConditions.length > 0 ? { $and: minConditions } : {};
+
+    return await Region.find(filter).lean();
   } catch (error) {
     const err = new Error('지역 데이터를 불러오는 중 오류가 발생했습니다.');
     next(err);
