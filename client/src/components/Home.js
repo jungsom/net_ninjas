@@ -37,7 +37,7 @@ const Container = styled.section`
       position : absolute;
       width:3em;
       left:50%;
-      bottom:0;
+      bottom:10%;
       opacity: 0;
       transform: translate(-50%, -50%);
       animation: bounce 2s infinite; /* bounce 애니메이션 적용 */
@@ -102,6 +102,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   font-size:1.25em;
   padding:10px;
+  
 
     &.hidden {
     opacity: 0;
@@ -165,7 +166,6 @@ const Content = ({ subTitle, title, link, text }) => {
 };
 
 export default function Home() {
-
   const [visibleSections, setVisibleSections] = useState({});
   const sections = [
     { id: 'target1' },
@@ -174,13 +174,16 @@ export default function Home() {
     { id: 'target4' },
   ];
 
+  const heightOffset = 200;
+  const topHeight = 60;
+
   const handleScroll = () => {
     const updatedVisibleSections = {};
     sections.forEach(section => {
       const targetSection = document.getElementById(section.id);
       const position = targetSection.getBoundingClientRect();
 
-      if (position.top + 100 < window.innerHeight && position.bottom >= 0) {
+      if (position.top + heightOffset < window.screen.height && position.bottom >= 0) {
         updatedVisibleSections[section.id] = true;
       } else {
         updatedVisibleSections[section.id] = false;
@@ -200,16 +203,15 @@ export default function Home() {
   return (
     <Container>
       {/* <Slider /> */}
-      <div className='home_logo' style={{height:window.innerHeight -100}}>
+      <div className='home_logo' style={{height:window.screen.height-heightOffset}}>
         <img className='sub_title' src ='img/sub_title.svg'/>
         <img className='title' src = 'img/title.svg'/>
         <img className='arrow' src = 'img/arrow_bottom.svg'/>
       </div>
-      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.innerHeight-100, top:window.innerHeight, zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100)), zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100) * 2), zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100) * 3), zIndex:"-1"}}></div>
-
+      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.screen.height-heightOffset, top:window.screen.height-heightOffset + topHeight, zIndex:"-1"}}></div>
+      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.screen.height-heightOffset, top:   ((window.screen.height-heightOffset) * 2) + topHeight, zIndex:"-1"}}></div>
+      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.screen.height-heightOffset, top:  ((window.screen.height-heightOffset) * 3) + topHeight, zIndex:"-1"}}></div>
+      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.screen.height-heightOffset, top:  ((window.screen.height-heightOffset) * 4) + topHeight, zIndex:"-1"}}></div>
 
 {/* //  display: flex;
   justify-content: center;
@@ -221,7 +223,7 @@ export default function Home() {
         alignItems='center'
         style={{ marginBottom: '100px', display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center" }}
       >
-        <ContentWrapper id="target1" style={{  height:window.innerHeight -100}} className={`${(visibleSections['target1'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper id="target1" style={{ height:window.screen.height -heightOffset}} className={`${(visibleSections['target1'] ? 'visible' : 'hidden')}`}>
           <Content
             subTitle={'자치구 정보'}
             title={'내가 살고 싶은 동네가 속한 자치구의 정보'}
@@ -233,7 +235,7 @@ export default function Home() {
           </ImageWrapper>
         </ContentWrapper>
 
-        <ContentWrapper id="target2" style={{ height:window.innerHeight -100}} className={`${(visibleSections['target2'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper id="target2" style={{ height:window.screen.height -heightOffset}} className={`${(visibleSections['target2'] ? 'visible' : 'hidden')}`}>
           <Content
             subTitle={'전체 통계'}
             title={'서울의 모든 동네 정보를 한눈에'}
@@ -246,7 +248,7 @@ export default function Home() {
             <Total style={{ margin: '0 auto' }} />
           </ImageWrapper>
         </ContentWrapper>
-        <ContentWrapper id="target3" style={{height:window.innerHeight -100}} className={`${(visibleSections['target3'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper id="target3" style={{ height:window.screen.height -heightOffset}} className={`${(visibleSections['target3'] ? 'visible' : 'hidden')}`}>
           <Content
             subTitle={'통계 분석'}
             title={'8개의 카테고리로 보기 편한 차트 분석'}
@@ -259,7 +261,7 @@ export default function Home() {
             <Analysis style={{ margin: '0 auto' }} />
           </ImageWrapper>
         </ContentWrapper >
-        <ContentWrapper id="target4" style={{height:window.innerHeight -100}} className={`${(visibleSections['target4'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper id="target4" style={{ height:window.screen.height -heightOffset}} className={`${(visibleSections['target4'] ? 'visible' : 'hidden')}`}>
           <Content
             subTitle={'동네 추천'}
             title={'나에게 가장 맞는 동네 추천 받기'}
