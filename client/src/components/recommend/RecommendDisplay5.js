@@ -26,13 +26,23 @@ function RecommendDisplay5() {
             <span>최소는</span>
             <input
               value={rent.min}
-              type='number'
-              onChange={(e) =>
-                setRent({
-                  ...rent,
-                  min: e.target.value
-                })
-              }
+              type='text'
+              placeholder='1'
+              onChange={(e) => {
+                let price = e.target.value;
+                price = Number(price.replaceAll(',', ''));
+                if (isNaN(price)) {
+                  setRent({
+                    ...rent,
+                    min: 0
+                  });
+                } else {
+                  setRent({
+                    ...rent,
+                    min: price.toLocaleString('ko-KR')
+                  });
+                }
+              }}
             />
             <span>만원</span>
           </FirstOption>
@@ -40,13 +50,23 @@ function RecommendDisplay5() {
             <span>최대는</span>
             <input
               value={rent.max}
-              type='number'
-              onChange={(e) =>
-                setRent({
-                  ...rent,
-                  max: e.target.value
-                })
-              }
+              type='text'
+              placeholder='1'
+              onChange={(e) => {
+                let price = e.target.value;
+                price = Number(price.replaceAll(',', ''));
+                if (isNaN(price)) {
+                  setRent({
+                    ...rent,
+                    max: 0
+                  });
+                } else {
+                  setRent({
+                    ...rent,
+                    max: price.toLocaleString('ko-KR')
+                  });
+                }
+              }}
             />
             <span>만원</span>
           </SecondOption>
@@ -62,7 +82,10 @@ function RecommendDisplay5() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (Number(rent.min) > Number(rent.max)) {
+            if (
+              Number(rent.min.replaceAll(',', '')) >
+              Number(rent.max.replaceAll(',', ''))
+            ) {
               alert('예산 범위를 확인해주세요!');
               return;
             }

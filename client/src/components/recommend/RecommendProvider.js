@@ -21,25 +21,30 @@ function RecommendProvider({ children }) {
   const [thirdCategory, setThirdCategory] = useState('');
   const [contractType, setContractType] = useState('');
   const [deposit, setDeposit] = useState({
-    min: 1,
-    max: 1
+    min: '',
+    max: ''
   });
   const [rent, setRent] = useState({
-    min: 1,
-    max: 1
+    min: '',
+    max: ''
   });
   const [funnelStep, setFunnelStep] = useState(
     RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST
   );
   const navigate = useNavigate();
 
+  const min_deposit = Number(deposit.min.replaceAll(',', ''));
+  const max_deposit = Number(deposit.max.replaceAll(',', ''));
+  const min_rent = Number(rent.min.replaceAll(',', ''));
+  const max_rent = Number(rent.max.replaceAll(',', ''));
+
   const jeonseQueryString = qs.stringify({
     first: firstCategory,
     second: secondCategory,
     third: thirdCategory,
     option: contractType,
-    min_price: deposit.min,
-    max_price: deposit.max
+    min_price: min_deposit,
+    max_price: max_deposit
   });
 
   const monthQueryString = qs.stringify({
@@ -47,10 +52,10 @@ function RecommendProvider({ children }) {
     second: secondCategory,
     third: thirdCategory,
     option: contractType,
-    min_price: deposit.min,
-    max_price: deposit.max,
-    min_price_2: rent.min,
-    max_price_2: rent.max
+    min_price: min_deposit,
+    max_price: max_deposit,
+    min_price_2: min_rent,
+    max_price_2: max_rent
   });
 
   const getRecommendData = async () => {
@@ -58,12 +63,9 @@ function RecommendProvider({ children }) {
     try {
       if (contractType === 'jeonse')
         response = await baseAxios.get(`/recommend?${jeonseQueryString}`);
-      console.log(jeonseQueryString);
       if (contractType === 'month')
         response = await baseAxios.get(`/recommend?${monthQueryString}`);
-      console.log(monthQueryString);
       const data = response.data;
-      console.log(data);
       setRecommendData(data);
       if (data?.first.length === 0) {
         navigate('/recommend/notFound');

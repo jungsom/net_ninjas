@@ -26,13 +26,23 @@ function RecommendDisplay4() {
             <span>최소는</span>
             <input
               value={deposit.min}
-              type='number'
-              onChange={(e) =>
-                setDeposit({
-                  ...deposit,
-                  min: e.target.value
-                })
-              }
+              type='text'
+              placeholder='1'
+              onChange={(e) => {
+                let price = e.target.value;
+                price = Number(price.replaceAll(',', ''));
+                if (isNaN(price)) {
+                  setDeposit({
+                    ...deposit,
+                    min: 0
+                  });
+                } else {
+                  setDeposit({
+                    ...deposit,
+                    min: price.toLocaleString('ko-KR')
+                  });
+                }
+              }}
             />
             <span>만원</span>
           </FirstOption>
@@ -40,13 +50,23 @@ function RecommendDisplay4() {
             <span>최대는</span>
             <input
               value={deposit.max}
-              type='number'
-              onChange={(e) =>
-                setDeposit({
-                  ...deposit,
-                  max: e.target.value
-                })
-              }
+              type='text'
+              placeholder='1'
+              onChange={(e) => {
+                let price = e.target.value;
+                price = Number(price.replaceAll(',', ''));
+                if (isNaN(price)) {
+                  setDeposit({
+                    ...deposit,
+                    max: 0
+                  });
+                } else {
+                  setDeposit({
+                    ...deposit,
+                    max: price.toLocaleString('ko-KR')
+                  });
+                }
+              }}
             />
             <span>만원</span>
           </SecondOption>
@@ -62,7 +82,10 @@ function RecommendDisplay4() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (Number(deposit.min) > Number(deposit.max)) {
+            if (
+              Number(deposit.min.replaceAll(',', '')) >
+              Number(deposit.max.replaceAll(',', ''))
+            ) {
               alert('예산 범위를 확인해주세요!');
               return;
             }
