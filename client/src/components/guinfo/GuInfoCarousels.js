@@ -2,8 +2,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
 import GuinfoCarouselsList from './GuinfoCarouselsList';
 
-const baseURL =
-  'https://ctatxiqcizqokmjdikym.supabase.co/storage/v1/object/public/img/recommend';
+// const baseURL =
+//   'https://ctatxiqcizqokmjdikym.supabase.co/storage/v1/object/public/img/recommend';
 
 function GuInfoCarousels({ guName }) {
   return (
@@ -11,7 +11,7 @@ function GuInfoCarousels({ guName }) {
       <Carousel.Item interval={6000}>
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}00.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}00.jpg`}
           />
           {/* <ExampleCarouselImage text='First slide' /> */}
         </ImageWrapper>
@@ -24,7 +24,7 @@ function GuInfoCarousels({ guName }) {
         {/* <ExampleCarouselImage text='Second slide' /> */}
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}01.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}01.jpg`}
           />
         </ImageWrapper>
         <Carousel.Caption>
@@ -36,7 +36,7 @@ function GuInfoCarousels({ guName }) {
         {/* <ExampleCarouselImage text='Third slide' /> */}
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}02.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}02.jpg`}
           />
         </ImageWrapper>
         <Carousel.Caption>
