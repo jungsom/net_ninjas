@@ -150,15 +150,17 @@ export default function RecommendResult() {
   }, []);
 
   useEffect(() => {
-    if (firstData && secondData && thirdData) {
+    if (firstData) {
       setFirstFirstCategoryRanks(categoryRanks(firstCategory, firstData));
       setFirstSecondCategoryRanks(categoryRanks(secondCategory, firstData));
       setFirstThirdCategoryRanks(categoryRanks(thirdCategory, firstData));
-
+    }
+    if (secondData) {
       setSecondFirstCategoryRanks(categoryRanks(firstCategory, secondData));
       setSecondSecondCategoryRanks(categoryRanks(secondCategory, secondData));
       setSecondThirdCategoryRanks(categoryRanks(thirdCategory, secondData));
-
+    }
+    if (thirdData) {
       setThirdFirstCategoryRanks(categoryRanks(firstCategory, thirdData));
       setThirdSecondCategoryRanks(categoryRanks(secondCategory, thirdData));
       setThirdThirdCategoryRanks(categoryRanks(thirdCategory, thirdData));
@@ -208,6 +210,9 @@ export default function RecommendResult() {
     }
   };
 
+  console.log(firstData);
+  console.log(firstFirstCategoryRanks);
+
   function Content({
     data,
     firstCategoryRanks,
@@ -251,8 +256,10 @@ export default function RecommendResult() {
             를 했어요.
           </p>
         </div>
-        <ButtonWrapper onClick={() => MoveToTable(data[0].gu)}>
-          <StyledButton>{data[0].gu} 더 알아보러 가기</StyledButton>
+        <ButtonWrapper onClick={() => MoveToTable(data[0].dong)}>
+          <StyledButton>
+            {data[0].gu} {data[0].dong} 더 알아보러 가기
+          </StyledButton>
           <img
             src={`${process.env.PUBLIC_URL}/img/arrow.png`}
             style={{
