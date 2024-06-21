@@ -90,7 +90,6 @@ function GuInfoMap() {
       })
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
-        console.log(d.properties.SIGUNGU_NM);
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
 
@@ -109,7 +108,6 @@ function GuInfoMap() {
       .style('font-size', '13px') // 텍스트 크기 설정
       .on('click', function (event, d) {
         setGuName(d.properties.SIGUNGU_NM); // 마우스를 클릭하면 발생할 event 설정
-        console.log(d.properties.SIGUNGU_NM);
         guInfoRef.current.scrollIntoView({ behavior: 'smooth' });
       });
 
