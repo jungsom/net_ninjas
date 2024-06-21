@@ -182,15 +182,16 @@ export default function Home() {
     const updatedVisibleSections = {};
     sections.forEach((section) => {
       const targetSection = document.getElementById(section.id);
-      const position = targetSection.getBoundingClientRect();
-
-      if (
-        position.top + heightOffset < window.screen.height &&
-        position.bottom >= 0
-      ) {
-        updatedVisibleSections[section.id] = true;
-      } else {
-        updatedVisibleSections[section.id] = false;
+      const position = targetSection?.getBoundingClientRect();
+      if (position) {
+        if (
+          position.top + heightOffset < window.screen.height &&
+          position.bottom >= 0
+        ) {
+          updatedVisibleSections[section.id] = true;
+        } else {
+          updatedVisibleSections[section.id] = false;
+        }
       }
     });
     setVisibleSections(updatedVisibleSections);
