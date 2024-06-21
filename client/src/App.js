@@ -24,6 +24,7 @@ import TotalProvider from './components/total/TotalProvider';
 import NotFound from './components/NotFound';
 import ScrollTriggerDemo from './components/ScrollTriggerDemo';
 import RecommendNotFound from './components/recommend/RecommendNotFound';
+import TotalMobile from './components/total/TotalMobile';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -58,7 +59,8 @@ function AppContent() {
           <Route path='/myPage' element={<MyPage />} />
           <Route path='/ScrollTriggerDemo' element={<ScrollTriggerDemo />} />
           <Route path='/EditMyInformation' element={<EditMyInformation />} />
-          <Route path='recommend/notFound' element={<RecommendNotFound />} />
+          <Route path='/recommend/notFound' element={<RecommendNotFound />} />
+          <Route path='/total/mobile' element={<TotalMobile />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </MainContent>
