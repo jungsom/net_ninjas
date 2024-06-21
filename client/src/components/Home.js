@@ -181,13 +181,17 @@ export default function Home() {
     const updatedVisibleSections = {};
     sections.forEach(section => {
       const targetSection = document.getElementById(section.id);
-      const position = targetSection.getBoundingClientRect();
+      const position = targetSection?.getBoundingClientRect();
+      if(position)
+        {
+          if (position.top + heightOffset < window.screen.height && position.bottom >= 0) {
+            updatedVisibleSections[section.id] = true;
+          } else {
+            updatedVisibleSections[section.id] = false;
+          }
+        }
 
-      if (position.top + heightOffset < window.screen.height && position.bottom >= 0) {
-        updatedVisibleSections[section.id] = true;
-      } else {
-        updatedVisibleSections[section.id] = false;
-      }
+
     });
     setVisibleSections(updatedVisibleSections);
   };
@@ -202,6 +206,7 @@ export default function Home() {
 
   return (
     <Container>
+
       {/* <Slider /> */}
       <div className='home_logo' style={{height:window.screen.height-heightOffset}}>
         <img className='sub_title' src ='img/sub_title.svg'/>
