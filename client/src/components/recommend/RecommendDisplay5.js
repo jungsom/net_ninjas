@@ -27,7 +27,6 @@ function RecommendDisplay5() {
             <input
               value={rent.min}
               type='text'
-              placeholder='1'
               onChange={(e) => {
                 let price = e.target.value;
                 price = Number(price.replaceAll(',', ''));
@@ -51,7 +50,6 @@ function RecommendDisplay5() {
             <input
               value={rent.max}
               type='text'
-              placeholder='1'
               onChange={(e) => {
                 let price = e.target.value;
                 price = Number(price.replaceAll(',', ''));

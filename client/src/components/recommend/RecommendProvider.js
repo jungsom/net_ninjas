@@ -21,12 +21,12 @@ function RecommendProvider({ children }) {
   const [thirdCategory, setThirdCategory] = useState('');
   const [contractType, setContractType] = useState('');
   const [deposit, setDeposit] = useState({
-    min: '',
-    max: ''
+    min: '1',
+    max: '1'
   });
   const [rent, setRent] = useState({
-    min: '',
-    max: ''
+    min: '1',
+    max: '1'
   });
   const [funnelStep, setFunnelStep] = useState(
     RECOMMEND_FUNNEL_STEP.RECOMMEND_FIRST

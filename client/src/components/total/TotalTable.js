@@ -53,7 +53,7 @@ function TotalTable() {
 
   return (
     <>
-      <Tooltip.Provider>
+      <Tooltip.Provider delayDuration={0}>
         <StyledTable>
           <thead>
             <tr>
@@ -165,7 +165,7 @@ function TotalTable() {
                 <Tooltip.Portal>
                   <Tooltip.Content className='TooltipContent' sideOffset={10}>
                     범죄율 (5대 범죄: 살인, 강도, 강간·강제추행, 절도, 폭력),
-                    자치구 기준
+                    자치구 기준, 순위 높을 수록 안 좋음
                     <Tooltip.Arrow className='TooltipArrow' />
                   </Tooltip.Content>
                 </Tooltip.Portal>
