@@ -65,10 +65,10 @@ export default function Header() {
               자치구 정보
             </CustomNavLink>
             <CustomNavLink
-              to='/total'
-              isActive={() => location.pathname === '/total'}
+              to='/recommend'
+              isActive={() => location.pathname === '/recommend'}
             >
-              전체 통계
+              동네 추천
             </CustomNavLink>
             <CustomNavLink
               to='/analysis'
@@ -77,10 +77,10 @@ export default function Header() {
               통계 분석
             </CustomNavLink>
             <CustomNavLink
-              to='/recommend'
-              isActive={() => location.pathname === '/recommend'}
+              to='/total'
+              isActive={() => location.pathname === '/total'}
             >
-              동네 추천
+              전체 통계
             </CustomNavLink>
             {/* <Nav.Link href='/board'>게시판</Nav.Link> */}
           </Nav>

@@ -8,7 +8,6 @@ import {
 import styled from 'styled-components';
 
 import Header from './components/Header';
-import ChartsNavBar from './components/analysisCharts/chartsNavBar';
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -39,38 +38,12 @@ const MainContent = styled.main`
   // align-items: center; // 세로 가운데 정렬
 `;
 
-// function App() {
-//   const location = useLocation();
-
-//   return (
-//     <PageWrapper className='App'>
-//       <Router>
-//         <Header />
-//         {location.pathname === '/analysis' && <ChartsNavBar />}
-//         <MainContent>
-//           <Routes>
-//             <Route path='/home' element={<Home />} />
-//             <Route path='/total' element={<Total />} />
-//             <Route path='/analysis' element={<AnalysisCharts />} />
-//             <Route path='/recommend' element={<Recommend />} />
-//             <Route path='/recommend/result' element={<RecommendResult />} />
-//           </Routes>
-//         </MainContent>
-//         <Footer />
-//       </Router>
-//     </PageWrapper>
-//   );
-// }
-
-// export default App;
-
 function AppContent() {
   const location = useLocation();
 
   return (
     <TotalProvider>
       <Header />
-      {/* {location.pathname === '/analysis' && <ChartsNavBar />} */}
       <MainContent>
         <Routes>
           <Route path='/' element={<Home />} />

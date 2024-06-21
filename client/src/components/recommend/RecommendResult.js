@@ -124,19 +124,24 @@ export default function RecommendResult() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const firstResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${first[0].dong}`
-        );
-        const secondResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${second[0].dong}`
-        );
-        const thirdResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${third[0].dong}`
-        );
-
-        setFirstData(firstResponse.data);
-        setSecondData(secondResponse.data);
-        setThirdData(thirdResponse.data);
+        if (first.length > 0) {
+          const firstResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${first[0].dong}`
+          );
+          setFirstData(firstResponse.data);
+        }
+        if (second.length > 0) {
+          const secondResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${second[0].dong}`
+          );
+          setSecondData(secondResponse.data);
+        }
+        if (third.length > 0) {
+          const thirdResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${third[0].dong}`
+          );
+          setThirdData(thirdResponse.data);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -233,7 +238,6 @@ export default function RecommendResult() {
             ))}
             를 했어요.
           </p>
-
           <h5>{category[secondCategory]}</h5>
           <p>
             {data[0].gu} {data[0].dong}은&nbsp;
@@ -330,7 +334,7 @@ export default function RecommendResult() {
               thridCategoryRanks={firstThridCategoryRanks}
             />
           </div>
-          {second || third ? (
+          {second.length > 0 && (
             <>
               <h3 style={{ padding: '10%', color: '#5fc3c8' }}>
                 혹시... 다른 동네는 어떠세요?
@@ -346,19 +350,21 @@ export default function RecommendResult() {
                   thridCategoryRanks={secondThirdCategoryRanks}
                 />
               </div>
-              <div>
-                <h2>
-                  &#129353; {third[0].gu} {third[0].dong}
-                </h2>
-                <Content
-                  data={third}
-                  firstCategoryRanks={thirdFirstCategoryRanks}
-                  secondCategoryRanks={thirdSecondCategoryRanks}
-                  thridCategoryRanks={thirdThirdCategoryRanks}
-                />
-              </div>
             </>
-          ) : null}
+          )}
+          {third.length > 0 && (
+            <div>
+              <h2>
+                &#129353; {third[0].gu} {third[0].dong}
+              </h2>
+              <Content
+                data={third}
+                firstCategoryRanks={thirdFirstCategoryRanks}
+                secondCategoryRanks={thirdSecondCategoryRanks}
+                thridCategoryRanks={thirdThirdCategoryRanks}
+              />
+            </div>
+          )}
         </Stack>
       </Wrapper>
     </>
