@@ -52,7 +52,7 @@ function TotalTable() {
   }
 
   return (
-    <ScrollContainer>
+    <>
       <Tooltip.Provider>
         <StyledTable>
           <thead>
@@ -303,13 +303,9 @@ function TotalTable() {
           </tbody>
         </StyledTable>
       </Tooltip.Provider>
-    </ScrollContainer>
+    </>
   );
 }
-
-const ScrollContainer = styled.div`
-  overflow-x: auto;
-`;
 
 const StyledTable = styled.table`
   margin-top: 10px;

@@ -32,8 +32,6 @@ export default function Convenience() {
             return acc;
           }
         }, []);
-
-        console.log(uniqueData);
         setSupermarketData(uniqueData);
         setLoading(false);
       } catch (error) {
