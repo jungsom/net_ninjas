@@ -8,12 +8,24 @@ import './styles/tooltipStyles.css';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
 function TotalTable() {
-  const { dongData, sort, setSort, sortColumn, setSortColumn, setPage } =
-    useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
+  const {
+    dongData,
+    sort,
+    setSort,
+    sortColumn,
+    setSortColumn,
+    setPage,
+    setJeonseDeposit,
+    setMonthDeposit,
+    setRent
+  } = useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
 
   const handleThClick = (name) => {
     sortDongColumnData(name);
     setSortColumn(name);
+    setJeonseDeposit(0);
+    setMonthDeposit(0);
+    setRent(0);
   };
 
   // column을 누르면 누른 곳의 className이름을 가져와서 기존의 sortColumn 값과 비교해서 정렬 방식을 결정하는 함수
@@ -40,7 +52,7 @@ function TotalTable() {
   }
 
   return (
-    <>
+    <ScrollContainer>
       <Tooltip.Provider>
         <StyledTable>
           <thead>
@@ -169,7 +181,10 @@ function TotalTable() {
               </th>
               <th
                 className='jeonseDeposit'
-                onClick={(e) => handleThClick(e.target.className)}
+                onClick={(e) => {
+                  handleThClick(e.target.className);
+                  setJeonseDeposit(1);
+                }}
               >
                 전세 보증금
                 {getSortIcon('jeonseDeposit', sortColumn, sort)}
@@ -178,7 +193,10 @@ function TotalTable() {
               </th>
               <th
                 className='monthDeposit'
-                onClick={(e) => handleThClick(e.target.className)}
+                onClick={(e) => {
+                  handleThClick(e.target.className);
+                  setMonthDeposit(1);
+                }}
               >
                 월세 보증금
                 {getSortIcon('monthDeposit', sortColumn, sort)}
@@ -187,7 +205,12 @@ function TotalTable() {
               </th>
               <th
                 className='monthRent'
-                onClick={(e) => handleThClick(e.target.className)}
+                onClick={(e) => {
+                  handleThClick(e.target.className);
+                  setJeonseDeposit(0);
+                  setMonthDeposit(0);
+                  setRent(1);
+                }}
               >
                 월세가
                 {getSortIcon('monthRent', sortColumn, sort)}
@@ -280,21 +303,24 @@ function TotalTable() {
           </tbody>
         </StyledTable>
       </Tooltip.Provider>
-    </>
+    </ScrollContainer>
   );
 }
 
+const ScrollContainer = styled.div`
+  overflow-x: auto;
+`;
+
 const StyledTable = styled.table`
-  font-size: 14px;
   margin-top: 10px;
   border: 1px solid #d2d2d2;
+  font-size: 14px;
   th {
     border-color: #bdbdbd;
     border-width: 1px 0;
     white-space: pre-line;
     padding: 8px;
     background-color: #e6e6e6;
-    width: 120px;
   }
 
   td {
@@ -308,6 +334,20 @@ const StyledTable = styled.table`
     pointer-events: none;
     border: 0;
     height: 43px;
+  }
+
+  @media (min-width: 1600px) {
+    th {
+      width: 115px;
+    }
+  }
+
+  @media (max-width: 1599px) {
+    font-size: 12px;
+    td {
+      width: 100px;
+      font-size: 11px;
+    }
   }
 `;
 
@@ -343,6 +383,13 @@ const StyledPagenation = styled.td`
   }
   button:nth-child(6) {
     padding-right: 25px;
+  }
+
+  @media (max-width: 990px) {
+    text-align: center;
+    span {
+      font-size: 12px;
+    }
   }
 `;
 

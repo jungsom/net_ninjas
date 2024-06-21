@@ -4,25 +4,14 @@ import styled from 'styled-components';
 
 function Total() {
   return (
-    <StyledCenterLayout>
-      <StyledContent>
-        <TotalSearch />
-        <TotalTable />
-      </StyledContent>
-    </StyledCenterLayout>
+    <StyledContent>
+      <TotalSearch />
+      <TotalTable />
+    </StyledContent>
   );
 }
 
-const StyledCenterLayout = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 const StyledContent = styled.div`
-  h2 {
-    margin-top: 30px;
-    text-align: center;
-  }
   display: flex;
   flex-direction: column;
 `;

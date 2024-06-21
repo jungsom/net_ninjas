@@ -6,6 +6,7 @@ import {
   ChevronDoubleLeft,
   ChevronDoubleRight
 } from 'react-bootstrap-icons';
+import styled from 'styled-components';
 
 function TotalPagenation() {
   const { dataLength, page, setPage } = useContext(TotalContext);
@@ -39,7 +40,13 @@ function TotalPagenation() {
         }}
         disabled={page === 1}
       >
-        <ChevronDoubleLeft size={16} />
+        {page === 1 ? (
+          <DisabledIcon>
+            <ChevronDoubleLeft size={16} />
+          </DisabledIcon>
+        ) : (
+          <ChevronDoubleLeft size={16} />
+        )}
       </button>
       <button
         onClick={() => {
@@ -47,10 +54,22 @@ function TotalPagenation() {
         }}
         disabled={page === 1}
       >
-        <ChevronLeft size={16} />
+        {page === 1 ? (
+          <DisabledIcon>
+            <ChevronLeft size={16} />
+          </DisabledIcon>
+        ) : (
+          <ChevronLeft size={16} />
+        )}
       </button>
       <button onClick={() => setPage(page + 1)} disabled={page === maxPage}>
-        <ChevronRight size={16} />
+        {page === maxPage ? (
+          <DisabledIcon>
+            <ChevronRight size={16} />
+          </DisabledIcon>
+        ) : (
+          <ChevronRight size={16} />
+        )}
       </button>
       <button
         onClick={() => {
@@ -62,10 +81,22 @@ function TotalPagenation() {
         }}
         disabled={page === maxPage}
       >
-        <ChevronDoubleRight size={16} />
+        {page === maxPage ? (
+          <DisabledIcon>
+            <ChevronDoubleRight size={16} />
+          </DisabledIcon>
+        ) : (
+          <ChevronDoubleRight size={16} />
+        )}
       </button>
     </>
   );
 }
+
+const DisabledIcon = styled.div`
+  svg {
+    color: #ccc;
+  }
+`;
 
 export default TotalPagenation;

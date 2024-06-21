@@ -11,12 +11,18 @@ function TotalProvider({ children }) {
   const [sortColumn, setSortColumn] = useState('');
   const [keyword, setKeyword] = useState('');
   const [dataLength, setDataLength] = useState(0);
+  const [jeonseDeposit, setJeonseDeposit] = useState(0);
+  const [monthDeposit, setMonthDeposit] = useState(0);
+  const [rent, setRent] = useState(0);
 
   const queryString = qs.stringify({
     keyword: keyword,
     pageNo: page,
     column: sortColumn,
-    sorting: sort
+    sorting: sort,
+    jeonseMinDeposit: jeonseDeposit,
+    monthMinDeposit: monthDeposit,
+    minRent: rent
   });
 
   const getTotalData = async () => {
@@ -52,7 +58,10 @@ function TotalProvider({ children }) {
         setSort,
         sortColumn,
         setSortColumn,
-        dataLength
+        dataLength,
+        setJeonseDeposit,
+        setMonthDeposit,
+        setRent
       }}
     >
       {children}

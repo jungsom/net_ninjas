@@ -6,8 +6,16 @@ import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
 function TotalSearch() {
-  const { keyword, setKeyword, setPage, setSort, setSortColumn } =
-    useContext(TotalContext); // TotalContext의 setData를 구조분해할당으로 가져옴
+  const {
+    keyword,
+    setKeyword,
+    setPage,
+    setSort,
+    setSortColumn,
+    setJeonseDeposit,
+    setMonthDeposit,
+    setRent
+  } = useContext(TotalContext); // TotalContext의 setData를 구조분해할당으로 가져옴
 
   const [inputKeyword, setInputKeyword] = useState('');
 
@@ -17,6 +25,9 @@ function TotalSearch() {
     setPage(1);
     setSort('');
     setSortColumn('');
+    setJeonseDeposit(0);
+    setMonthDeposit(0);
+    setRent(0);
   };
 
   useEffect(() => {
@@ -47,6 +58,9 @@ function TotalSearch() {
           setSortColumn('');
           setKeyword('');
           setInputKeyword('');
+          setJeonseDeposit(0);
+          setMonthDeposit(0);
+          setRent(0);
         }}
       >
         초기화 <ArrowClockwise />
@@ -76,6 +90,17 @@ const StyledSearch = styled.div`
 
   button:nth-child(3) {
     margin-left: 3px;
+  }
+
+  @media (max-width: 990px) {
+    justify-content: center;
+    input {
+      width: 100%;
+    }
+    button {
+      width: 60px;
+      font-size: 12px;
+    }
   }
 `;
 
