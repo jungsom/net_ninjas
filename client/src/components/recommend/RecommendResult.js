@@ -210,9 +210,6 @@ export default function RecommendResult() {
     }
   };
 
-  console.log(firstData);
-  console.log(firstFirstCategoryRanks);
-
   function Content({
     data,
     firstCategoryRanks,
