@@ -208,16 +208,6 @@ export default function RecommendResult() {
     }
   };
 
-  console.log(
-    firstCategory,
-    secondCategory,
-    thirdCategory,
-    contractType,
-    deposit,
-    rent,
-    recommendData
-  );
-
   function Content({
     data,
     firstCategoryRanks,
