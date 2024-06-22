@@ -9,9 +9,12 @@ export async function allDataPerPage(req, res, next) {
   const pageNo = parseInt(req.query.pageNo) || 1;
   const column = req.query.column;
   const sorting = req.query.sorting;
+  const jeonseMinDeposit = parseInt(req.query.jeonseMinDeposit) || 0;
+  const monthMinDeposit = parseInt(req.query.monthMinDeposit) || 0;
+  const minRent = parseInt(req.query.minRent) || 0;
 
   try {
-    let data = await getAllData();
+    let data = await getAllData(jeonseMinDeposit, monthMinDeposit, minRent);
 
     // 데이터 정렬
     data = sortData(data, column, sorting);

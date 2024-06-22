@@ -1,7 +1,6 @@
 import Region from '../models/region.js';
 
 const FIELDS = {
-  // db로 빼는게 좋을까요?
   SUPERMARKET: 'supermarket',
   LIBRARY_COUNT: 'libraryCount',
   ACADEMY_COUNT: 'academyCount',
@@ -79,8 +78,12 @@ export async function getAllWelfareData() {
   ]);
 }
 
-export async function getAllData() {
-  return await getRegions();
+export async function getAllData(
+  jeonseMinDeposit = 0,
+  monthMinDeposit = 0,
+  minRent = 0
+) {
+  return await getRegions(jeonseMinDeposit, monthMinDeposit, minRent);
 }
 
 async function generateDataByFields(fields) {
@@ -123,9 +126,29 @@ function getCustomFieldData(field) {
   }
 }
 
-async function getRegions() {
+async function getRegions(
+  jeonseMinDeposit = 0,
+  monthMinDeposit = 0,
+  minRent = 0
+) {
   try {
-    return await Region.find().lean();
+    const minConditions = [];
+
+    if (jeonseMinDeposit > 0) {
+      minConditions.push({ jeonseDeposit: { $gte: jeonseMinDeposit } });
+    }
+
+    if (monthMinDeposit > 0) {
+      minConditions.push({ monthDeposit: { $gte: monthMinDeposit } });
+    }
+
+    if (minRent > 0) {
+      minConditions.push({ monthRent: { $gte: minRent } });
+    }
+
+    const filter = minConditions.length > 0 ? { $and: minConditions } : {};
+
+    return await Region.find(filter).lean();
   } catch (error) {
     const err = new Error('지역 데이터를 불러오는 중 오류가 발생했습니다.');
     next(err);
