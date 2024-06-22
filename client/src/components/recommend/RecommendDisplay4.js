@@ -4,6 +4,10 @@ import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
 import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
+const replaceBy = (value, str = ',', replace = '') => {
+  return value.replaceAll(str, replace);
+};
+
 function RecommendDisplay4() {
   const { setFunnelStep, contractType, deposit, setDeposit } =
     useContext(RecommendContext);
@@ -28,19 +32,13 @@ function RecommendDisplay4() {
               value={deposit.min}
               type='text'
               onChange={(e) => {
-                let price = e.target.value;
-                price = Number(price.replaceAll(',', ''));
-                if (isNaN(price)) {
-                  setDeposit({
-                    ...deposit,
-                    min: 0
-                  });
-                } else {
-                  setDeposit({
-                    ...deposit,
-                    min: price.toLocaleString('ko-KR')
-                  });
-                }
+                const min = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
+                setDeposit({
+                  ...deposit,
+                  min: min.toString()
+                });
               }}
             />
             <span>만원</span>
@@ -51,19 +49,13 @@ function RecommendDisplay4() {
               value={deposit.max}
               type='text'
               onChange={(e) => {
-                let price = e.target.value;
-                price = Number(price.replaceAll(',', ''));
-                if (isNaN(price)) {
-                  setDeposit({
-                    ...deposit,
-                    max: 0
-                  });
-                } else {
-                  setDeposit({
-                    ...deposit,
-                    max: price.toLocaleString('ko-KR')
-                  });
-                }
+                const max = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
+                setDeposit({
+                  ...deposit,
+                  max: max.toString()
+                });
               }}
             />
             <span>만원</span>
@@ -81,8 +73,7 @@ function RecommendDisplay4() {
           name='다음'
           onClick={() => {
             if (
-              Number(deposit.min.replaceAll(',', '')) >
-              Number(deposit.max.replaceAll(',', ''))
+              Number(replaceBy(deposit.min)) > Number(replaceBy(deposit.max))
             ) {
               alert('예산 범위를 확인해주세요!');
               return;

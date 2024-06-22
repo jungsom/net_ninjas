@@ -4,6 +4,10 @@ import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
 import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
+const replaceBy = (value, str = ',', replace = '') => {
+  return value.replaceAll(str, replace);
+};
+
 function RecommendDisplay5() {
   const { setFunnelStep, contractType, rent, setRent } =
     useContext(RecommendContext);
@@ -28,19 +32,13 @@ function RecommendDisplay5() {
               value={rent.min}
               type='text'
               onChange={(e) => {
-                let price = e.target.value;
-                price = Number(price.replaceAll(',', ''));
-                if (isNaN(price)) {
-                  setRent({
-                    ...rent,
-                    min: 0
-                  });
-                } else {
-                  setRent({
-                    ...rent,
-                    min: price.toLocaleString('ko-KR')
-                  });
-                }
+                const min = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
+                setRent({
+                  ...rent,
+                  min: min.toString()
+                });
               }}
             />
             <span>만원</span>
@@ -51,19 +49,13 @@ function RecommendDisplay5() {
               value={rent.max}
               type='text'
               onChange={(e) => {
-                let price = e.target.value;
-                price = Number(price.replaceAll(',', ''));
-                if (isNaN(price)) {
-                  setRent({
-                    ...rent,
-                    max: 0
-                  });
-                } else {
-                  setRent({
-                    ...rent,
-                    max: price.toLocaleString('ko-KR')
-                  });
-                }
+                const max = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
+                setRent({
+                  ...rent,
+                  max: max.toString()
+                });
               }}
             />
             <span>만원</span>
@@ -80,10 +72,7 @@ function RecommendDisplay5() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (
-              Number(rent.min.replaceAll(',', '')) >
-              Number(rent.max.replaceAll(',', ''))
-            ) {
+            if (Number(replaceBy(rent.min)) > Number(replaceBy(rent.max))) {
               alert('예산 범위를 확인해주세요!');
               return;
             }

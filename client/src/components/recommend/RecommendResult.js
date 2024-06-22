@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import RecommendContext from './RecommendContext';
 import baseAxios from '../shared/api';
 import styled from 'styled-components';
-import TotalContext from '../total/TotalContext';
+import TotalContext from '../totalStatistics/TotalStatisticsContext';
 import { useNavigate } from 'react-router';
 
 const Wrapper = styled.div`
@@ -118,7 +118,7 @@ export default function RecommendResult() {
     setPage(1);
     setSort('');
     setSortColumn('');
-    navigate('/Total');
+    navigate('/totalStatistics');
   }
 
   useEffect(() => {

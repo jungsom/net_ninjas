@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import { ChevronRight } from 'react-bootstrap-icons';
 
-function TotalMobile() {
+function TotalStatisticsMobile() {
   const navigate = useNavigate();
 
   return (
@@ -80,4 +80,4 @@ const ButtonContainer = styled.div`
   justify-content: space-around;
 `;
 
-export default TotalMobile;
+export default TotalStatisticsMobile;

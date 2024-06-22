@@ -1,10 +1,10 @@
-import TotalTable from './total/TotalTable';
-import TotalSearch from './total/TotalSearch';
+import TotalStatisticsTable from './totalStatistics/TotalStatisticsTable';
+import TotalStatisticsSearch from './totalStatistics/TotalStatisticsSearch';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
-function Total() {
+function TotalStatistics() {
   const navigate = useNavigate();
   // 접속한 기기가 모바일인지 확인하는 함수, true면 모바일로 접속
   const isMobile = () => {
@@ -15,14 +15,14 @@ function Total() {
 
   useEffect(() => {
     if (isMobile()) {
-      navigate('/total/mobile');
+      navigate('/totalStatistics/mobile');
     }
   }, []);
 
   return (
     <StyledContent>
-      <TotalSearch />
-      <TotalTable />
+      <TotalStatisticsSearch />
+      <TotalStatisticsTable />
     </StyledContent>
   );
 }
@@ -31,4 +31,4 @@ const StyledContent = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export default Total;
+export default TotalStatistics;

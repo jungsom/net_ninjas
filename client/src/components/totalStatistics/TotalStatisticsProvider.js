@@ -1,10 +1,10 @@
-import TotalContext from './TotalContext';
+import TotalStatisticsContext from './TotalStatisticsContext';
 import { useState, useEffect } from 'react';
 import baseAxios from '../shared/api';
 import qs from 'qs';
 
 // TotalProvider를 이용해 data 값을 제공해 줌
-function TotalProvider({ children }) {
+function TotalStatisticsProvider({ children }) {
   const [dongData, setDongData] = useState([]);
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('');
@@ -46,7 +46,7 @@ function TotalProvider({ children }) {
   }, [page, sortColumn, sort, keyword]);
 
   return (
-    <TotalContext.Provider
+    <TotalStatisticsContext.Provider
       value={{
         dongData,
         setDongData,
@@ -65,8 +65,8 @@ function TotalProvider({ children }) {
       }}
     >
       {children}
-    </TotalContext.Provider>
+    </TotalStatisticsContext.Provider>
   );
 }
 
-export default TotalProvider;
+export default TotalStatisticsProvider;

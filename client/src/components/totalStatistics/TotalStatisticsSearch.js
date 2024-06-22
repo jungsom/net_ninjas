@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
-import TotalContext from './TotalContext';
+import TotalStatisticsContext from './TotalStatisticsContext';
 import styled from 'styled-components';
 import InputBox from '../InputBox';
 import Button from 'react-bootstrap/Button';
 import { Search, ArrowClockwise } from 'react-bootstrap-icons';
 
-function TotalSearch() {
+function TotalStatisticsSearch() {
   const {
     keyword,
     setKeyword,
@@ -15,7 +15,7 @@ function TotalSearch() {
     setJeonseDeposit,
     setMonthDeposit,
     setRent
-  } = useContext(TotalContext); // TotalContext의 setData를 구조분해할당으로 가져옴
+  } = useContext(TotalStatisticsContext); // TotalContext의 setData를 구조분해할당으로 가져옴
 
   const [inputKeyword, setInputKeyword] = useState('');
 
@@ -40,7 +40,7 @@ function TotalSearch() {
     <StyledSearch>
       <form onSubmit={inputEnterSearch}>
         <InputBox
-          name='totalSearchInputBox'
+          name='totalStatisticsSearchInputBox'
           value={inputKeyword}
           placeholder='예) 강남구, 강남구 역삼동, 역삼동'
           onChange={(e) => setInputKeyword(e.target.value)}
@@ -104,4 +104,4 @@ const StyledSearch = styled.div`
   }
 `;
 
-export default TotalSearch;
+export default TotalStatisticsSearch;

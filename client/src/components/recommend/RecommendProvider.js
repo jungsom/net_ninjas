@@ -38,33 +38,17 @@ function RecommendProvider({ children }) {
   const min_rent = Number(rent.min.replaceAll(',', ''));
   const max_rent = Number(rent.max.replaceAll(',', ''));
 
-  const jeonseQueryString = qs.stringify({
-    first: firstCategory,
-    second: secondCategory,
-    third: thirdCategory,
-    option: contractType,
-    min_price: min_deposit,
-    max_price: max_deposit
-  });
-
-  const monthQueryString = qs.stringify({
-    first: firstCategory,
-    second: secondCategory,
-    third: thirdCategory,
-    option: contractType,
-    min_price: min_deposit,
-    max_price: max_deposit,
-    min_price_2: min_rent,
-    max_price_2: max_rent
-  });
-
   const getRecommendData = async () => {
     let response;
     try {
       if (contractType === 'jeonse')
-        response = await baseAxios.get(`/recommend?${jeonseQueryString}`);
+        response = await baseAxios.get(
+          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${min_deposit}&max_price=${max_deposit}`
+        );
       if (contractType === 'month')
-        response = await baseAxios.get(`/recommend?${monthQueryString}`);
+        response = await baseAxios.get(
+          `/recommend?first=${firstCategory}&second=${secondCategory}&third=${thirdCategory}&option=${contractType}&min_price=${min_deposit}&max_price=${max_deposit}&min_price_2=${min_rent}&max_price_2=${max_rent}`
+        );
       const data = response.data;
       setRecommendData(data);
       if (data?.first.length === 0) {

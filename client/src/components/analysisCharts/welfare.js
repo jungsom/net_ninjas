@@ -5,7 +5,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import baseAxios from '../shared/api';
 import Stack from 'react-bootstrap/Stack';
 import { useContext } from 'react'; // useContext, TotalContext, useNavigate 공통으로 선언
-import TotalContext from '../total/TotalContext';
+import TotalStatisticsContext from '../totalStatistics/TotalStatisticsContext';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import Content from './content';

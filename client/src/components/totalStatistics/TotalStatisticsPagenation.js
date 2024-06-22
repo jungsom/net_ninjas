@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import TotalContext from './TotalContext';
+import TotalStatisticsContext from './TotalStatisticsContext';
 import {
   ChevronLeft,
   ChevronRight,
@@ -8,8 +8,8 @@ import {
 } from 'react-bootstrap-icons';
 import styled from 'styled-components';
 
-function TotalPagenation() {
-  const { dataLength, page, setPage } = useContext(TotalContext);
+function TotalStatisticsPagenation() {
+  const { dataLength, page, setPage } = useContext(TotalStatisticsContext);
 
   // 최대 페이지는 데이터 개수를 20으로 나눈 후에 올림
   const maxPage = Math.ceil(dataLength / 20);
@@ -99,4 +99,4 @@ const DisabledIcon = styled.div`
   }
 `;
 
-export default TotalPagenation;
+export default TotalStatisticsPagenation;

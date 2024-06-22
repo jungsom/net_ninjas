@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useContext } from 'react';
-import TotalContext from './TotalContext';
-import TotalPagenation from './TotalPagenation';
+import TotalStatisticsContext from './TotalStatisticsContext';
+import TotalStatisticsPagenation from './TotalStatisticsPagenation.js';
 import { whitespace, numberToKoreanCurreny, getSortIcon } from './Util.js';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import './styles/tooltipStyles.css';
 
 // MUI Datagrid가 TypeScript만 지원해서 테이블을 이용해서 구현함
-function TotalTable() {
+function TotalStatisticsTable() {
   const {
     dongData,
     sort,
@@ -18,7 +18,7 @@ function TotalTable() {
     setJeonseDeposit,
     setMonthDeposit,
     setRent
-  } = useContext(TotalContext); // useContext를 이용해 Provider에서 data를 받아옴
+  } = useContext(TotalStatisticsContext); // useContext를 이용해 Provider에서 data를 받아옴
 
   const handleThClick = (name) => {
     sortDongColumnData(name);
@@ -297,7 +297,7 @@ function TotalTable() {
             {whitespace(dongData)}
             <tr>
               <StyledPagenation colSpan='14'>
-                <TotalPagenation />
+                <TotalStatisticsPagenation />
               </StyledPagenation>
             </tr>
           </tbody>
@@ -389,4 +389,4 @@ const StyledPagenation = styled.td`
   }
 `;
 
-export default TotalTable;
+export default TotalStatisticsTable;

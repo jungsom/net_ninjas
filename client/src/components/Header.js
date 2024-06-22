@@ -77,8 +77,8 @@ export default function Header() {
               통계 분석
             </CustomNavLink>
             <CustomNavLink
-              to='/total'
-              isActive={() => location.pathname === '/total'}
+              to='/totalStatistics'
+              isActive={() => location.pathname === '/totalStatistics'}
             >
               전체 통계
             </CustomNavLink>
