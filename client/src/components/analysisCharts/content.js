@@ -1,6 +1,6 @@
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useContext } from 'react'; // useContext, TotalContext, useNavigate 공통으로 선언
-import TotalContext from '../total/TotalContext';
+import TotalStatisticsContext from '../totalStatistics/TotalStatisticsContext';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
@@ -48,8 +48,9 @@ const StyledButton = styled.button`
 `;
 
 export default function Content({ boldText, text1, img, text2, data }) {
-  const { setKeyword, setPage, setSort, setSortColumn } =
-    useContext(TotalContext); // 이 부분 다른 항목에도 붙여넣기
+  const { setKeyword, setPage, setSort, setSortColumn } = useContext(
+    TotalStatisticsContext
+  ); // 이 부분 다른 항목에도 붙여넣기
   const navigate = useNavigate(); // 여기도
 
   function MoveToTable(guName) {
@@ -58,7 +59,7 @@ export default function Content({ boldText, text1, img, text2, data }) {
     setPage(1);
     setSort('');
     setSortColumn('');
-    navigate('/Total');
+    navigate('/totalStatistics');
   }
 
   return (

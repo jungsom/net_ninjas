@@ -32,8 +32,6 @@ export default function Convenience() {
             return acc;
           }
         }, []);
-
-        console.log(uniqueData);
         setSupermarketData(uniqueData);
         setLoading(false);
       } catch (error) {
@@ -63,8 +61,7 @@ export default function Convenience() {
       {
         dataKey: 'supermarket',
         label: '대형마트 수',
-        valueFormatter,
-        color: '#fdb462'
+        color: '#66B3FF'
       }
     ],
     xAxis: [

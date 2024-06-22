@@ -7,8 +7,6 @@ import { charMaxLength } from './Util';
 
 function BoardMainPage() {
   //   const { boardContents } = useContext(BoardContext);
-  //   console.log(boardContents);
-  console.log(boardDummyData);
   return (
     <>
       <BoardContainer>

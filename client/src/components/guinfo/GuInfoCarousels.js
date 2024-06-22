@@ -2,8 +2,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import styled from 'styled-components';
 import GuinfoCarouselsList from './GuinfoCarouselsList';
 
-const baseURL =
-  'https://ctatxiqcizqokmjdikym.supabase.co/storage/v1/object/public/img/recommend';
+// const baseURL =
+//   'https://ctatxiqcizqokmjdikym.supabase.co/storage/v1/object/public/img/recommend';
 
 function GuInfoCarousels({ guName }) {
   return (
@@ -11,7 +11,7 @@ function GuInfoCarousels({ guName }) {
       <Carousel.Item interval={6000}>
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}00.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}00.jpg`}
           />
           {/* <ExampleCarouselImage text='First slide' /> */}
         </ImageWrapper>
@@ -24,7 +24,7 @@ function GuInfoCarousels({ guName }) {
         {/* <ExampleCarouselImage text='Second slide' /> */}
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}01.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}01.jpg`}
           />
         </ImageWrapper>
         <Carousel.Caption>
@@ -36,7 +36,7 @@ function GuInfoCarousels({ guName }) {
         {/* <ExampleCarouselImage text='Third slide' /> */}
         <ImageWrapper>
           <StyledImage
-            src={`${baseURL}/${GuinfoCarouselsList[guName]?.name}02.jpg`}
+            src={`./img/recommend/${GuinfoCarouselsList[guName]?.name}02.jpg`}
           />
         </ImageWrapper>
         <Carousel.Caption>
@@ -50,7 +50,6 @@ function GuInfoCarousels({ guName }) {
 
 const ImageWrapper = styled.div`
   width: 100%; /* 부모 요소의 너비 설정 */
-  height: 500px; /* 부모 요소의 높이 설정 */
   overflow: hidden; /* 자식 이미지가 벗어나지 않도록 설정 */
   text-align: center;
 `;

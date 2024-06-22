@@ -4,6 +4,10 @@ import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
 import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
+const replaceBy = (value, str = ',', replace = '') => {
+  return value.replaceAll(str, replace);
+};
+
 function RecommendDisplay5() {
   const { setFunnelStep, contractType, rent, setRent } =
     useContext(RecommendContext);
@@ -26,13 +30,16 @@ function RecommendDisplay5() {
             <span>최소는</span>
             <input
               value={rent.min}
-              type='number'
-              onChange={(e) =>
+              type='text'
+              onChange={(e) => {
+                const min = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
                 setRent({
                   ...rent,
-                  min: e.target.value
-                })
-              }
+                  min: min.toString()
+                });
+              }}
             />
             <span>만원</span>
           </FirstOption>
@@ -40,13 +47,16 @@ function RecommendDisplay5() {
             <span>최대는</span>
             <input
               value={rent.max}
-              type='number'
-              onChange={(e) =>
+              type='text'
+              onChange={(e) => {
+                const max = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
                 setRent({
                   ...rent,
-                  max: e.target.value
-                })
-              }
+                  max: max.toString()
+                });
+              }}
             />
             <span>만원</span>
           </SecondOption>
@@ -62,7 +72,7 @@ function RecommendDisplay5() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (Number(rent.min) > Number(rent.max)) {
+            if (Number(replaceBy(rent.min)) > Number(replaceBy(rent.max))) {
               alert('예산 범위를 확인해주세요!');
               return;
             }

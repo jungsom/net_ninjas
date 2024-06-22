@@ -48,7 +48,8 @@ export default function Transportation() {
       {
         dataKey: 'busStation',
         label: '버스 정류장 수',
-        valueFormatter
+        valueFormatter,
+        color: '#50c878'
       }
     ],
     xAxis: [

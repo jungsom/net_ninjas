@@ -18,76 +18,78 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
 
-  .home_logo{
-    width:100%;
+  .home_logo {
+    width: 100%;
     background-image: url('img/background.png'); /* 이미지 파일 경로 설정 */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position : relative;
+    position: relative;
 
-    .sub_title, .title{
-      position : absolute;
-      left:50%;
-      width:15em;
+    .sub_title,
+    .title {
+      position: absolute;
+      left: 50%;
+      width: 15em;
       transform: translate(-50%, -50%);
     }
 
-    .arrow{
-      position : absolute;
-      width:3em;
-      left:50%;
-      bottom:0;
+    .arrow {
+      position: absolute;
+      width: 3em;
+      left: 50%;
+      bottom: 10%;
       opacity: 0;
       transform: translate(-50%, -50%);
       animation: bounce 2s infinite; /* bounce 애니메이션 적용 */
       animation-delay: 2.5s;
     }
 
-    .sub_title{
+    .sub_title {
       opacity: 0;
       animation: fadeSlideDown2 1s ease-out forwards;
       animation-delay: 0.5s;
     }
 
-    .title{
-      width:20em;
+    .title {
+      width: 20em;
       opacity: 0;
       animation: fadeSlideDown1 1s ease-out forwards;
       animation-delay: 1.5s;
     }
 
     @keyframes fadeSlideDown1 {
-        0% {
-            top: 40%;
-            opacity: 0;
-        }
-        100% {
-            top: 50%;
-            opacity: 1;
-        }
+      0% {
+        top: 40%;
+        opacity: 0;
+      }
+      100% {
+        top: 50%;
+        opacity: 1;
+      }
     }
 
     @keyframes fadeSlideDown2 {
-        0% {
-            top: 28%;
-            opacity: 0;
-        }
-        100% {
-            top: 38%;
-            opacity: 1;
-        }
+      0% {
+        top: 28%;
+        opacity: 0;
+      }
+      100% {
+        top: 38%;
+        opacity: 1;
+      }
     }
 
     @keyframes bounce {
-        0%, 100% {
-          opacity: 1;
-          transform: translate(-50%, -50%); /* 초기 위치 */
-        }
-        50% {
-            transform: translate(-50%, -10%); /* 위로 튕김 */
-        }
-    }    
+      0%,
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%); /* 초기 위치 */
+      }
+      50% {
+        transform: translate(-50%, -10%); /* 위로 튕김 */
+      }
+    }
   }
 `;
 
@@ -100,20 +102,20 @@ const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  font-size:1.25em;
-  padding:10px;
+  font-size: 1.25em;
+  padding: 10px;
 
-    &.hidden {
+  &.hidden {
     opacity: 0;
     transform: translateX(-100%);
     transition: opacity 2s, transform 1.5s;
-    }
+  }
 
-    &.visible {
+  &.visible {
     opacity: 1;
     transform: translateX(0);
     transition: opacity 2s, transform 1.5s;
-    }    
+  }
 `;
 
 const TitleWrapper = styled.section`
@@ -165,25 +167,31 @@ const Content = ({ subTitle, title, link, text }) => {
 };
 
 export default function Home() {
-
   const [visibleSections, setVisibleSections] = useState({});
   const sections = [
     { id: 'target1' },
     { id: 'target2' },
     { id: 'target3' },
-    { id: 'target4' },
+    { id: 'target4' }
   ];
+
+  const heightOffset = 200;
+  const topHeight = 60;
 
   const handleScroll = () => {
     const updatedVisibleSections = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       const targetSection = document.getElementById(section.id);
-      const position = targetSection.getBoundingClientRect();
-
-      if (position.top + 100 < window.innerHeight && position.bottom >= 0) {
-        updatedVisibleSections[section.id] = true;
-      } else {
-        updatedVisibleSections[section.id] = false;
+      const position = targetSection?.getBoundingClientRect();
+      if (position) {
+        if (
+          position.top + heightOffset < window.screen.height &&
+          position.bottom >= 0
+        ) {
+          updatedVisibleSections[section.id] = true;
+        } else {
+          updatedVisibleSections[section.id] = false;
+        }
       }
     });
     setVisibleSections(updatedVisibleSections);
@@ -191,27 +199,64 @@ export default function Home() {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-        return () => {
+    return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);  
-
+  }, []);
 
   return (
     <Container>
       {/* <Slider /> */}
-      <div className='home_logo' style={{height:window.innerHeight -100}}>
-        <img className='sub_title' src ='img/sub_title.svg'/>
-        <img className='title' src = 'img/title.svg'/>
-        <img className='arrow' src = 'img/arrow_bottom.svg'/>
+      <div
+        className='home_logo'
+        style={{ height: window.screen.height - heightOffset }}
+      >
+        <img className='sub_title' src='img/sub_title.svg' />
+        <img className='title' src='img/title.svg' />
+        <img className='arrow' src='img/arrow_bottom.svg' />
       </div>
-      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.innerHeight-100, top:window.innerHeight, zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100)), zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"white", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100) * 2), zIndex:"-1"}}></div>
-      <div style={{position:"absolute", backgroundColor:"#F4FEFF", width:"100%", height:window.innerHeight-100, top:window.innerHeight + ((window.innerHeight-100) * 3), zIndex:"-1"}}></div>
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width: '100%',
+          height: window.screen.height - heightOffset,
+          top: window.screen.height - heightOffset + topHeight,
+          zIndex: '-1'
+        }}
+      ></div>
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: '#F4FEFF',
+          width: '100%',
+          height: window.screen.height - heightOffset,
+          top: (window.screen.height - heightOffset) * 2 + topHeight,
+          zIndex: '-1'
+        }}
+      ></div>
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: 'white',
+          width: '100%',
+          height: window.screen.height - heightOffset,
+          top: (window.screen.height - heightOffset) * 3 + topHeight,
+          zIndex: '-1'
+        }}
+      ></div>
+      <div
+        style={{
+          position: 'absolute',
+          backgroundColor: '#F4FEFF',
+          width: '100%',
+          height: window.screen.height - heightOffset,
+          top: (window.screen.height - heightOffset) * 4 + topHeight,
+          zIndex: '-1'
+        }}
+      ></div>
 
-
-{/* //  display: flex;
+      {/* //  display: flex;
   justify-content: center;
   flex-direction: column; */}
       {/* <Content /> */}
@@ -219,9 +264,19 @@ export default function Home() {
         gap={0}
         justifyContent='center'
         alignItems='center'
-        style={{ marginBottom: '100px', display:"flex", justifyContent:"center", flexDirection:"column", alignItems:"center" }}
+        style={{
+          marginBottom: '100px',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
       >
-        <ContentWrapper id="target1" style={{  height:window.innerHeight -100}} className={`${(visibleSections['target1'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper
+          id='target1'
+          style={{ height: window.screen.height - heightOffset }}
+          className={`${visibleSections['target1'] ? 'visible' : 'hidden'}`}
+        >
           <Content
             subTitle={'자치구 정보'}
             title={'내가 살고 싶은 동네가 속한 자치구의 정보'}
@@ -229,11 +284,15 @@ export default function Home() {
             text={'해당 자치구의 가볼만한 곳과 주요 상권을 알아볼 수 있어요.'}
           />
           <ImageWrapper>
-            <GuInfo style={{width:"80%"}} />
+            <GuInfo style={{ width: '80%' }} />
           </ImageWrapper>
         </ContentWrapper>
 
-        <ContentWrapper id="target2" style={{ height:window.innerHeight -100}} className={`${(visibleSections['target2'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper
+          id='target2'
+          style={{ height: window.screen.height - heightOffset }}
+          className={`${visibleSections['target2'] ? 'visible' : 'hidden'}`}
+        >
           <Content
             subTitle={'전체 통계'}
             title={'서울의 모든 동네 정보를 한눈에'}
@@ -246,7 +305,11 @@ export default function Home() {
             <Total style={{ margin: '0 auto' }} />
           </ImageWrapper>
         </ContentWrapper>
-        <ContentWrapper id="target3" style={{height:window.innerHeight -100}} className={`${(visibleSections['target3'] ? 'visible' : 'hidden')}`}>
+        <ContentWrapper
+          id='target3'
+          style={{ height: window.screen.height - heightOffset }}
+          className={`${visibleSections['target3'] ? 'visible' : 'hidden'}`}
+        >
           <Content
             subTitle={'통계 분석'}
             title={'8개의 카테고리로 보기 편한 차트 분석'}
@@ -258,8 +321,12 @@ export default function Home() {
           <ImageWrapper>
             <Analysis style={{ margin: '0 auto' }} />
           </ImageWrapper>
-        </ContentWrapper >
-        <ContentWrapper id="target4" style={{height:window.innerHeight -100}} className={`${(visibleSections['target4'] ? 'visible' : 'hidden')}`}>
+        </ContentWrapper>
+        <ContentWrapper
+          id='target4'
+          style={{ height: window.screen.height - heightOffset }}
+          className={`${visibleSections['target4'] ? 'visible' : 'hidden'}`}
+        >
           <Content
             subTitle={'동네 추천'}
             title={'나에게 가장 맞는 동네 추천 받기'}

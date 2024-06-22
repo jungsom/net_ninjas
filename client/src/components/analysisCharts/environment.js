@@ -57,7 +57,7 @@ export default function Environment() {
         highlightScope: {
           highlighted: 'item'
         },
-        color: '#fdb462'
+        color: '#00a86b'
       }
     ],
     xAxis: [

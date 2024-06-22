@@ -7,7 +7,7 @@ import Stack from 'react-bootstrap/Stack';
 import Content from './content';
 
 import { useContext } from 'react'; // useContext, TotalContext, useNavigate 공통으로 선언
-import TotalContext from '../total/TotalContext';
+import TotalStatisticsContext from '../totalStatistics/TotalStatisticsContext';
 import { useNavigate } from 'react-router';
 
 export default function Education() {
@@ -16,8 +16,9 @@ export default function Education() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { setKeyword, setPage, setSort, setSortColumn } =
-    useContext(TotalContext); // 이 부분 다른 항목에도 붙여넣기
+  const { setKeyword, setPage, setSort, setSortColumn } = useContext(
+    TotalStatisticsContext
+  ); // 이 부분 다른 항목에도 붙여넣기
   const navigate = useNavigate(); // 여기도
 
   function MoveToTable(guName) {
@@ -86,7 +87,7 @@ export default function Education() {
       {
         dataKey: 'academyCount',
         label: '평생직업 교육학원 수',
-        color: '#fdb462',
+        color: '#ee6b6e',
         valueFormatter
       }
     ],

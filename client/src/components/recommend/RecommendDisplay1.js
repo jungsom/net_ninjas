@@ -110,6 +110,7 @@ const NextButton = styled.div`
   text-align: center;
   font-size: 30px;
   margin-top: 70px;
+  margin-bottom: 30px;
   button {
     font-weight: bold;
     border: none;

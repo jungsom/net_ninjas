@@ -9,6 +9,18 @@ import Grid from '@mui/material/Grid';
 import RecommendContext from './RecommendContext';
 import baseAxios from '../shared/api';
 import styled from 'styled-components';
+import TotalContext from '../totalStatistics/TotalStatisticsContext';
+import { useNavigate } from 'react-router';
+
+const Wrapper = styled.div`
+  padding: 5%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h2, h3, h5 {
+    text-align: center;
+`;
 
 const SelectContainer = styled.div`
   width: 600px;
@@ -39,6 +51,20 @@ const Gif = styled.img`
   content: url('${process.env.PUBLIC_URL}/img/result.gif');
   width: 5%;
   padding-bottom: 2%;
+`;
+
+const ButtonWrapper = styled.div`
+  //   width: 100%;
+  //   margin-left: 60px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledButton = styled.button`
+  all: unset;
+  font-weight: bold;
+  font-size: 1.2em;
 `;
 
 export default function RecommendResult() {
@@ -82,22 +108,40 @@ export default function RecommendResult() {
 
   // console.log(firstCategory, secondCategory, thirdCategory);
 
+  const { setKeyword, setPage, setSort, setSortColumn } =
+    useContext(TotalContext); // 이 부분 다른 항목에도 붙여넣기
+  const navigate = useNavigate(); // 여기도
+
+  function MoveToTable(guName) {
+    // 이동하는 함수, 버튼 onClick에 붙일 것
+    setKeyword(guName);
+    setPage(1);
+    setSort('');
+    setSortColumn('');
+    navigate('/totalStatistics');
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const firstResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${first[0].dong}`
-        );
-        const secondResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${second[0].dong}`
-        );
-        const thirdResponse = await baseAxios.get(
-          `/allResearch/search?keyword=${third[0].dong}`
-        );
-
-        setFirstData(firstResponse.data);
-        setSecondData(secondResponse.data);
-        setThirdData(thirdResponse.data);
+        if (first.length > 0) {
+          const firstResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${first[0].dong}`
+          );
+          setFirstData(firstResponse.data);
+        }
+        if (second.length > 0) {
+          const secondResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${second[0].dong}`
+          );
+          setSecondData(secondResponse.data);
+        }
+        if (third.length > 0) {
+          const thirdResponse = await baseAxios.get(
+            `/allResearch/search?keyword=${third[0].dong}`
+          );
+          setThirdData(thirdResponse.data);
+        }
       } catch (e) {
         console.log(e);
       }
@@ -106,15 +150,17 @@ export default function RecommendResult() {
   }, []);
 
   useEffect(() => {
-    if (firstData && secondData && thirdData) {
+    if (firstData) {
       setFirstFirstCategoryRanks(categoryRanks(firstCategory, firstData));
       setFirstSecondCategoryRanks(categoryRanks(secondCategory, firstData));
       setFirstThirdCategoryRanks(categoryRanks(thirdCategory, firstData));
-
+    }
+    if (secondData) {
       setSecondFirstCategoryRanks(categoryRanks(firstCategory, secondData));
       setSecondSecondCategoryRanks(categoryRanks(secondCategory, secondData));
       setSecondThirdCategoryRanks(categoryRanks(thirdCategory, secondData));
-
+    }
+    if (thirdData) {
       setThirdFirstCategoryRanks(categoryRanks(firstCategory, thirdData));
       setThirdSecondCategoryRanks(categoryRanks(secondCategory, thirdData));
       setThirdThirdCategoryRanks(categoryRanks(thirdCategory, thirdData));
@@ -135,7 +181,7 @@ export default function RecommendResult() {
     welfare: '💙 복지',
     safety: '🚨 안전',
     population: '👪 인구',
-    convenience: '🏪 편의',
+    convenience: '🛒 편의',
     environment: '🌳 환경'
   };
   const rank = {
@@ -148,7 +194,7 @@ export default function RecommendResult() {
     },
     welfare: {
       cultureCountRank: '문화시설 수',
-      medicalCountRank: '병의원 및 약국'
+      medicalCountRank: '병의원 및 약국 수'
     },
     safety: {
       crimeRateRank: '1000명당 범죄 발생 수'
@@ -164,56 +210,108 @@ export default function RecommendResult() {
     }
   };
 
-  console.log(
-    firstCategory,
-    secondCategory,
-    thirdCategory,
-    contractType,
-    deposit,
-    rent,
-    recommendData
-  );
+  function Content({
+    data,
+    firstCategoryRanks,
+    secondCategoryRanks,
+    thridCategoryRanks
+  }) {
+    return (
+      <div style={{ padding: '3% 1%' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h5>{category[firstCategory]}</h5>
+          <p>
+            {data[0].gu} {data[0].dong}은&nbsp;
+            {Object.keys(firstCategoryRanks).map((key, index, array) => (
+              <span>
+                {rank[firstCategory][key]} {firstCategoryRanks[key]}위
+                {index !== array.length - 1 && ', '}
+              </span>
+            ))}
+            를 했어요.
+          </p>
+          <h5>{category[secondCategory]}</h5>
+          <p>
+            {data[0].gu} {data[0].dong}은&nbsp;
+            {Object.keys(secondCategoryRanks).map((key, index, array) => (
+              <span>
+                {rank[secondCategory][key]} {secondCategoryRanks[key]}위
+                {index !== array.length - 1 && ', '}
+              </span>
+            ))}
+            를 했어요.
+          </p>
+          <h5>{category[thirdCategory]}</h5>
+          <p>
+            {data[0].gu} {data[0].dong}은&nbsp;
+            {Object.keys(thridCategoryRanks).map((key, index, array) => (
+              <span>
+                {rank[thirdCategory][key]} {thridCategoryRanks[key]}위
+                {index !== array.length - 1 && ', '}
+              </span>
+            ))}
+            를 했어요.
+          </p>
+        </div>
+        <ButtonWrapper onClick={() => MoveToTable(data[0].dong)}>
+          <StyledButton>
+            {data[0].gu} {data[0].dong} 더 알아보러 가기
+          </StyledButton>
+          <img
+            src={`${process.env.PUBLIC_URL}/img/arrow.png`}
+            style={{
+              marginLeft: '20px',
+              marginBottom: '0px',
+              height: '30px'
+            }}
+          />
+        </ButtonWrapper>
+      </div>
+    );
+  }
 
   return (
     <>
-      {/* <h4>ooo님에게 가장 적합한 동네는...</h4> */}
-      <div
+      <Wrapper
         style={{
           padding: '5%',
-          width: '50%'
+          width: '70%'
           // flex: '1',
           // display: 'flex',
           // flexDirection: 'column'
         }}
       >
-        <SelectContainer>
-          <TextOverlay>
-            <p>
-              1순위는 {category[firstCategory]}, 2순위는{' '}
-              {category[secondCategory]}, 3순위는 {category[thirdCategory]}이고
-              <br />
-              {contractType == 'jeonse' ? (
-                <>
-                  전세가는 {deposit.min}만원 ~ {deposit.max}만원까지 알아보고
-                  있는
-                  <br />
-                </>
-              ) : (
-                <>
-                  월세 보증금은 {deposit.min}~{deposit.max}만원,
-                  <br />
-                  월세 보증금은 {rent.min}~{rent.max}만원까지 알아보고 있는
-                </>
-              )}
-              <br />
-              당신에게 추천드리는 동네는...
-            </p>
-          </TextOverlay>
-        </SelectContainer>
-        <Stack gap={3}>
+        <div style={{ alignItems: 'center' }}>
+          <SelectContainer>
+            <TextOverlay>
+              <p>
+                1순위는 {category[firstCategory]}, 2순위는{' '}
+                {category[secondCategory]}, 3순위는 {category[thirdCategory]}
+                이고
+                <br />
+                {contractType == 'jeonse' ? (
+                  <>
+                    전세가는 {deposit.min}만원 ~ {deposit.max}만원까지 알아보고
+                    있는
+                    <br />
+                  </>
+                ) : (
+                  <>
+                    월세 보증금은 {deposit.min}~{deposit.max}만원,
+                    <br />
+                    월세 보증금은 {rent.min}~{rent.max}만원까지 알아보고 있는
+                  </>
+                )}
+                <br />
+                당신에게 추천드리는 동네는...
+              </p>
+            </TextOverlay>
+          </SelectContainer>
+        </div>
+        <Stack gap={5}>
           <div>
             {/* <div style={{ textAlign: 'center' }}> */}
-            <h2 style={{ textAlign: 'center' }}>
+            <h2>
               {/* <img src={`${process.env.PUBLIC_URL}/img/result.gif`} /> */}
               <Gif />
               &nbsp;
@@ -223,129 +321,46 @@ export default function RecommendResult() {
               추천드립니다! &nbsp;
               <Gif />
             </h2>
-            {/* </div> */}
-            <h5>{category[firstCategory]}</h5>
-            <p>
-              {first[0].gu} {first[0].dong}은&nbsp;
-              {Object.keys(firstFirstCategoryRanks).map((key, index, array) => (
-                <span>
-                  {rank[firstCategory][key]} {firstFirstCategoryRanks[key]}위
-                  {index !== array.length - 1 && ', '}
-                </span>
-              ))}
-              를 했어요.
-            </p>
-            <h5>{category[secondCategory]}</h5>
-            <p>
-              {first[0].gu} {first[0].dong}은&nbsp;
-              {Object.keys(firstSecondCategoryRanks).map(
-                (key, index, array) => (
-                  <span>
-                    {rank[secondCategory][key]} {firstSecondCategoryRanks[key]}
-                    위{index !== array.length - 1 && ', '}
-                  </span>
-                )
-              )}
-              를 했어요.
-            </p>
-            <h5>{category[thirdCategory]}</h5>
-            <p>
-              {first[0].gu} {first[0].dong}은&nbsp;
-              {Object.keys(firstThridCategoryRanks).map((key, index, array) => (
-                <span>
-                  {rank[thirdCategory][key]} {firstThridCategoryRanks[key]}위
-                  {index !== array.length - 1 && ', '}
-                </span>
-              ))}
-              를 했어요.
-            </p>
+            <Content
+              data={first}
+              firstCategoryRanks={firstFirstCategoryRanks}
+              secondCategoryRanks={firstSecondCategoryRanks}
+              thridCategoryRanks={firstThridCategoryRanks}
+            />
           </div>
-          <div>
-            <h2>
-              &#129352; {second[0].gu} {second[0].dong}
-            </h2>
-            <h5>{category[firstCategory]}</h5>
-            <p>
-              {second[0].gu} {second[0].dong}은&nbsp;
-              {Object.keys(secondFirstCategoryRanks).map(
-                (key, index, array) => (
-                  <span>
-                    {rank[firstCategory][key]} {secondFirstCategoryRanks[key]}위
-                    {index !== array.length - 1 && ', '}
-                  </span>
-                )
-              )}
-              를 했어요.
-            </p>
-            <h5>{category[secondCategory]}</h5>
-            <p>
-              {second[0].gu} {second[0].dong}은&nbsp;
-              {Object.keys(secondSecondCategoryRanks).map(
-                (key, index, array) => (
-                  <span>
-                    {rank[secondCategory][key]} {secondSecondCategoryRanks[key]}
-                    위{index !== array.length - 1 && ', '}
-                  </span>
-                )
-              )}
-              를 했어요.
-            </p>
-            <h5>{category[thirdCategory]}</h5>
-            <p>
-              {second[0].gu} {second[0].dong}은&nbsp;
-              {Object.keys(secondThirdCategoryRanks).map(
-                (key, index, array) => (
-                  <span>
-                    {rank[thirdCategory][key]} {secondThirdCategoryRanks[key]}위
-                    {index !== array.length - 1 && ', '}
-                  </span>
-                )
-              )}
-              를 했어요.
-            </p>
-          </div>
-          <div>
-            <h2>
-              &#129353; {third[0].gu} {third[0].dong}
-            </h2>
-            <h5>{category[firstCategory]}</h5>
-            <p>
-              {third[0].gu} {third[0].dong}은&nbsp;
-              {Object.keys(thirdFirstCategoryRanks).map((key, index, array) => (
-                <span>
-                  {rank[firstCategory][key]} {thirdFirstCategoryRanks[key]}위
-                  {index !== array.length - 1 && ', '}
-                </span>
-              ))}
-              를 했어요.
-            </p>
-            <h5>{category[secondCategory]}</h5>
-            <p>
-              {third[0].gu} {third[0].dong}은&nbsp;
-              {Object.keys(thirdSecondCategoryRanks).map(
-                (key, index, array) => (
-                  <span>
-                    {rank[secondCategory][key]} {thirdSecondCategoryRanks[key]}
-                    위{index !== array.length - 1 && ', '}
-                  </span>
-                )
-              )}
-              를 했어요.
-            </p>
-            <h5>{category[thirdCategory]}</h5>
-            <p>
-              {third[0].gu} {third[0].dong}은&nbsp;
-              {Object.keys(thirdThirdCategoryRanks).map((key, index, array) => (
-                <span>
-                  {rank[thirdCategory][key]} {thirdThirdCategoryRanks[key]}위
-                  {index !== array.length - 1 && ', '}
-                </span>
-              ))}
-              를 했어요.
-            </p>
-          </div>
+          {second.length > 0 && (
+            <>
+              <h3 style={{ padding: '10%', color: '#5fc3c8' }}>
+                혹시... 다른 동네는 어떠세요?
+              </h3>
+              <div>
+                <h2>
+                  &#129352; {second[0].gu} {second[0].dong}
+                </h2>
+                <Content
+                  data={second}
+                  firstCategoryRanks={secondFirstCategoryRanks}
+                  secondCategoryRanks={secondSecondCategoryRanks}
+                  thridCategoryRanks={secondThirdCategoryRanks}
+                />
+              </div>
+            </>
+          )}
+          {third.length > 0 && (
+            <div>
+              <h2>
+                &#129353; {third[0].gu} {third[0].dong}
+              </h2>
+              <Content
+                data={third}
+                firstCategoryRanks={thirdFirstCategoryRanks}
+                secondCategoryRanks={thirdSecondCategoryRanks}
+                thridCategoryRanks={thirdThirdCategoryRanks}
+              />
+            </div>
+          )}
         </Stack>
-      </div>
+      </Wrapper>
     </>
   );
 }

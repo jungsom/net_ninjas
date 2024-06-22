@@ -4,6 +4,10 @@ import RecommendContext from './RecommendContext';
 import RecommendButton from './RecommendButton';
 import { RECOMMEND_FUNNEL_STEP } from './RecommendProvider';
 
+const replaceBy = (value, str = ',', replace = '') => {
+  return value.replaceAll(str, replace);
+};
+
 function RecommendDisplay4() {
   const { setFunnelStep, contractType, deposit, setDeposit } =
     useContext(RecommendContext);
@@ -26,13 +30,16 @@ function RecommendDisplay4() {
             <span>최소는</span>
             <input
               value={deposit.min}
-              type='number'
-              onChange={(e) =>
+              type='text'
+              onChange={(e) => {
+                const min = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
                 setDeposit({
                   ...deposit,
-                  min: e.target.value
-                })
-              }
+                  min: min.toString()
+                });
+              }}
             />
             <span>만원</span>
           </FirstOption>
@@ -40,13 +47,16 @@ function RecommendDisplay4() {
             <span>최대는</span>
             <input
               value={deposit.max}
-              type='number'
-              onChange={(e) =>
+              type='text'
+              onChange={(e) => {
+                const max = isNaN(Number(replaceBy(e.target.value)))
+                  ? 1
+                  : Number(replaceBy(e.target.value)).toLocaleString('ko-KR');
                 setDeposit({
                   ...deposit,
-                  max: e.target.value
-                })
-              }
+                  max: max.toString()
+                });
+              }}
             />
             <span>만원</span>
           </SecondOption>
@@ -62,7 +72,9 @@ function RecommendDisplay4() {
         <RecommendButton
           name='다음'
           onClick={() => {
-            if (Number(deposit.min) > Number(deposit.max)) {
+            if (
+              Number(replaceBy(deposit.min)) > Number(replaceBy(deposit.max))
+            ) {
               alert('예산 범위를 확인해주세요!');
               return;
             }

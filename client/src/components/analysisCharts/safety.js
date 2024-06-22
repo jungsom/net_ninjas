@@ -14,7 +14,7 @@ export default function Safety() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // const [sort, setSort] = React.useState('line');
-  const [selectedDataset, setSelectedDataset] = useState('total');
+  const [selectedDataset, setSelectedDataset] = useState('crimeRate');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,12 +61,23 @@ export default function Safety() {
   if (error) return <div>Error: {error.message}</div>;
 
   const chartSetting = {
-    dataset: selectedDataset === 'total' ? totalData : crimeRateData,
+    dataset: selectedDataset === 'crimeRate' ? crimeRateData : totalData,
     height: 300,
     grid: { horizontal: true },
     series:
-      selectedDataset === 'total'
+      selectedDataset === 'crimeRate'
         ? [
+            {
+              id: 'series-6',
+              dataKey: 'crimeRate',
+              label: '인구 1000명 당 범죄 발생수',
+              highlightScope: {
+                highlighted: 'item'
+              },
+              color: '#fdb462'
+            }
+          ]
+        : [
             {
               id: 'series-1',
               dataKey: 'murder',
@@ -111,17 +122,6 @@ export default function Safety() {
               highlightScope: {
                 highlighted: 'item'
               }
-            }
-          ]
-        : [
-            {
-              id: 'series-6',
-              dataKey: 'crimeRate',
-              label: '인구 1000명 당 범죄 발생수',
-              highlightScope: {
-                highlighted: 'item'
-              },
-              color: '#fdb462'
             }
           ],
     xAxis: [
